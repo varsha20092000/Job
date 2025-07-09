@@ -173,7 +173,8 @@ body {
   .flower-border {
     border: 10px dashed pink;
     padding: 15px;
-    background-image: url('{% static "images/flower-border.png" %}');
+    background-image: url('../images/flower-border.png');
+
     background-size: cover;
     background-repeat: no-repeat;
   }
