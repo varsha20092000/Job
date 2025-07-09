@@ -13,3 +13,13 @@ services:
         value: Jobs.settings
       - key: PYTHON_VERSION
         value: 3.11
+buildCommand: pip install -r requirements.txt && npm install && npm run build
+envVars:
+      - key: DJANGO_SETTINGS_MODULE
+        value: Jobs.settings
+      - key: PYTHON_VERSION
+        value: 3.11
+      - key: SECRET_KEY
+        value: your-strong-secret-key
+      - key: DEBUG
+        value: False
