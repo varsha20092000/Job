@@ -1,6 +1,10 @@
 {
   "name": "job365",
   "version": "1.0.0",
+
+
+
+  
   "scripts": {
     "build": "npx tailwindcss -i ./App/static/css/input.css -o ./App/static/css/output.css --minify"
   },
@@ -11,3 +15,6 @@
     "tailwindcss": "^3.4.1"
   }
 }
+
+
+
