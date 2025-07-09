@@ -1,0 +1,268 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Content Management</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/style1.css' %}">
+  <link rel="icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}">
+  <style>
+    /* Reset and basic layout */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: row; /* Ensures sidebar on the left */
+      min-height: 100vh;
+      background: #e9f1f7; /* Light blue background for the page */
+      color: #333;
+      overflow: hidden;
+    }
+    /* Sidebar styling with blue background */
+    .sidebar {
+      width: 250px;
+      height: 1000px;
+      background: #007bff; /* Blue shade */
+      color: #fff;
+      padding: 20px;
+    }
+    .sidebar h2 {
+      margin-bottom: 1rem;
+      font-size: 1.8rem;
+      border-bottom: 1px solid rgba(255,255,255,0.3);
+      padding-bottom: 10px;
+    }
+    .sidebar ul {
+      list-style: none;
+    }
+    .sidebar li {
+      margin: 12px 0;
+    }
+    .sidebar a {
+      text-decoration: none;
+      color: #fff;
+      display: block;
+      padding: 8px;
+      border-radius: 4px;
+      transition: background 0.2s;
+    }
+    .sidebar a:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+    /* Main content area styling (white background) */
+    .main-content {
+      flex: 1;
+      padding: 30px;
+      background: #fff;
+    }
+    .main-header h1 {
+      font-size: 1.8rem;
+      margin-bottom: 10px;
+      color: #007bff;
+    }
+    .main-header p {
+      margin-bottom: 20px;
+    }
+    /* Content Form */
+    .content-form {
+      background: #f1f9ff; /* very light blue */
+      border: 1px solid #007bff;
+      padding: 20px;
+      border-radius: 5px;
+      margin-bottom: 30px;
+      max-width: 700px;
+    }
+    .content-form h2 {
+      margin-bottom: 15px;
+      color: #007bff;
+    }
+    .content-form label {
+      display: block;
+      margin: 10px 0 5px;
+      font-weight: bold;
+    }
+    .content-form input[type="text"],
+    .content-form input[type="file"],
+    .content-form textarea,
+    .content-form select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .content-form button {
+      padding: 10px 20px;
+      background: #007bff;
+      border: none;
+      color: #fff;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .content-form button:hover {
+      background: #0056b3;
+    }
+    /* Content Table */
+    .content-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      background: #f9f9f9;
+    }
+    .content-table th,
+    .content-table td {
+      border: 1px solid #ddd;
+      padding: 12px;
+      text-align: left;
+    }
+    .content-table th {
+      background: #007bff;
+      color: #fff;
+    }
+    .actions button {
+      margin-right: 5px;
+      padding: 6px 12px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      color: #fff;
+    }
+    .actions button:first-child {
+      background: #28a745; /* Green for Edit */
+    }
+    .actions button:last-child {
+      background: #dc3545; /* Red for Delete */
+    }
+    /* Footer */
+    .footer {
+      margin-top: 110px;
+      padding: 10px;
+      text-align: center;
+      background: #007bff;
+      color: #fff;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Sidebar for Navigation -->
+  <div class="sidebar">
+    <h2>Content Management</h2>
+    <ul>
+      <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+      <li><a href="#">Articles / Blog Posts</a></li>
+      <li><a href="#">FAQs / Announcements</a></li>
+      <li><a href="#">Media Library</a></li>
+      <li><a href="#">Static Pages</a></li>
+      <li><a href="#">Settings</a></li>
+    </ul>
+  </div>
+
+  <!-- Main Content Area -->
+  <div class="main-content">
+    <div class="main-header">
+      <h1>Manage Your Content</h1>
+      <p>Here you can create, edit, organize, and publish various types of digital content.</p>
+    </div>
+
+    <!-- Content Form (Create / Edit) -->
+    <div class="content-form">
+      <h2>Create / Edit Content</h2>
+      <form id="contentForm">
+        <label for="contentType">Content Type:</label>
+        <select id="contentType" name="contentType" required>
+          <option value="">-- Select Type --</option>
+          <option value="article">Article / Blog Post</option>
+          <option value="faq">FAQ</option>
+          <option value="announcement">Announcement</option>
+          <option value="static">Static Page</option>
+          <option value="media">Media Asset (Image/Video/PDF)</option>
+        </select>
+
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title" placeholder="Enter title" required />
+
+        <label for="description">Description / Body:</label>
+        <textarea id="description" name="description" rows="5" placeholder="Enter content body"></textarea>
+
+        <!-- Example file upload for media assets -->
+        <label for="mediaFile">Upload File (optional):</label>
+        <input type="file" id="mediaFile" name="mediaFile" accept="image/*,video/*,application/pdf" />
+
+        <button type="submit">Save Content</button>
+      </form>
+    </div>
+
+    <!-- Existing Content List -->
+    <h2>Existing Content</h2>
+    <table class="content-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Type</th>
+          <th>Title</th>
+          <th>Status</th>
+          <th>Last Updated</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="contentList">
+        <tr>
+          <td>1</td>
+          <td>Article</td>
+          <td>How to Travel Safely</td>
+          <td>Published</td>
+          <td>2025-03-04</td>
+          <td class="actions">
+            <button>Edit</button>
+            <button>Delete</button>
+          </td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>FAQ</td>
+          <td>What is Tour365?</td>
+          <td>Draft</td>
+          <td>2025-02-20</td>
+          <td class="actions">
+            <button>Edit</button>
+            <button>Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Footer -->
+    <div class="footer">
+      <p>© 2025 Tour365 Content Management</p>
+    </div>
+  </div>
+
+  <!-- JavaScript to handle form submission (front-end only) -->
+  <script>
+    document.getElementById('contentForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const contentType = document.getElementById('contentType').value;
+      const title = document.getElementById('title').value;
+      const description = document.getElementById('description').value;
+      const fileInput = document.getElementById('mediaFile');
+
+      console.log("Content Type:", contentType);
+      console.log("Title:", title);
+      console.log("Description:", description);
+      if (fileInput.files.length > 0) {
+        console.log("File selected:", fileInput.files[0].name);
+      }
+
+      alert("Content saved (demo only). Implement actual server logic here!");
+      this.reset();
+    });
+  </script>
+</body>
+</html>

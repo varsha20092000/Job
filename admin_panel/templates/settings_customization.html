@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Settings & Customization</title>
+  <style>
+    /* Basic reset and layout */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      display: flex;
+      min-height: 100vh;
+      font-family: Arial, sans-serif;
+      background: #e9f1f7; /* Light blue background */
+      color: #333;
+    }
+
+    /* Sidebar styling */
+    .sidebar {
+      width: 250px;
+      background: #007bff; /* Main blue color */
+      color: #fff;
+      padding: 20px;
+    }
+    .sidebar h2 {
+      margin-bottom: 1rem;
+      font-size: 1.4rem;
+      border-bottom: 1px solid rgba(255,255,255,0.3);
+      padding-bottom: 10px;
+    }
+    .sidebar ul {
+      list-style: none;
+    }
+    .sidebar li {
+      margin: 12px 0;
+    }
+    .sidebar a {
+      text-decoration: none;
+      color: #fff;
+      display: block;
+      padding: 8px;
+      border-radius: 4px;
+      transition: background 0.2s;
+    }
+    .sidebar a:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    /* Main content */
+    .main-content {
+      flex: 1;
+      padding: 30px;
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+    }
+    .main-header {
+      margin-bottom: 20px;
+    }
+    .main-header h1 {
+      font-size: 1.8rem;
+      color: #007bff;
+      margin-bottom: 10px;
+    }
+
+    /* Collapsible sections */
+    .settings-section {
+      background: #f1f9ff;
+      border: 1px solid #007bff;
+      border-radius: 5px;
+      margin-bottom: 20px;
+    }
+    .section-header {
+      padding: 10px 15px;
+      cursor: pointer;
+      background: #007bff;
+      color: #fff;
+      border-top-left-radius: 5px;
+      border-top-right-radius: 5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .section-header h2 {
+      font-size: 1.2rem;
+    }
+    .section-header i {
+      transition: transform 0.3s;
+    }
+    .section-content {
+      padding: 15px;
+      display: none; /* Hidden by default, toggled via JS */
+    }
+
+    /* Example inputs */
+    .form-group {
+      margin-bottom: 15px;
+    }
+    .form-group label {
+      display: inline-block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    .form-group input[type="checkbox"] {
+      margin-right: 8px;
+    }
+    .form-group input[type="text"],
+    .form-group select {
+      width: 250px;
+      padding: 6px;
+      margin-left: 10px;
+    }
+
+    /* Save button */
+    .save-btn {
+      padding: 10px 20px;
+      background: #007bff;
+      border: none;
+      color: #fff;
+      border-radius: 4px;
+      cursor: pointer;
+      align-self: flex-start;
+      font-size: 1rem;
+    }
+    .save-btn:hover {
+      background: #0056b3;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <h2>Settings & Customization</h2>
+    <ul>
+      <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+      <li><a href="{% url 'user_management' %}">User Management</a></li>
+      <li><a href="{% url 'admin_job_listing' %}">Job Listing Management</a></li>
+      <li><a href="{% url 'subscriptions' %}">Subscription & Payments</a></li>
+      <li><a href="{% url 'content_management' %}">Content Management</a></li>
+      <li><a href="{% url 'settings_customization' %}" style="background: rgba(255,255,255,0.2);">
+        Settings & Customization</a></li>
+      <li><a href="{% url 'report_analytics' %}">Report & Analytics</a></li>
+    </ul>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <div class="main-header">
+      <h1>Settings & Customization</h1>
+      <p>Tailor the job portal’s functionality and appearance to your specific requirements.</p>
+    </div>
+
+    <!-- 1. Platform Behavior -->
+    <div class="settings-section" id="platformBehaviorSection">
+      <div class="section-header">
+        <h2>Platform Behavior</h2>
+        <i class="fas fa-chevron-down"></i>
+      </div>
+      <div class="section-content">
+        <div class="form-group">
+          <label><input type="checkbox" id="enableFeatureX"> Enable Feature X</label>
+        </div>
+        <div class="form-group">
+          <label for="roleManagement">Default Role:</label>
+          <select id="roleManagement">
+            <option value="user">User</option>
+            <option value="recruiter">Recruiter</option>
+            <option value="admin">Admin</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label><input type="checkbox" id="emailNotifications"> Email Notifications</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. Look & Feel -->
+    <div class="settings-section" id="lookFeelSection">
+      <div class="section-header">
+        <h2>Look & Feel</h2>
+        <i class="fas fa-chevron-down"></i>
+      </div>
+      <div class="section-content">
+        <div class="form-group">
+          <label for="brandName">Brand Name:</label>
+          <input type="text" id="brandName" placeholder="Enter your brand name">
+        </div>
+        <div class="form-group">
+          <label for="themeColor">Theme Color:</label>
+          <input type="text" id="themeColor" value="#007bff">
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. System Settings -->
+    <div class="settings-section" id="systemSettingsSection">
+      <div class="section-header">
+        <h2>System Settings</h2>
+        <i class="fas fa-chevron-down"></i>
+      </div>
+      <div class="section-content">
+        <div class="form-group">
+          <label for="timeZone">Time Zone:</label>
+          <select id="timeZone">
+            <option value="UTC">UTC</option>
+            <option value="EST">EST</option>
+            <option value="PST">PST</option>
+            <!-- Add more as needed -->
+          </select>
+        </div>
+        <div class="form-group">
+          <label><input type="checkbox" id="twoFactorAuth"> Two-Factor Authentication</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. Integrations -->
+    <div class="settings-section" id="integrationsSection">
+      <div class="section-header">
+        <h2>Integrations</h2>
+        <i class="fas fa-chevron-down"></i>
+      </div>
+      <div class="section-content">
+        <div class="form-group">
+          <label for="paymentGateway">Payment Gateway:</label>
+          <input type="text" id="paymentGateway" placeholder="e.g. Stripe, PayPal">
+        </div>
+        <div class="form-group">
+          <label for="analyticsTool">Analytics Tool:</label>
+          <input type="text" id="analyticsTool" placeholder="e.g. Google Analytics">
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. Advanced Customization -->
+    <div class="settings-section" id="advancedCustomizationSection">
+      <div class="section-header">
+        <h2>Advanced Customization</h2>
+        <i class="fas fa-chevron-down"></i>
+      </div>
+      <div class="section-content">
+        <div class="form-group">
+          <label><input type="checkbox" id="customFields"> Enable Custom Fields</label>
+        </div>
+        <div class="form-group">
+          <label for="siteNotifications">Site-Wide Notifications:</label>
+          <select id="siteNotifications">
+            <option value="disabled">Disabled</option>
+            <option value="enabled">Enabled</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Save Button -->
+    <button class="save-btn" id="saveSettingsBtn">Save Settings</button>
+  </div>
+
+  <!-- Font Awesome for the chevron icon (optional) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
+
+  <script>
+    // 1. Toggle Section Content
+    const sectionHeaders = document.querySelectorAll('.section-header');
+    sectionHeaders.forEach(header => {
+      header.addEventListener('click', () => {
+        const icon = header.querySelector('i');
+        const content = header.nextElementSibling;
+        if (content.style.display === 'block') {
+          content.style.display = 'none';
+          icon.style.transform = 'rotate(0deg)';
+        } else {
+          content.style.display = 'block';
+          icon.style.transform = 'rotate(180deg)';
+        }
+      });
+    });
+
+    // 2. Collect & Save Settings
+    document.getElementById('saveSettingsBtn').addEventListener('click', () => {
+      // Gather all the settings from the form
+      const settingsData = {
+        platformBehavior: {
+          enableFeatureX: document.getElementById('enableFeatureX').checked,
+          roleManagement: document.getElementById('roleManagement').value,
+          emailNotifications: document.getElementById('emailNotifications').checked
+        },
+        lookAndFeel: {
+          brandName: document.getElementById('brandName').value,
+          themeColor: document.getElementById('themeColor').value
+        },
+        systemSettings: {
+          timeZone: document.getElementById('timeZone').value,
+          twoFactorAuth: document.getElementById('twoFactorAuth').checked
+        },
+        integrations: {
+          paymentGateway: document.getElementById('paymentGateway').value,
+          analyticsTool: document.getElementById('analyticsTool').value
+        },
+        advancedCustomization: {
+          customFields: document.getElementById('customFields').checked,
+          siteNotifications: document.getElementById('siteNotifications').value
+        }
+      };
+
+      // Send to /save-settings/ via fetch
+      fetch("/save-settings/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+          // "X-CSRFToken": getCookie("csrftoken") // if using CSRF
+        },
+        body: JSON.stringify(settingsData)
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          alert(data.message);
+        } else {
+          alert("Error: " + (data.error || "Unknown error"));
+        }
+      })
+      .catch(error => {
+        console.error("Error saving settings:", error);
+        alert("An error occurred while saving settings.");
+      });
+    });
+  </script>
+</body>
+</html>
