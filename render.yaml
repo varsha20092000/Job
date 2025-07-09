@@ -8,17 +8,13 @@ services:
       npm run build
       python manage.py collectstatic --noinput
     startCommand: gunicorn Jobs.wsgi:application
-    envVars:
-      - key: DJANGO_SETTINGS_MODULE
-        value: Jobs.settings
-      - key: PYTHON_VERSION
-        value: 3.11
+    
 buildCommand: pip install -r requirements.txt && npm install && npm run build
 envVars:
       - key: DJANGO_SETTINGS_MODULE
         value: Jobs.settings
       - key: PYTHON_VERSION
-        value: 3.11
+        value: 3.11.8
       - key: SECRET_KEY
         value: your-strong-secret-key
       - key: DEBUG
