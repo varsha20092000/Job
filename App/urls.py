@@ -8,7 +8,8 @@ from .views import job_list,apply_for_job
 
 
 urlpatterns = [
-   
+   path('', views.loading_page1, name='root_welcome'),
+
     path('welcome', views.loading_page1, name='welcomepage'), 
     path('register/', registration_view, name='register'),
     path('login/', views.login_view, name='login'),
