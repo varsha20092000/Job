@@ -86,12 +86,17 @@ WSGI_APPLICATION = 'Jobs.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
-    'default': dj_database_url.config(
-        default=os.getenv('DATABASE_URL'),
-        conn_max_age=600,
-        ssl_require=True  # ✅ This is the key part
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'job_db_28g4',
+        'USER': 'job_db_28g4_user',
+        'PASSWORD': 'TwYglOrNm7iN8wjrUEhxBjuh2K4cbIu8',
+        'HOST': 'dpg-d1ntq0emcj7s73fls3h0-a.singapore-postgres.render.com',
+        'PORT': '5432',
+    }
 }
+
+
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
