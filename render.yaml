@@ -19,3 +19,7 @@ envVars:
         value: your-strong-secret-key
       - key: DEBUG
         value: False
+startCommand: >
+  python manage.py migrate &&
+  python manage.py loaddata full_data.json &&
+  gunicorn Jobs.wsgi:application
