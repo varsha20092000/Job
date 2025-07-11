@@ -1,1 +1,2 @@
-default_app_config = 'App.signals.AppReady'
+default_app_config = 'App.apps.AppConfig'
+
