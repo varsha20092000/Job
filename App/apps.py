@@ -1,18 +1,15 @@
 from django.apps import AppConfig
+from django.core.management import call_command
 import os
 
-class AppConfig(AppConfig):
+class JobsConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'App'
+    name = 'Jobs'
 
     def ready(self):
         if os.environ.get("RENDER") == "true":
-            from django.core.management import call_command
-            from django.db.utils import OperationalError
             try:
-                call_command("loaddata", "full_data.json")
-                print("✅ Loaded full_data.json successfully on Render.")
-            except OperationalError:
-                print("⚠️ Database not ready yet.")
+                call_command("loaddata", "admin_jobs_fixed.json")
+                call_command("loaddata", "applications_from_sqlite_fixed.json")
             except Exception as e:
-                print(f"❌ Error loading fixture: {e}")
+                print(f"❌ Fixture load error: {e}")
