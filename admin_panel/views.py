@@ -2,7 +2,7 @@ from django.shortcuts import render
 
 # Create your views here.
 from django.shortcuts import render, redirect
-from App.models import JobSeeker, Company  # Example models
+from app.models import JobSeeker, Company  # Example models
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from admin_panel.models import Job,AdminJobApplication
@@ -348,7 +348,7 @@ def report_analytics_page(request):
     return render(request, 'report_analytics.html', context)
 
 # from admin_panel.models import AdminJobApplication # import your model correctly
-from App.models import JobApplication  # ✅ Correct source
+from app.models import JobApplication  # ✅ Correct source
 
 def applications_dashboard(request):
     applications = JobApplication.objects.all().order_by('-applied_date')
@@ -400,7 +400,7 @@ def list_companies(request):
     return render(request, 'companylist.html', {'companies': companies})
 
 # views.py
-from App.models import JobSeeker
+from app.models import JobSeeker
 
 def list_jobseekers(request):
     sort = request.GET.get("sort", "latest")

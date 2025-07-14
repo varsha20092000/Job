@@ -1,6 +1,6 @@
 ﻿[
 {
-  "model": "App.job",
+  "model": "app.job",
   "pk": 1,
   "fields": {
     "user": 1,
