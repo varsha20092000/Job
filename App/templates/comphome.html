@@ -1,0 +1,1448 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+        integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <title>JOB 365</title>
+    <style>
+        /* --------------------- Reset some default styles --------------------- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f8f8f8;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* --------------------- Header --------------------- */
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #fff;
+            padding: 1rem 2rem;
+            border-bottom: 1px solid #eee;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        /* Left: Logo/Title */
+        .header-left h1 {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #fdfcfc;
+        }
+
+        /* Right: Nav links + Profile */
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .header-right a {
+            text-decoration: none;
+            color: #ffffff;
+            font-size: 0.95rem;
+            padding: 0.5rem;
+            border-radius: 4px;
+        }
+
+        .header-right a:hover {
+            background: #f1f1f1;
+        }
+
+        .profile-avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        /* --------------------- Main Layout --------------------- */
+        .container {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem 2rem;
+            margin-top: 1rem;
+        }
+
+        /* --------------------- Filter Sidebar --------------------- */
+        .filter-sidebar {
+            width: 20%;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+            padding: 1rem;
+            height: fit-content;
+        }
+
+        /* Filter Header (title + Clear in same line) */
+        .filter-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .filter-header h2 {
+            margin: 0;
+            font-size: 1rem;
+            font-weight: bold;
+        }
+
+        #clear-btn {
+            background: none;
+            border: none;
+            color: #007bff;
+            cursor: pointer;
+            font-size: 0.85rem;
+            text-decoration: underline;
+        }
+
+        .filter-section h3 {
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+            font-weight: bold;
+        }
+
+        .filter-section {
+            margin-bottom: 1rem;
+        }
+
+        /* --------------------- Main Jobs Section --------------------- */
+        .jobs-section {
+            width: 60%;
+        }
+
+        /* Row with heading + Post a Job + Customer Support */
+        .top-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .top-row h1 {
+            font-size: 1.25rem;
+            margin: 0;
+            font-weight: normal;
+            color: #333;
+        }
+
+        .top-row h1 strong {
+            font-weight: bold;
+        }
+
+        .top-row p {
+            font-size: 0.9rem;
+            color: #777;
+            margin-top: 5px;
+        }
+
+        .top-row-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .top-row-buttons button {
+            background: #126f93;
+            color: #fff;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            /* pill shape */
+            cursor: pointer;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .top-row-buttons button img {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* --------------------- Search Box --------------------- */
+        .search-box {
+            background: #e7f2f8;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .search-box .search-text {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .search-box .search-text img {
+            width: 20px;
+            height: 20px;
+            opacity: 0.6;
+        }
+
+        .search-box .search-text input {
+            width: 100%;
+            border: none;
+            outline: none;
+            background: transparent;
+            font-size: 0.95rem;
+        }
+
+        .search-box .search-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .search-box .search-actions button {
+            background: #007bff;
+            border: none;
+            color: #fff;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+
+        /* Optional line of motivational text in the search box (if desired) */
+        .search-line {
+            font-size: 0.85rem;
+            color: #555;
+            margin-bottom: 0.5rem;
+        }
+
+        /* --------------------- Job Postings --------------------- */
+        .job-posting {
+            background: #fff;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 0 6px rgba(0, 0, 0, 0.06);
+            margin-bottom: 1rem;
+        }
+
+        .job-posting h2 {
+            margin: 0 0 0.5rem;
+            font-size: 1rem;
+            color: #333;
+        }
+
+        .job-posting p {
+            margin: 0.3rem 0;
+            font-size: 0.9rem;
+            color: #555;
+        }
+
+        .apply-btn {
+            margin-top: 0.5rem;
+            padding: 0.4rem 0.8rem;
+            background: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+
+        /* --------------------- Suggested Jobs --------------------- */
+        .suggested-jobs {
+            width: 20%;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+            padding: 1rem;
+            height: fit-content;
+        }
+
+        .suggested-jobs h2 {
+            margin-top: 0;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .suggested-jobs .job-posting {
+            padding: 0.5rem 0.75rem;
+            box-shadow: none;
+            border: 1px solid #eee;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+        }
+
+        .suggested-jobs .job-posting h3 {
+            margin: 0 0 0.25rem;
+            font-size: 0.95rem;
+            color: #333;
+        }
+
+        /* --------------------- Footer --------------------- */
+        footer {
+            background: #fff;
+            border-top: 1px solid #eee;
+            text-align: center;
+            padding: 0.75rem;
+            font-size: 0.9rem;
+            position: sticky;
+            bottom: 0;
+            z-index: 1000;
+        }
+
+        /* --------------------- Modal --------------------- */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: 10% auto;
+            padding: 1.5rem;
+            border: 1px solid #888;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            position: relative;
+            border-radius: 8px;
+        }
+
+        .close-btn {
+            color: #aaa;
+            float: right;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close-btn:hover,
+        .close-btn:focus {
+            color: #000;
+            text-decoration: none;
+        }
+
+        .modal-content label {
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .modal-content input[type="text"],
+        .modal-content input[type="email"],
+        .modal-content input[type="file"] {
+            width: 100%;
+            margin-bottom: 1rem;
+            padding: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .modal-content button[type="submit"] {
+            background: #007bff;
+            color: #fff;
+            border: none;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            font-size: 0.9rem;
+            border-radius: 4px;
+        }
+
+        header {
+            background-color: #126f93;
+            /* Choose any color code you like */
+            color: #fff;
+            /* White text for contrast */
+            /* Remove or adjust the border/border-bottom if you want */
+        }
+
+        footer {
+            background-color: #007bff;
+            /* Same or different color */
+            color: #fff;
+            /* White text for contrast */
+        }
+
+        header {
+            background-color: #126f93;
+            color: #fff;
+            padding: 1rem 2rem;
+            /* border-bottom: 1px solid #eee; <-- Remove or comment out if desired */
+        }
+
+        .w-8 {
+            width: 2rem;
+            /* Typically 8 * 0.25rem = 2rem */
+        }
+
+        .h-8 {
+            height: 2rem;
+            /* Same as above, 2rem height */
+        }
+
+        .rounded-full {
+            border-radius: 9999px;
+            /* Fully rounded corners */
+        }
+
+        .mr-2 {
+            margin-right: 0.5rem;
+            /* 0.5rem right margin */
+        }
+
+        /* Container for the entire card */
+        .job-card {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
+            padding: 1rem;
+            max-width: 700px;
+            /* Adjust as needed */
+            margin: 1rem auto;
+            font-family: sans-serif;
+            /* Or your preferred font */
+            color: #333;
+        }
+
+        /* ------------------ Top Section ------------------ */
+        .job-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            /* So top lines up nicely */
+        }
+
+        /* Left side: pink icon + title & company */
+        .job-card-header-left {
+            display: flex;
+            gap: 0.75rem;
+            /* Space between icon and text */
+        }
+
+        /* Pink circle for the icon on the left */
+        .icon-circle {
+            width: 48px;
+            height: 48px;
+            background: #ffe8ec;
+            /* Soft pink background */
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .icon-circle img {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Title + "Urgent" badge + Company name */
+        .title-info h3 {
+            margin: 0;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .urgent-badge {
+            background: #18a558;
+            /* Green badge color */
+            color: #fff;
+            font-size: 0.75rem;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            margin-left: 0.4rem;
+            /* Space before badge */
+        }
+
+        .title-info p {
+            margin: 0.25rem 0 0 0;
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        /* Right side: 3-dots menu icon */
+        .job-card-header-right .dots-icon {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        /* ------------------ Middle Row (Job Meta) ------------------ */
+        .job-card-meta {
+            display: flex;
+            flex-wrap: wrap;
+            /* So they wrap on smaller screens */
+            gap: 1.5rem;
+            margin: 0.75rem 0;
+        }
+
+        .job-card-meta span {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            font-size: 0.85rem;
+            color: #555;
+        }
+
+        .job-card-meta img {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* ------------------ Description ------------------ */
+        .job-card-description p {
+            font-size: 0.85rem;
+            color: #444;
+            margin: 0.5rem 0;
+            line-height: 1.4;
+        }
+
+        /* ------------------ Footer Row ------------------ */
+        .job-card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            /* So items can wrap on smaller screens */
+            margin-top: 0.5rem;
+        }
+
+        /* "Contact: 1234567891" pill on the left */
+        .contact-pill {
+            background: #eef9fe;
+            /* Light bluish background */
+            border-radius: 20px;
+            padding: 0.4rem 0.8rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.85rem;
+            color: #333;
+        }
+
+        .contact-pill img {
+            width: 14px;
+            height: 14px;
+        }
+
+        /* Middle: "50 Applied" */
+        .applied {
+            font-size: 0.85rem;
+            color: #333;
+        }
+
+        .applied img {
+            width: 14px;
+            height: 14px;
+            margin-right: 0.3rem;
+            vertical-align: middle;
+        }
+
+        /* Right: Salary range */
+        .salary {
+            font-size: 0.85rem;
+            color: #333;
+        }
+
+        .job-card {
+            width: 100%;
+
+        }
+
+        .job-card {
+            /* Increase the width here */
+            width: 800px;
+            /* Or 100%, or 900px, etc. */
+            max-width: 100%;
+            /* Ensures it doesn't overflow on smaller screens */
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
+            padding: 1rem;
+            margin: 1rem auto;
+            font-family: Arial, sans-serif;
+            color: #333;
+            width: 100%;
+        }
+
+        /* -------- Top Section: Icon + Title/Company + Badge + 3-dots -------- */
+        .job-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            /* Align at the top */
+        }
+
+        .job-card-header-left {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        /* Circle icon background on the left (optional pink) */
+        .icon-circle {
+            width: 48px;
+            height: 48px;
+            background: #ffe8ec;
+            /* Soft pink */
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Adjust icon size within the circle if using an <i> element */
+        .icon-circle i {
+            font-size: 1.2rem;
+            color: #f5587b;
+            /* Reddish-pink icon color */
+        }
+
+        /* Title + "Urgent" badge + Company name */
+        .title-info h3 {
+            margin: 0;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .urgent-badge {
+            background: #18a558;
+            /* Green badge color */
+            color: #fff;
+            font-size: 0.75rem;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            margin-left: 0.4rem;
+        }
+
+        .title-info p {
+            margin: 0.25rem 0 0 0;
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        /* 3-dots menu on the right */
+        .job-card-header-right {
+            cursor: pointer;
+        }
+
+        .job-card-header-right i {
+            font-size: 1rem;
+            color: #999;
+        }
+
+        /* -------- Middle Section: Job details (Full Time, 1-2 Year, etc.) -------- */
+        .job-card-meta {
+            display: flex;
+            flex-wrap: wrap;
+            /* So items wrap on smaller screens */
+            gap: 1.5rem;
+            margin: 0.75rem 0;
+        }
+
+        .job-card-meta span {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            font-size: 0.85rem;
+            color: #555;
+        }
+
+        /* Adjust icons inside .job-card-meta */
+        .job-card-meta i {
+            font-size: 0.9rem;
+            /* Or adjust as needed */
+            color: #888;
+        }
+
+        .posted-date {
+            margin-left: auto;
+            /* Push the date to the right end (if desired) */
+        }
+
+        /* -------- Description Paragraph -------- */
+        .job-card-description p {
+            font-size: 0.85rem;
+            color: #444;
+            margin: 0.5rem 0;
+            line-height: 1.4;
+        }
+
+        /* -------- Bottom Section: Contact, # Applied, Salary -------- */
+        .job-card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-top: 0.5rem;
+            gap: 0.5rem;
+        }
+
+        /* Contact pill on the left */
+        .contact-pill {
+            background: #eef9fe;
+            /* Light bluish background */
+            border-radius: 20px;
+            padding: 0.4rem 0.8rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.85rem;
+            color: #333;
+        }
+
+        .contact-pill i {
+            font-size: 0.85rem;
+            color: #007bff;
+            /* or any color you like for the phone icon */
+        }
+
+        /* Middle: "50 Applied" */
+        .applied {
+            font-size: 0.85rem;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .applied i {
+            font-size: 0.85rem;
+            color: #007bff;
+        }
+
+        /* Right: Salary range */
+        .salary {
+            font-size: 0.85rem;
+            color: #333;
+        }
+
+        .salary {
+            font-size: 0.85rem;
+            color: #333;
+            /* Default text color */
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            /* Space between icon and text */
+        }
+
+        .salary i {
+            color: #f4b400;
+            /* Gold/yellow color for money icon */
+            font-size: 1rem;
+            /* Adjust size if needed */
+        }
+
+        .suggested-jobs {
+            background: #fff;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .job-posting {
+            background: #f9f9f9;
+            /* Light grey background */
+            padding: 0.75rem;
+            border-radius: 6px;
+            margin-bottom: 0.75rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+        }
+
+        .job-posting:hover {
+            background: #e6f7ff;
+            /* Light blue background on hover */
+            transform: translateY(-3px);
+            /* Slight lift effect */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            /* Add shadow on hover */
+            cursor: pointer;
+        }
+
+        .job-posting h3 {
+            font-size: 1rem;
+            margin: 0 0 0.3rem;
+            color: #333;
+        }
+
+        .job-posting p {
+            font-size: 0.85rem;
+            color: #666;
+            margin: 0;
+        }
+
+        /* Filter Box */
+        .filter-box {
+            background: #fff;
+            width: 280px;
+            padding: 1rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Header - "Filter" on the left, "Clear" on the right */
+        .filter-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .clear-btn {
+            background: none;
+            border: none;
+            color: #007bff;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .clear-btn:hover {
+            text-decoration: underline;
+        }
+
+        /* Section Titles */
+        .filter-section h3 {
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        /* Checkbox Container */
+        .filter-section label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            font-size: 0.9rem;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        /* Styled Checkboxes */
+        .filter-section input[type="checkbox"] {
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+            margin-right: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+            position: relative;
+        }
+
+        /* Checkbox Checked State */
+        .filter-section input[type="checkbox"]:checked {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        /* Custom Checkmark */
+        .filter-section input[type="checkbox"]:checked::before {
+            content: "✔";
+            font-size: 14px;
+            color: white;
+            position: absolute;
+            left: 3px;
+            top: -2px;
+        }
+
+        /* General Header Styling */
+        .header {
+            background: #007bff;
+            /* Blue Header */
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        /* Header Right */
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        /* Dropdown Styling */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropbtn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* Dropdown Content */
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background: white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            min-width: 180px;
+            z-index: 10;
+            top: 100%;
+            left: 0;
+        }
+
+        .dropdown-content a {
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+            color: #333;
+            text-decoration: none;
+            gap: 10px;
+            font-size: 0.95rem;
+        }
+
+        .dropdown-content a:hover {
+            background: #f0f0f0;
+        }
+
+        /* Show Dropdown on Hover */
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* Icons inside Dropdown */
+        .dropdown-content i {
+            color: #007bff;
+        }
+
+        /* Avatar */
+        .avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+        }
+
+        /* Notification Button */
+        .notification-btn {
+            position: relative;
+        }
+
+        /* Notification Badge (Red Circle) */
+        .notification-badge {
+            background: red;
+            color: white;
+            font-size: 0.8rem;
+            font-weight: bold;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            top: -5px;
+            right: -10px;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: 5% auto;
+            padding: 20px;
+            width: 50%;
+            border-radius: 8px;
+        }
+
+        .modal-content input,
+        .modal-content textarea {
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 8px;
+            border-radius: 5px;
+        }
+
+        .modal-content button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .close {
+            float: right;
+            font-size: 28px;
+            cursor: pointer;
+        }
+
+        .job-card {
+            margin: 20px 0;
+        }
+        .pagination {
+    margin: 20px 0;
+    text-align: center;
+}
+.pagination a, .pagination span {
+    padding: 8px 12px;
+    margin: 0 3px;
+    border: 1px solid #ccc;
+    text-decoration: none;
+    color: #333;
+}
+.pagination .current {
+    background-color: #007BFF;
+    color: white;
+    border-color: #007BFF;
+}
+
+    </style>
+</head>
+
+<body>
+
+    <!-- -------------------------- Header -------------------------- -->
+    <!-- Header -->
+    <div class="header">
+        <h1>JOB 365</h1>
+        <div class="header-right">
+            <a href="{% url 'companyhome' %}">Home</a>
+
+            <!-- Jobs Dropdown -->
+            <div class="dropdown">
+                <button class="dropbtn">Jobs <i class="fa-solid fa-caret-down"></i></button>
+                <div class="dropdown-content">
+                    <a href="{% url 'job_details_blank' %}"><i class="fa-solid fa-briefcase"></i> Posted Jobs</a>
+
+                    <a href="{% url 'employee_details' %}"><i class="fa-solid fa-user-tie"></i> Employee Details</a>
+                </div>
+            </div>
+
+            <!-- Payment Dropdown -->
+            <div class="dropdown">
+                <button class="dropbtn">Payment <i class="fa-solid fa-caret-down"></i></button>
+                <div class="dropdown-content">
+                    <a href="{% url 'employee_payment' %}"><i class="fa-solid fa-user"></i> Employee Payment</a>
+                    <a href="{% url 'tax_payment' %}"><i class="fa-solid fa-money-bill-wave"></i> Tax Payment</a>
+                    <a href="{% url 'total_payment' %}"><i class="fa-solid fa-coins"></i> Total Payment</a>
+                </div>
+            </div>
+
+            <!-- Certificate Dropdown -->
+            <div class="dropdown">
+                <button class="dropbtn">Certificate <i class="fa-solid fa-caret-down"></i></button>
+                <div class="dropdown-content">
+                    <a href="{% url 'requested_certificates' %}"><i class="fa-solid fa-file-alt"></i> Employee
+                        Certificate</a>
+                    <a href="{% url 'certificate_detail' 1 %}">
+                        <i class="fa-solid fa-award"></i> Show Certificates
+                    </a>
+
+                </div>
+            </div>
+
+            <!-- Contact Dropdown -->
+            <div class="dropdown">
+                <button class="dropbtn">Contact <i class="fa-solid fa-caret-down"></i></button>
+                <div class="dropdown-content">
+                    <a href="#"><i class="fa-solid fa-envelope"></i> Email Support</a>
+                    <a href="#"><i class="fa-solid fa-phone"></i> Call Support</a>
+                </div>
+            </div>
+
+            <!-- Notifications with Badge -->
+            <div class="dropdown">
+                <button class="dropbtn notification-btn">
+                    Notification
+                    <span class="notification-badge">6</span>
+                    <i class="fa-solid fa-caret-down"></i>
+                </button>
+                <div class="dropdown-content">
+                    <!-- Existing notifications -->
+                    <a href="#"><i class="fa-solid fa-bell"></i> Job application received</a>
+                    <a href="#"><i class="fa-solid fa-bell"></i> Interview scheduled</a>
+                    <a href="#"><i class="fa-solid fa-bell"></i> Job approved</a>
+                    <a href="#"><i class="fa-solid fa-bell"></i> Payment completed</a>
+                    <a href="#"><i class="fa-solid fa-bell"></i> New applicant</a>
+                    <a href="#"><i class="fa-solid fa-bell"></i> Certificate issued</a>
+
+                    <!-- Add a "View All" link that navigates to the notifications page -->
+                    <hr>
+                    <a href="{% url 'compnotifications' %}" style="font-weight: bold;">
+                        <i class="fa-solid fa-bell"></i> View All Notifications
+                    </a>
+                </div>
+            </div>
+
+
+            <!-- User Profile Dropdown -->
+            <div class="dropdown">
+                <button class="dropbtn user-btn">
+                    <img src="https://www.w3schools.com/w3images/avatar2.png" alt="Profile Avatar" class="avatar">
+                    <i class="fa-solid fa-caret-down"></i>
+                </button>
+                <div class="dropdown-content">
+                    <a href="{% url 'profile_form' %}"><i class="fa-solid fa-user"></i> Profile</a>
+                    <a href="{% url 'login' %}"><i class="fa-solid fa-sign-out-alt"></i> Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- -------------------------- Main Container-------------------------- -->
+    <div class="container">
+        <!-- -------------------------- Filter Sidebar -------------------------- -->
+        <div class="filter-box">
+            <!-- Header -->
+            <div class="filter-header">
+                <h2>Filter</h2>
+                <button class="clear-btn" onclick="clearFilters()">Clear</button>
+            </div>
+
+            <!-- Job Posted Date -->
+            <div class="filter-section">
+                <h3>Job Posted Date</h3>
+                <label><input type="checkbox" name="job-date" value="today"> Today</label>
+                <label><input type="checkbox" name="job-date" value="less10"> Less than 10 days</label>
+                <label><input type="checkbox" name="job-date" value="more10"> More than 10 days</label>
+            </div>
+
+            <!-- Job Type -->
+            <div class="filter-section">
+                <h3>Job Type</h3>
+                <label><input type="checkbox" name="job-type" value="physical"> Physical work</label>
+                <label><input type="checkbox" name="job-type" value="office"> Office work</label>
+                <label><input type="checkbox" name="job-type" value="it"> IT work</label>
+                <label><input type="checkbox" name="job-type" value="kitchen"> Kitchen work</label>
+                <label><input type="checkbox" name="job-type" value="field"> Field work</label>
+                <label><input type="checkbox" name="job-type" value="health"> Health work</label>
+                <label><input type="checkbox" name="job-type" value="other"> Other</label>
+            </div>
+
+            <!-- Location -->
+            <div class="filter-section">
+                <h3>Location</h3>
+                <label><input type="checkbox" name="location" value="kochi"> Kochi</label>
+                <label><input type="checkbox" name="location" value="chennai"> Chennai</label>
+                <label><input type="checkbox" name="location" value="delhi"> Delhi</label>
+            </div>
+
+            <div class="filter-section">
+                <h3>work days</h3>
+                <label><input type="checkbox" name="location" value="kochi">Mon-Wed</label>
+                <label><input type="checkbox" name="location" value="chennai">Tue-Thur</label>
+                <label><input type="checkbox" name="location" value="delhi">Wed-Fri </label>
+                <label><input type="checkbox" name="location" value="kochi">Tue-Wed</label>
+                <label><input type="checkbox" name="location" value="chennai">Wed-Thur</label>
+                <label><input type="checkbox" name="location" value="delhi">Sat-Sun </label>
+            </div>
+
+            <div class="filter-section">
+                <h3>work Hours</h3>
+                <label><input type="checkbox" name="location" value="kochi">8 hours</label>
+                <label><input type="checkbox" name="location" value="chennai"> 5 hours</label>
+                <label><input type="checkbox" name="location" value="delhi"> 7 hours</label>
+                <label><input type="checkbox" name="location" value="kochi">4 hours</label>
+                <label><input type="checkbox" name="location" value="chennai"> 9 hours</label>
+                <label><input type="checkbox" name="location" value="delhi"> 10 hours</label>
+            </div>
+        </div>
+
+        <!-- -------------------------- Jobs Section -------------------------- -->
+        <section class="jobs-section">
+            <!-- Top Row: Title, Subtext, and Buttons -->
+            <div class="top-row">
+                <div>
+                    <h1>Showing <strong>8</strong> jobs you posted</h1>
+                    <p>jobs near your location</p>
+                </div>
+                <div class="top-row-buttons">
+                    <!-- Optional icons for Post a Job / Customer Support -->
+                    <a href="{% url 'post_job' %}">
+                        <button class="post-job-btn">
+                            <i class="fa-solid fa-briefcase"></i>
+                            Post a Job
+                        </button>
+                    </a>
+
+
+                    <button class="support-btn">
+                        <i class="fa-solid fa-headset"></i>
+                        Customer Support
+                    </button>
+
+                </div>
+            </div>
+
+
+            <div class="search-box">
+
+                <div class="search-text">
+                    <div class="search-icon">🔍</div>
+                    <input type="text" id="search-input" placeholder="Search jobs by title, company or skill">
+                </div>
+                <div class="search-actions">
+                    <button id="search-btn">Search</button>
+                    <button id="filter-btn">Filter</button>
+                </div>
+            </div>
+
+            {% for job in page_obj %}
+
+            <div class="job-card">
+                <div class="job-card-header" style="display: flex; align-items: center; gap: 12px;">
+                    <div class="icon-circle">
+                        <i class="fa-solid fa-sun"></i>
+                    </div>
+                    <div class="title-info">
+                        <h3 style="margin: 0;">{{ job.job_name }} <span class="urgent-badge">Urgent</span></h3>
+                        <p style="margin: 0;">{{ job.company_name }}</p>
+                    </div>
+                    <div class="job-card-header-right" style="margin-left: auto;">
+                        <i class="fa-solid fa-ellipsis-vertical"></i>
+                    </div>
+                </div>
+                
+
+                <div class="job-card-meta">
+                    <span class="job-type"><i class="fa-solid fa-clock"></i> {{ job.job_time }}</span>
+                    <span class="experience"><i class="fa-solid fa-calendar"></i> {{ job.experience }}</span>
+                    <span class="location"><i class="fa-solid fa-location-dot"></i> {{ job.location }}</span>
+
+                    <span class="posted-date">{{ job.posted_date }}</span>
+                </div>
+
+                <p><strong>Location:</strong> {{ job.location }}</p>
+                <p><strong>Posted:</strong> {{ job.posted_date }}</p>
+                <p><strong>per/hour:</strong> ₹{{ job.hourly_rates }}</p>
+
+               
+                <p>{{ job.short_description }}</p>
+
+                <div class="job-card-footer">
+                    <div class="contact-pill"><i class="fa-solid fa-phone"></i> Contact: {{ job.contact_number }}</div>
+
+                    <div class="applied"><i class="fa-solid fa-user"></i> 0 Applied</div>
+                    
+                </div>
+            </div>
+            {% empty %}
+            <p>No jobs posted yet.</p>
+            {% endfor %}
+            <div class="pagination">
+                <span class="step-links">
+                    {% if page_obj.has_previous %}
+                        <a href="?page=1">&laquo; first</a>
+                        <a href="?page={{ page_obj.previous_page_number }}">← previous</a>
+                    {% endif %}
+            
+                    <span class="current">
+                        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                    </span>
+            
+                    {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}">next →</a>
+                        <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
+            
+        </section>
+        <!-- Container for new jobs -->
+        <div id="jobContainer"></div>
+
+        <!-- -------------------------- Suggested Jobs -------------------------- -->
+        <aside class="suggested-jobs">
+            <h2>Other Company Job posts</h2>
+            <div class="job-posting">
+                <h3>Modern Furniture Ltd</h3>
+                <p><strong>Position:</strong> Carpenter</p>
+                <p><strong>Rate:</strong> ₹1200/day</p>
+            </div>
+            <div class="job-posting">
+                <h3>Xyz Technologies</h3>
+                <p><strong>Position:</strong> Junior Designer</p>
+                <p><strong>Rate:</strong> ₹25,000/month</p>
+            </div>
+            <div class="job-posting">
+                <h3>Xyz Technologies</h3>
+                <p><strong>Position:</strong> Junior Designer</p>
+                <p><strong>Rate:</strong> ₹25,000/month</p>
+            </div>
+            <div class="job-posting">
+                <h3>Xyz Technologies</h3>
+                <p><strong>Position:</strong> Junior Designer</p>
+                <p><strong>Rate:</strong> ₹25,000/month</p>
+            </div>
+            <div class="job-posting">
+                <h3>Xyz Technologies</h3>
+                <p><strong>Position:</strong> Junior Designer</p>
+                <p><strong>Rate:</strong> ₹25,000/month</p>
+            </div>
+            <div class="job-posting">
+                <h3>Xyz Technologies</h3>
+                <p><strong>Position:</strong> Junior Designer</p>
+                <p><strong>Rate:</strong> ₹25,000/month</p>
+            </div>
+            <div class="job-posting">
+                <h3>Xyz Technologies</h3>
+                <p><strong>Position:</strong> Junior Designer</p>
+                <p><strong>Rate:</strong> ₹25,000/month</p>
+            </div>
+            <div class="job-posting">
+                <h3>Xyz Technologies</h3>
+                <p><strong>Position:</strong> Junior Designer</p>
+                <p><strong>Rate:</strong> ₹25,000/month</p>
+            </div>
+            <div class="job-posting">
+                <h3>Xyz Technologies</h3>
+                <p><strong>Position:</strong> Junior Designer</p>
+                <p><strong>Rate:</strong> ₹25,000/month</p>
+            </div>
+            <div class="job-posting">
+                <h3>Xyz Technologies</h3>
+                <p><strong>Position:</strong> Junior Designer</p>
+                <p><strong>Rate:</strong> ₹25,000/month</p>
+            </div>
+            <!-- Add more suggested jobs as needed -->
+        </aside>
+    </div>
+
+    <!-- -------------------------- Footer -------------------------- -->
+    <footer>
+        <p>About Us | Privacy Policy | Terms of Service</p>
+    </footer>
+
+    <!-- -------------------------- Job Application Modal -------------------------- -->
+    <div id="job-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>Apply for Job</h2>
+            <form>
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+
+                <label for="resume">Resume:</label>
+                <input type="file" id="resume" name="resume" required>
+
+                <button type="submit">Submit Application</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- -------------------------- Scripts -------------------------- -->
+    <script>
+        // Simple Search (optional; only works if you add an ID "search-btn" or "search-icon.png" etc.)
+        document.getElementById('search-btn').addEventListener('click', function () {
+            const searchValue = document.getElementById('search-input').value.toLowerCase();
+            const postings = document.querySelectorAll('.job-posting');
+            postings.forEach(post => {
+                const title = post.querySelector('h2,h3').textContent.toLowerCase();
+                if (title.includes(searchValue)) {
+                    post.style.display = '';
+                } else {
+                    post.style.display = 'none';
+                }
+            });
+        });
+
+        // Filter button (placeholder)
+        document.getElementById('filter-btn').addEventListener('click', function () {
+            alert('Filter button clicked. Implement your filtering logic here!');
+        });
+
+        // Clear filter checkboxes
+        document.getElementById('clear-btn').addEventListener('click', function () {
+            const checkboxes = document.querySelectorAll('.filter-section input[type="checkbox"]');
+            checkboxes.forEach(cb => cb.checked = false);
+        });
+
+        // Show/Hide modal
+        document.querySelectorAll('.apply-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.getElementById('job-modal').style.display = 'block';
+            });
+        });
+        document.querySelector('.close-btn').addEventListener('click', () => {
+            document.getElementById('job-modal').style.display = 'none';
+        });
+        window.addEventListener('click', (e) => {
+            if (e.target === document.getElementById('job-modal')) {
+                document.getElementById('job-modal').style.display = 'none';
+            }
+        });
+        document.querySelectorAll(".filter-section input[type='checkbox']").forEach(function (checkbox) {
+            checkbox.addEventListener("change", function () {
+                let name = this.getAttribute("name");
+                document.querySelectorAll(`input[name="${name}"]`).forEach(function (box) {
+                    if (box !== checkbox) {
+                        box.checked = false; // Uncheck all others in the same category
+                    }
+                });
+            });
+        });
+
+        // Clear all selections
+        function clearFilters() {
+            document.querySelectorAll(".filter-section input[type='checkbox']").forEach(function (checkbox) {
+                checkbox.checked = false;
+            });
+        }
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,567 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>More about {{ employee.name }}</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+    <style>
+        /* General Styles */
+        
+        .header {
+            background: #007bff;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            height: 5%;
+        }
+
+        .header h1 {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            margin-top: 10px;
+            text-decoration: none;
+        }
+
+        /* Header Right */
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            text-decoration: none;
+        }
+
+        .dropbtn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background: white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            min-width: 200px;
+            z-index: 10;
+            top: 100%;
+            left: 0;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown-content a {
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+            color: #333;
+            text-decoration: none;
+            gap: 10px;
+            font-size: 0.95rem;
+        }
+
+        .dropdown-content a:hover {
+            background: #f0f0f0;
+        }
+
+        .notification-btn {
+            position: relative;
+        }
+
+        .notification-badge {
+            background: red;
+            color: white;
+            font-size: 0.8rem;
+            font-weight: bold;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            top: -5px;
+            right: -10px;
+        }
+
+        .avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            margin-right: 60px;
+        }
+
+        /* Page Content */
+        h1 {
+            margin-top: 100px;
+            font-size: 1.8rem;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .employee-card {
+            background: white;
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+            text-align: left;
+            height: 50%;
+        }
+
+        .employee-card h2 {
+            font-size: 1.3rem;
+            font-weight: bold;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+        }
+
+        .info {
+            font-size: 1rem;
+            margin: 10px 0;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .cover-letter-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #f8f8f8;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.2s;
+            width: 48%;
+            text-align: center;
+        }
+
+        .btn-select {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .btn-reject {
+            background-color: white;
+            color: #007bff;
+            border: 1px solid #007bff;
+        }
+
+        .btn-select:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-reject:hover {
+            background-color: #f0f0f0;
+        }
+
+        /* Center Page Content */
+        .page-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            text-align: center;
+        }
+
+        /* Employee Card */
+        .employee-card {
+            background: white;
+            max-width: 600px;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+            text-align: left;
+            width: 100%;
+            margin-top: 20px;
+            /* Adjust for header space */
+        }
+
+        /* Title Centering */
+        h1 {
+            margin-top: 120px;
+            font-size: 1.8rem;
+            font-weight: bold;
+            text-align: center;
+        }
+        h2 {
+            margin-top: 120px;
+            font-size: 1.8rem;
+            font-weight: bold;
+            text-align: center;
+            color: #476bc4;
+        }
+
+        /* Check if there's a border-bottom on active links */
+        .header-right a.active {
+            border-bottom: 2px solid white;
+            /* Remove or change this */
+        }
+
+        a {
+            text-decoration: none !important;
+        }
+
+        /* Remove underline from navigation links */
+        .header-right a {
+            text-decoration: none !important;
+            /* Ensures no underline */
+            border-bottom: none !important;
+            /* Prevents extra bottom border */
+            color: white;
+            /* Ensures text is white */
+            padding: 8px 12px;
+            /* Adds spacing for better appearance */
+            display: inline-block;
+        }
+
+        /* Optional: Remove underline from dropdown links */
+        .dropdown-content a {
+            text-decoration: none !important;
+            border-bottom: none !important;
+        }
+
+        .employee-card {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin: 20px;
+        }
+
+        .btn {
+            padding: 10px 15px;
+            margin: 10px 5px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn-select {
+            background-color: #38b000;
+            color: white;
+        }
+
+        .btn-reject {
+            background-color: #d90429;
+            color: white;
+        }
+
+        .btn-more {
+            background-color: #0077b6;
+            color: white;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+        body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f3f6fb;
+      margin: 0;
+      padding: 0;
+    }
+
+    h1 {
+      text-align: center;
+      margin: 40px 0 10px;
+      color: #2c3e50;
+    }
+
+    .employee-card {
+      max-width: 850px;
+      background: #ffffff;
+      margin: 20px auto;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+      transition: transform 0.3s ease;
+    }
+
+    .employee-card:hover {
+      transform: scale(1.01);
+    }
+
+    .employee-avatar {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .employee-avatar i {
+      font-size: 120px;
+      color: #3498db;
+    }
+
+    .employee-info p {
+      font-size: 16px;
+      margin: 15px 0;
+      display: flex;
+      align-items: center;
+      color: #333;
+    }
+
+    .employee-info p i {
+      width: 30px;
+      text-align: center;
+      font-size: 18px;
+      margin-right: 12px;
+    }
+
+    /* Colored icons */
+    .fa-briefcase { color: #e67e22; }
+    .fa-building { color: #16a085; }
+    .fa-map-marker-alt { color: #c0392b; }
+    .fa-envelope { color: #2980b9; }
+    .fa-phone { color: #27ae60; }
+    .fa-hourglass-half { color: #8e44ad; }
+    .fa-venus-mars { color: #d35400; }
+    .fa-birthday-cake { color: #9b59b6; }
+    .fa-location-dot { color: #e74c3c; }
+    .fa-code { color: #2c3e50; }
+    .fa-file-lines { color: #f39c12; }
+    .fa-download { color: #1abc9c; }
+
+    .employee-info p strong {
+      margin-left: 5px;
+      font-weight: 600;
+    }
+
+    a.download-link {
+      color: #3498db;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    a.download-link:hover {
+      text-decoration: underline;
+    }
+    .employee-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 10px;
+  margin-top: 20px;
+}
+
+.employee-header i {
+  font-size: 50px;
+  color: #2c3e50;
+}
+
+.employee-header h2 {
+  font-size: 24px;
+  color: #4169e1;
+  margin: 0;
+}
+.employee-wrapper {
+  display: flex;
+  justify-content: center;
+  padding: 50px 20px;
+  background-color: #f4f7fb;
+}
+
+.employee-card {
+  background: white;
+  padding: 30px;
+  width: 70%;
+  max-width: 800px;
+  border-radius: 15px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  text-align: center;
+}
+
+.employee-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 20px;
+}
+
+.employee-header i {
+  font-size: 60px;
+  color: #2c3e50;
+}
+
+.employee-header h2 {
+  font-size: 26px;
+  color: #4169e1;
+  margin: 0;
+}
+
+.employee-card p {
+  font-size: 16px;
+  color: #2d2d2d;
+  margin: 10px 0;
+  text-align: left;
+}
+
+.employee-card p i {
+  margin-right: 10px;
+  width: 20px;
+}
+
+/* Colored icon helper classes */
+.text-red { color: #e74c3c; }
+.text-blue { color: #3498db; }
+.text-green { color: #27ae60; }
+.text-yellow { color: #f39c12; }
+.text-orange { color: #e67e22; }
+.text-dark { color: #2c3e50; }
+
+
+    </style>
+</head>
+
+<body>
+
+    <!-- Header -->
+    <div class="header">
+        <h1>JOB 365</h1>
+        <div class="header-right">
+            <a href="{% url 'companyhome' %}">Home</a>
+
+            <!-- Jobs Dropdown -->
+            <div class="dropdown">
+                <button class="dropbtn">Jobs <i class="fa-solid fa-caret-down"></i></button>
+                <div class="dropdown-content">
+                    <a href="{% url 'job_details_blank' %}"><i class="fa-solid fa-briefcase"></i> Posted Jobs</a>
+
+                    <a href="{% url 'employee_details' %}"><i class="fa-solid fa-user-tie"></i> Employee Details</a>
+                </div>
+            </div>
+
+            <!-- Payment Dropdown -->
+            <div class="dropdown">
+                <button class="dropbtn">Payment <i class="fa-solid fa-caret-down"></i></button>
+                <div class="dropdown-content">
+                    <a href="{% url 'employee_payment' %}"><i class="fa-solid fa-user"></i> Employee Payment</a>
+                    <a href="{% url 'tax_payment' %}"><i class="fa-solid fa-money-bill-wave"></i> Tax Payment</a>
+                    <a href="{% url 'total_payment' %}"><i class="fa-solid fa-coins"></i> Total Payment</a>
+                </div>
+            </div>
+
+            <!-- Certificate Dropdown -->
+            <div class="dropdown">
+                <button class="dropbtn">Certificate <i class="fa-solid fa-caret-down"></i></button>
+                <div class="dropdown-content">
+                    <a href="{% url 'requested_certificates' %}"><i class="fa-solid fa-file-alt"></i> Employee
+                        Certificate</a>
+                    <a href="certificate_detail"><i class="fa-solid fa-award"></i> Show Certificates</a>
+                </div>
+            </div>
+
+            <!-- Contact Dropdown -->
+            <div class="dropdown">
+                <button class="dropbtn">Contact <i class="fa-solid fa-caret-down"></i></button>
+                <div class="dropdown-content">
+                    <a href="#"><i class="fa-solid fa-envelope"></i> Email Support</a>
+                    <a href="#"><i class="fa-solid fa-phone"></i> Call Support</a>
+                </div>
+            </div>
+
+            <!-- Notifications with Badge -->
+            <div class="dropdown">
+                <button class="dropbtn notification-btn">
+                    Notification
+                    <span class="notification-badge">6</span>
+                    <i class="fa-solid fa-caret-down"></i>
+                </button>
+                <div class="dropdown-content">
+                    <a href="#"><i class="fa-solid fa-bell"></i> Job application received</a>
+                    <a href="#"><i class="fa-solid fa-bell"></i> Interview scheduled</a>
+                    <a href="#"><i class="fa-solid fa-bell"></i> Job approved</a>
+                    <a href="#"><i class="fa-solid fa-bell"></i> Payment completed</a>
+                    <a href="#"><i class="fa-solid fa-bell"></i> New applicant</a>
+                    <a href="#"><i class="fa-solid fa-bell"></i> Certificate issued</a>
+                </div>
+            </div>
+
+            <!-- User Profile Dropdown -->
+            <div class="dropdown">
+                <button class="dropbtn user-btn">
+                    <img src="https://www.w3schools.com/w3images/avatar2.png" alt="Profile Avatar" class="avatar">
+                    <i class="fa-solid fa-caret-down"></i>
+                </button>
+                <div class="dropdown-content">
+                    <a href="#"><i class="fa-solid fa-user"></i> Profile</a>
+                    <a href="#"><i class="fa-solid fa-sign-out-alt"></i> Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Page Content -->
+
+    <div class="employee-wrapper">
+        <div class="employee-card">
+          <div class="employee-header">
+            <i class="fas fa-user-circle"></i>
+            <h2>{{ employee.full_name }}</h2>
+          </div>
+          <hr />
+          <p><i class="fas fa-briefcase text-orange"></i> <strong>Job Applied:</strong> {{ employee.job.job_name }}</p>
+          <p><i class="fas fa-building text-green"></i> <strong>Company:</strong> {{ employee.company_name }}</p>
+          <p><i class="fas fa-map-marker-alt text-red"></i> <strong>Location:</strong> {{ employee.job.location }}</p>
+          <p><i class="fas fa-envelope text-blue"></i> <strong>Email:</strong> {{ employee.email }}</p>
+          <p><i class="fas fa-phone text-green"></i> <strong>Phone:</strong> {{ employee.phone_number }}</p>
+          <p><i class="fas fa-hourglass-half text-dark"></i> <strong>Age:</strong> {{ employee.age }}</p>
+          <p><i class="fas fa-venus-mars text-orange"></i> <strong>Gender:</strong> {{ employee.gender }}</p>
+          <p><i class="fas fa-birthday-cake text-dark"></i> <strong>DOB:</strong> {{ employee.dob }}</p>
+          <p><i class="fas fa-location-arrow text-red"></i> <strong>Place:</strong> {{ employee.place }}</p>
+          <p><i class="fas fa-code text-dark"></i> <strong>Skills:</strong> {{ employee.skills }}</p>
+          <p><i class="fas fa-file-alt text-yellow"></i> <strong>Cover Letter:</strong> {{ employee.cover_letter }}</p>
+        </div>
+      </div>
+      
+    
+
+
+</body>
+
+</html>

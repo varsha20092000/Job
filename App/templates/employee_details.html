@@ -1,0 +1,578 @@
+<!-- employee_details.html -->
+{%load static%}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Details</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+
+    <style>
+        /* General Styles */
+      /* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f8f8;
+    margin: 0; /* Remove extra margin */
+    padding: 0; /* Remove extra padding */
+}
+
+/* Remove extra space below header */
+h1 {
+    margin: 20px 0 10px 20px; /* Align to the left */
+    font-size: 1.8rem;
+    margin-top: 10px;
+}
+
+/* Employee Container (Aligned to Left) */
+.employee-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    max-width: 90%;
+    margin-left: 20px; /* Moves container to the left */
+    
+}
+
+/* Employee Box Styling */
+.employee-box {
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+    width: 90%;
+}
+
+.employee-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Employee Title & Job Code */
+.employee-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.job-code {
+    background-color: #007bff;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.85rem;
+}
+
+/* Employee Information */
+.employee-info p {
+    font-size: 1rem;
+    margin: 5px 0;
+    color: #333;
+}
+
+.cover-letter {
+    background: #f8f8f8;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+/* Buttons */
+.buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+
+.btn {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: 0.2s;
+    width: 30%;
+    text-align: center;
+}
+
+.btn-select {
+    background-color: #007bff;
+    color: white;
+}
+
+.btn-reject {
+    background-color: #ddd;
+    color: black;
+}
+
+.btn-select:hover {
+    background-color: #0056b3;
+}
+
+.btn-reject:hover {
+    background-color: #bbb;
+}
+
+.btn-details {
+    color: #007bff;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+/* 🔹 Fix Header (No Gap at Top) */
+.header {
+    background: #007bff; /* Blue background */
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    height: 1%;
+}
+
+/* Push Content Below Header */
+body {
+    padding-top: 60px; /* Pushes content down to prevent overlap */
+}
+
+/* Header Right Section */
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+/* Dropdown Styling */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropbtn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* Dropdown Content */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    min-width: 200px;
+    z-index: 10;
+    top: 100%;
+    left: 0;
+}
+
+.dropdown-content a {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    color: #333;
+    text-decoration: none;
+    gap: 10px;
+    font-size: 0.95rem;
+}
+
+.dropdown-content a:hover {
+    background: #f0f0f0;
+}
+
+/* Show Dropdown on Hover */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Icons inside Dropdown */
+.dropdown-content i {
+    color: #007bff;
+}
+
+/* Avatar */
+.avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+}
+
+/* Notification Button */
+.notification-btn {
+    position: relative;
+}
+
+/* Notification Badge (Red Circle) */
+.notification-badge {
+    background: red;
+    color: white;
+    font-size: 0.8rem;
+    font-weight: bold;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: -5px;
+    right: -10px;
+}
+
+/* 🔹 Fix Footer (No Extra Space) */
+footer {
+    background: #007bff; /* Blue Footer */
+    padding: 1rem;
+    text-align: center;
+    color: white; /* White text */
+    font-size: 0.9rem;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 19px;
+}
+/* Header Styling */
+.header {
+    background: #007bff; /* Blue background */
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+/* Fix Alignment: Push Navigation Left */
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-right: auto; /* Push navigation items to the left */
+}
+
+/* Fix Home, Jobs, etc. Spacing */
+.header-right a {
+    color: white;
+    text-decoration: none; /* Remove underline */
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    transition: 0.3s;
+}
+
+.header-right a:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+}
+
+/* Dropdown Styling */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* Dropdown Button */
+.dropbtn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* Dropdown Content */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    min-width: 200px;
+    z-index: 10;
+    top: 100%;
+    left: 0;
+}
+
+.dropdown-content a {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    color: #333;
+    text-decoration: none;
+    gap: 10px;
+    font-size: 0.95rem;
+}
+
+.dropdown-content a:hover {
+    background: #f0f0f0;
+}
+
+/* Show Dropdown on Hover */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Icons inside Dropdown */
+.dropdown-content i {
+    color: #007bff;
+}
+
+/* Fix Avatar Profile Placement */
+.user-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Fix Avatar */
+.avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+}
+
+/* Fix Notification Button */
+.notification-btn {
+    position: relative;
+}
+
+/* Notification Badge (Red Circle) */
+.notification-badge {
+    background: red;
+    color: white;
+    font-size: 0.8rem;
+    font-weight: bold;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: -5px;
+    right: -10px;
+}
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 2rem; /* Increase spacing between menu items */
+    margin-left: 65rem; /* Push the whole menu away from JOB 365 */
+}
+body {
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f4f8;
+        }
+
+        h2 {
+            text-align: center;
+            margin-top: 80px;
+            color: #2974c0;
+        }
+
+        .employee-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            padding: 30px;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .employee-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            position: relative;
+        }
+
+        .employee-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        .employee-icon {
+            font-size: 50px;
+            color: #3498db;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .employee-name {
+            font-size: 20px;
+            font-weight: 600;
+            color: #2c3e50;
+            text-align: center;
+        }
+
+        .employee-info {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #444;
+            line-height: 1.5;
+        }
+
+        .employee-info strong {
+            color: #222;
+        }
+
+        .employee-link {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 8px 12px;
+            background-color: #3490dc;
+            color: white;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 14px;
+            transition: background 0.2s;
+        }
+
+        .employee-link:hover {
+            background-color: #2779bd;
+        }
+        h1 {
+            text-align: center;
+            margin-top: 10px;
+            color: hsl(0, 0%, 90%);
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>JOB 365</h1>
+        <div class="header-right">
+            <a href="{% url 'companyhome' %}">Home</a>
+    
+            <!-- Jobs Dropdown -->
+            <div class="dropdown">
+                <button class="dropbtn">Jobs <i class="fa-solid fa-caret-down"></i></button>
+                <div class="dropdown-content">
+                    <a href="{% url 'job_details_blank' %}"><i class="fa-solid fa-briefcase"></i> Posted Jobs</a>
+
+                    <a href="{% url 'employee_details' %}"><i class="fa-solid fa-user-tie"></i> Employee Details</a>
+                </div>
+            </div>
+    
+            <!-- Payment Dropdown -->
+            <div class="dropdown">
+                <button class="dropbtn">Payment <i class="fa-solid fa-caret-down"></i></button>
+                <div class="dropdown-content">
+                    <a href="{% url 'employee_payment' %}"><i class="fa-solid fa-user"></i> Employee Payment</a>
+                    <a href="{% url 'tax_payment' %}"><i class="fa-solid fa-money-bill-wave"></i> Tax Payment</a>
+                    <a href="{% url 'total_payment' %}"><i class="fa-solid fa-coins"></i> Total Payment</a>
+                </div>
+            </div>
+    
+            <!-- Certificate Dropdown -->
+            <div class="dropdown">
+                <button class="dropbtn">Certificate <i class="fa-solid fa-caret-down"></i></button>
+                <div class="dropdown-content">
+                    <a href="{% url 'requested_certificates' %}"><i class="fa-solid fa-file-alt"></i> Employee Certificate</a>
+                    <a href="certificate_detail"><i class="fa-solid fa-award"></i> Show Certificates</a>
+                </div>
+            </div>
+    
+            <!-- Contact Dropdown -->
+            <div class="dropdown">
+                <button class="dropbtn">Contact <i class="fa-solid fa-caret-down"></i></button>
+                <div class="dropdown-content">
+                    <a href="#"><i class="fa-solid fa-envelope"></i> Email Support</a>
+                    <a href="#"><i class="fa-solid fa-phone"></i> Call Support</a>
+                </div>
+            </div>
+    
+            <!-- Notifications with Badge -->
+            <div class="dropdown">
+                <button class="dropbtn notification-btn">
+                    Notification 
+                    <span class="notification-badge">6</span> 
+                    <i class="fa-solid fa-caret-down"></i>
+                </button>
+                <div class="dropdown-content">
+                    <a href="#"><i class="fa-solid fa-bell"></i> Job application received</a>
+                    <a href="#"><i class="fa-solid fa-bell"></i> Interview scheduled</a>
+                    <a href="#"><i class="fa-solid fa-bell"></i> Job approved</a>
+                    <a href="#"><i class="fa-solid fa-bell"></i> Payment completed</a>
+                    <a href="#"><i class="fa-solid fa-bell"></i> New applicant</a>
+                    <a href="#"><i class="fa-solid fa-bell"></i> Certificate issued</a>
+                </div>
+            </div>
+    
+            <!-- User Profile Dropdown -->
+            <div class="dropdown">
+                <button class="dropbtn user-btn">
+                    <img src="https://www.w3schools.com/w3images/avatar2.png" alt="Profile Avatar" class="avatar">
+                    <i class="fa-solid fa-caret-down"></i>
+                </button>
+                <div class="dropdown-content">
+                    <a href="#"><i class="fa-solid fa-user"></i> Profile</a>
+                    <a href="#"><i class="fa-solid fa-sign-out-alt"></i> Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+   
+    <h2>Employee Details</h1>
+    <div class="employee-list">
+        {% for employee in employees %}
+        <div class="employee-card">
+            <div class="employee-icon">
+                <i class="fas fa-user-circle"></i>
+            </div>
+            <div class="employee-name">{{ employee.full_name }}</div>
+            <div class="employee-info">
+                <p><strong>Job Title:</strong> {{ employee.job.job_name }}</p>
+                <p><strong>Location:</strong> {{ employee.job.location }}</p>
+                <p><strong>Cover Letter:</strong> {{ employee.cover_letter|truncatewords:15 }}</p>
+            </div>
+            <a href="{% url 'employee_detail' employee.id %}" class="employee-link">
+                <i class="fa-solid fa-eye"></i> More Details
+            </a>
+        </div>
+        {% empty %}
+        <p style="text-align:center;">No job applications found.</p>
+        {% endfor %}
+    </div>
+
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const buttons = document.querySelectorAll('.buttons button');
+            buttons.forEach(button => {
+                button.addEventListener('click', (event) => {
+                    console.log(`${event.target.textContent} button clicked`);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
