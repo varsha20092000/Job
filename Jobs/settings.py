@@ -144,10 +144,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 import os
 from django.core.management import call_command
 
-if os.environ.get("RENDER") == "true":
-    try:
-        call_command("loaddata", "jobs.json")
-        print("✅ Loaded jobs.json into PostgreSQL")
-    except Exception as e:
-        print("❌ Fixture load error:", e)
+# if os.environ.get("RENDER") == "true":
+#     try:
+#         call_command("loaddata", "jobs.json")
+#         print("✅ Loaded jobs.json into PostgreSQL")
+#     except Exception as e:
+#         print("❌ Fixture load error:", e)
 
