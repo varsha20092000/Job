@@ -1206,9 +1206,9 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from admin_panel.models import AdminJobApplication
 import traceback
-from app.models import Job as AppJob  # Job model with company_name field
+from App.models import Job as AppJob  # Job model with company_name field
 from admin_panel.models import Job as AdminJob
-from app.models import JobApplication  # Job application model
+from App.models import JobApplication  # Job application model
 @login_required
 def apply_for_job(request, job_id):
     job = get_object_or_404(Job, id=job_id)

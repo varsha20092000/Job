@@ -8,7 +8,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('app', '0012_jobseeker_date_of_birth'),
+        ('App', '0012_jobseeker_date_of_birth'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 

@@ -7,7 +7,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('app', '0010_job_user'),
+        ('App', '0010_job_user'),
         ('admin_panel', '0010_alter_adminjobapplication_avatar'),
     ]
 

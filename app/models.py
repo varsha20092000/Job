@@ -18,7 +18,7 @@ class JobSeeker(models.Model):
     def __str__(self):
         return self.user.username
     class Meta:
-        app_label = 'app'
+        app_label = 'App'
 
 # 2️⃣ Company Profile
 class Company(models.Model):
@@ -36,7 +36,7 @@ class Company(models.Model):
     def __str__(self):
         return self.company_name or f"Company ({self.user.username})"
     class Meta:
-        app_label = 'app'
+        app_label = 'App'
 
 # 3️⃣ Job Posting
 class Job(models.Model):
@@ -71,7 +71,7 @@ class Job(models.Model):
         except:
             return 0
     class Meta:
-        app_label = 'app'
+        app_label = 'App'
 
 
 # 4️⃣ Full Job Application Form (details of candidate)
@@ -107,7 +107,7 @@ class FullJobApplication(models.Model):
     def __str__(self):
         return f"Application - {self.full_name}"
     class Meta:
-        app_label = 'app'
+        app_label = 'App'
 
 # 5️⃣ Application Display for Admin (username, jobname, date only)
 class JobApplication(models.Model):
@@ -121,9 +121,11 @@ class JobApplication(models.Model):
     full_name = models.CharField(max_length=100)
     email = models.EmailField(blank=True, null=True)
     phone_number = models.CharField(max_length=15, blank=True, null=True)
-    age = models.PositiveIntegerField()
-    gender = models.CharField(max_length=10)
-    dob = models.DateField()
+    age = models.IntegerField(null=True, blank=True)
+
+    gender = models.CharField(max_length=10, blank=True, null=True)  # Optional if not always available
+    dob = models.DateField(null=True, blank=True)  # <-- FIX THIS
+
     place = models.CharField(max_length=100)
     education = models.CharField(max_length=255, blank=True, null=True)
     experience = models.CharField(max_length=100, blank=True, null=True)
@@ -144,7 +146,7 @@ class JobApplication(models.Model):
         return f"{self.user.username} applied for {self.job_name}"
 
     class Meta:
-        app_label = 'app'
+        app_label = 'App'
 
 # ➡️ Continue with your other models (SubscriptionPlan, Payment, Notification, Contact, Review, SavedJob, JobAlert, Interview, SiteAnalytics)
 # (No problem there. You can keep them same.)
@@ -159,7 +161,7 @@ class SubscriptionPlan(models.Model):
     def __str__(self):
         return self.name
     class Meta:
-        app_label = 'app'
+        app_label = 'App'
 
 # 6️⃣ Payment Model
 class Payment(models.Model):
@@ -172,7 +174,7 @@ class Payment(models.Model):
     def __str__(self):
         return f"{self.user.username} - {self.plan.name} - {self.status}"
     class Meta:
-        app_label = 'app'
+        app_label = 'App'
 
 # 7️⃣ Notifications
 class Notification(models.Model):
@@ -184,7 +186,7 @@ class Notification(models.Model):
     def __str__(self):
         return f"Notification for {self.user.username}"
     class Meta:
-        app_label = 'app'
+        app_label = 'App'
 
 class Contact(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -196,7 +198,7 @@ class Contact(models.Model):
     def __str__(self):
         return f"Query from {self.user.username} - {self.subject}"
     class Meta:
-        app_label = 'app'
+        app_label = 'App'
 
 class Review(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -208,7 +210,7 @@ class Review(models.Model):
     def __str__(self):
         return f"{self.reviewer.user.username} - {self.user.username} ({self.rating}⭐)"
     class Meta:
-        app_label = 'app'
+        app_label = 'App'
 
 class SavedJob(models.Model):
     jobseeker = models.ForeignKey(JobSeeker, on_delete=models.CASCADE)
@@ -218,7 +220,7 @@ class SavedJob(models.Model):
     def __str__(self):
         return f"{self.jobseeker.user.username} saved {self.job.title}"
     class Meta:
-        app_label = 'app'
+        app_label = 'App'
 
 class JobAlert(models.Model):
     jobseeker = models.ForeignKey(JobSeeker, on_delete=models.CASCADE)
@@ -230,7 +232,7 @@ class JobAlert(models.Model):
     def __str__(self):
         return f"Alert for {self.jobseeker.user.username} - {self.keywords}"
     class Meta:
-        app_label = 'app'
+        app_label = 'App'
 
 
 
@@ -244,7 +246,7 @@ class SiteAnalytics(models.Model):
     def __str__(self):
         return f"Analytics for {self.date}"
     class Meta:
-        app_label = 'app'
+        app_label = 'App'
 
 from django.utils import timezone
 
@@ -260,4 +262,4 @@ class Profile(models.Model):
     def __str__(self):
         return f"{self.user.username} - {self.account_type}"
     class Meta:
-        app_label = 'app'
+        app_label = 'App'
