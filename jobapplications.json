@@ -1,0 +1,26 @@
+[
+  {
+    "model": "App.jobapplication",
+    "pk": 1,
+    "fields": {
+      "job": 1,
+      "user": 2,
+      "resume": "resumes/default.pdf",
+      "cover_letter": "I am very interested in this job.",
+      "age" : 24
+
+    }
+  },
+  {
+    "model": "App.jobapplication",
+    "pk": 2,
+    "fields": {
+      "job": 2,
+      "user": 3,
+      "resume": "resumes/default.pdf",
+      "cover_letter": "Looking forward to contributing to your company.",
+      "age": 24
+
+    }
+  }
+]

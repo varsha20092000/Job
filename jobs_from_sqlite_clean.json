@@ -1,6 +1,6 @@
 ﻿[
 {
-  "model": "app.job",
+  "model": "App.job",
   "pk": 1,
   "fields": {
     "user": 1,
@@ -26,7 +26,7 @@
   }
 },
 {
-  "model": "app.job",
+  "model": "App.job",
   "pk": 2,
   "fields": {
     "user": 62,
@@ -52,7 +52,7 @@
   }
 },
 {
-  "model": "app.job",
+  "model": "App.job",
   "pk": 3,
   "fields": {
     "user": 62,
@@ -78,7 +78,7 @@
   }
 },
 {
-  "model": "app.job",
+  "model": "App.job",
   "pk": 4,
   "fields": {
     "user": 62,
@@ -104,7 +104,7 @@
   }
 },
 {
-  "model": "app.job",
+  "model": "App.job",
   "pk": 5,
   "fields": {
     "user": 62,
