@@ -13,7 +13,7 @@ def main():
     # Add this block to load data during deployment if not already loaded
     if os.environ.get("RENDER") == "true":
         try:
-            call_command("loaddata", "App/jobs.json")
+            call_command("loaddata", "app/jobs.json")
             print("Jobs data loaded successfully.")
         except Exception as e:
             print("Error loading jobs data:", e)

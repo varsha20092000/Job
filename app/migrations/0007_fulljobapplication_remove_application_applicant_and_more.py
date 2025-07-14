@@ -9,7 +9,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('App', '0006_applicationdisplay'),
+        ('app', '0006_applicationdisplay'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 

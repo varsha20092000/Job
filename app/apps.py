@@ -4,7 +4,7 @@ import os
 
 class JobsConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'Jobs'
+    name = 'app'
 
     def ready(self):
         if os.environ.get("RENDER") == "true":

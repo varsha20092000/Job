@@ -7,7 +7,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('App', '0008_siteanalytics_subscriptionplan_jobapplication_email_and_more'),
+        ('app', '0008_siteanalytics_subscriptionplan_jobapplication_email_and_more'),
     ]
 
     operations = [
@@ -45,7 +45,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='jobapplication',
             name='job',
-            field=models.ForeignKey(default=23, on_delete=django.db.models.deletion.CASCADE, to='App.job'),
+            field=models.ForeignKey(default=23, on_delete=django.db.models.deletion.CASCADE, to='app.job'),
             preserve_default=False,
         ),
         migrations.AddField(

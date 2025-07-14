@@ -46,7 +46,7 @@ class Migration(migrations.Migration):
                 ('salary', models.CharField(max_length=100)),
                 ('posted_date', models.DateField(auto_now_add=True)),
                 ('deadline', models.DateField()),
-                ('company', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='App.company')),
+                ('company', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='app.company')),
             ],
         ),
         migrations.CreateModel(
@@ -88,8 +88,8 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('saved_at', models.DateTimeField(auto_now_add=True)),
-                ('job', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='App.job')),
-                ('jobseeker', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='App.jobseeker')),
+                ('job', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='app.job')),
+                ('jobseeker', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='app.jobseeker')),
             ],
         ),
         migrations.CreateModel(
@@ -99,7 +99,7 @@ class Migration(migrations.Migration):
                 ('rating', models.IntegerField(choices=[(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)])),
                 ('review', models.TextField(blank=True)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('reviewer', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='App.jobseeker')),
+                ('reviewer', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='app.jobseeker')),
                 ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
         ),
@@ -110,7 +110,7 @@ class Migration(migrations.Migration):
                 ('amount_paid', models.DecimalField(decimal_places=2, max_digits=10)),
                 ('payment_date', models.DateTimeField(auto_now_add=True)),
                 ('status', models.CharField(choices=[('Pending', 'Pending'), ('Completed', 'Completed'), ('Failed', 'Failed')], default='Pending', max_length=20)),
-                ('plan', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='App.subscriptionplan')),
+                ('plan', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='app.subscriptionplan')),
                 ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
         ),
@@ -132,7 +132,7 @@ class Migration(migrations.Migration):
                 ('location', models.CharField(blank=True, max_length=100)),
                 ('frequency', models.CharField(choices=[('Daily', 'Daily'), ('Weekly', 'Weekly')], default='Daily', max_length=20)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('jobseeker', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='App.jobseeker')),
+                ('jobseeker', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='app.jobseeker')),
             ],
         ),
         migrations.CreateModel(
@@ -143,7 +143,7 @@ class Migration(migrations.Migration):
                 ('interview_mode', models.CharField(choices=[('Online', 'Online'), ('Offline', 'Offline')], max_length=50)),
                 ('location', models.CharField(blank=True, max_length=255, null=True)),
                 ('status', models.CharField(choices=[('Scheduled', 'Scheduled'), ('Completed', 'Completed'), ('Cancelled', 'Cancelled')], default='Scheduled', max_length=20)),
-                ('application', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to='App.application')),
+                ('application', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to='app.application')),
             ],
         ),
         migrations.CreateModel(
@@ -160,11 +160,11 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='application',
             name='applicant',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='App.jobseeker'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='app.jobseeker'),
         ),
         migrations.AddField(
             model_name='application',
             name='job',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='App.job'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='app.job'),
         ),
     ]

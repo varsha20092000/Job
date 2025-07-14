@@ -8,7 +8,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('App', '0007_fulljobapplication_remove_application_applicant_and_more'),
+        ('app', '0007_fulljobapplication_remove_application_applicant_and_more'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
@@ -63,7 +63,7 @@ class Migration(migrations.Migration):
                 ('location', models.CharField(blank=True, max_length=100)),
                 ('frequency', models.CharField(choices=[('Daily', 'Daily'), ('Weekly', 'Weekly')], default='Daily', max_length=20)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('jobseeker', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='App.jobseeker')),
+                ('jobseeker', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='app.jobseeker')),
             ],
         ),
         migrations.CreateModel(
@@ -83,7 +83,7 @@ class Migration(migrations.Migration):
                 ('rating', models.IntegerField(choices=[(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)])),
                 ('review', models.TextField(blank=True)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('reviewer', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='App.jobseeker')),
+                ('reviewer', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='app.jobseeker')),
                 ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
         ),
@@ -92,8 +92,8 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('saved_at', models.DateTimeField(auto_now_add=True)),
-                ('job', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='App.job')),
-                ('jobseeker', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='App.jobseeker')),
+                ('job', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='app.job')),
+                ('jobseeker', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='app.jobseeker')),
             ],
         ),
         migrations.CreateModel(
@@ -104,7 +104,7 @@ class Migration(migrations.Migration):
                 ('payment_date', models.DateTimeField(auto_now_add=True)),
                 ('status', models.CharField(choices=[('Pending', 'Pending'), ('Completed', 'Completed'), ('Failed', 'Failed')], default='Pending', max_length=20)),
                 ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
-                ('plan', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='App.subscriptionplan')),
+                ('plan', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='app.subscriptionplan')),
             ],
         ),
     ]
