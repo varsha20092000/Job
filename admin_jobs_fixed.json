@@ -38,5 +38,15 @@
     "posted_date": "2025-07-14T14:50:43.304Z",
     "skills": "JavaScript, React"
   }
-}
+}, {
+    "model": "admin_panel.job",
+    "pk": 7,
+    "fields": {
+      "job_name": "Software Engineer",
+      "company_name": "TechCorp",
+      "location": "Remote",
+      "salary": "100000",
+      "job_type": "Full-time"
+    }
+  }
 ]
