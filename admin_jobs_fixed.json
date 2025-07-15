@@ -42,11 +42,13 @@
     "model": "admin_panel.job",
     "pk": 7,
     "fields": {
-      "job_name": "Software Engineer",
-      "company_name": "TechCorp",
+      "job_name": "Python Developer",
+      "company_name": "ABC Corp",
       "location": "Remote",
-      "salary": "100000",
-      "job_type": "Full-time"
+      "salary": "90000",
+      "job_type": "Full-Time",
+      "description": "Develop Django apps and REST APIs.",
+      "posted_date": "2025-07-01"
     }
   }
 ]
