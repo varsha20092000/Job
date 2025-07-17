@@ -509,7 +509,7 @@
           <span>⏱️ {{ job.duration }}</span>
         </div>
         <div class="flex justify-between mt-2">
-          <span class="text-blue-500 font-semibold">{{ job.hourly_rates }}</span>
+          <span class="text-blue-500 font-semibold">₹{{ job.hourly_rates }}</span>
           <span class="text-gray-500">👥 {{ job.vacancies }} Vacancies</span>
         </div>
         <a href="{% url 'apply_for_job' job.id %}" class="bg-blue-600 text-white font-semibold px-2 py-1 rounded hover:bg-blue-600 transition duration-100">
