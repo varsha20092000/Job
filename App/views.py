@@ -1222,15 +1222,19 @@ def apply_for_job(request, job_id):
             application.job_name = job.job_name
             application.company_name = job.company_name
             application.save()
-            return render(request, 'job_detail.html', {
+            return render(request, 'jobseeker_job_detail.html', {
                 'form': JobApplicationForm(),  # Empty form after submit
-                'job': job,
-                'applied_successfully': True  # ✅ This triggers the modal
+                'job': job,           # 👈 Pass as 'selected_job'
+                'applied_successfully': True
             })
     else:
         form = JobApplicationForm()
 
-    return render(request, 'job_detail.html', {'form': form, 'job': job})
+    return render(request, 'jobseeker_job_detail.html', {
+        'form': form,
+        'job': job  # 👈 This is the fix
+    })
+
 import uuid
 
 def save(self, *args, **kwargs):
@@ -1260,7 +1264,7 @@ def post_job(request):
             contact_number=request.POST['contact'],
             email=request.POST['email'],
             hourly_rates=request.POST['wage'],
-            salary=request.POST.get('salary', 0),  # if salary included
+            salary=request.POST.get('salary'),  # if salary included
         )
         return redirect('companyhome')
 

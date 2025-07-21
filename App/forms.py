@@ -52,4 +52,4 @@ from App.models import JobApplication
 class JobApplicationForm(forms.ModelForm):
     class Meta:
         model = JobApplication
-        exclude = ['user', 'job', 'job_name', 'company_name','applied_date']
+        exclude = ['user', 'job', 'job_name', 'company_name','applied_date','salary']

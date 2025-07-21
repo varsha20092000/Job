@@ -145,7 +145,7 @@
         <h1>JOB 365</h1>
         <div class="header-right">
             <a href="{%url 'companyhome'%}">Home</a>
-            <a href="{%url 'job_details'%}">Jobs</a>
+            <a href="#">Jobs</a>
             <a href="#">Payment</a>
             <a href="#">Certificate</a>
             <a href="#">Contact</a>
@@ -256,7 +256,11 @@
                     <input type="range" min="200" max="1000" value="800" class="slider" id="wageRange" name="wage">
                     <p><span id="wageValue">800</span> /hr</p>
                 </div>
-            
+            <div class="form-group">
+    <label for="salary">Monthly Salary (₹)</label>
+    <input type="number" name="salary" id="salary" placeholder="Enter monthly salary" step="0.01" required>
+</div>
+
                 <!-- Submit Button -->
                 <button type="submit" class="post-job-btn">
                     <i class="fa-solid fa-paper-plane"></i> Submit Job
