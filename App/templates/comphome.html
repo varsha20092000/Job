@@ -1272,7 +1272,19 @@
                 <div class="job-card-footer">
                     <div class="contact-pill"><i class="fa-solid fa-phone"></i> Contact: {{ job.contact_number }}</div>
 
-                    <div class="applied"><i class="fa-solid fa-user"></i> 0 Applied</div>
+                <div class="applied">
+  <i class="fa-solid fa-user"></i>
+  {% if job.applicant_count > 0 %}
+    <a href="{% url 'view_applicants' job.id %}" style="text-decoration: none; color: inherit;">
+      {{ job.applicant_count }} Applied
+    </a>
+  {% else %}
+    0 Applied
+  {% endif %}
+</div>
+
+
+
                     
                 </div>
             </div>

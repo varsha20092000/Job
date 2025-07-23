@@ -53,3 +53,22 @@ class JobApplicationForm(forms.ModelForm):
     class Meta:
         model = JobApplication
         exclude = ['user', 'job', 'job_name', 'company_name','applied_date','salary']
+        unique_together = ('user', 'job') 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['skills'].required = False
+
+# forms.py
+
+from django import forms
+from .models import Profile, Education
+
+class ResumeUploadForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['resume']
+
+class CertificateUploadForm(forms.ModelForm):
+    class Meta:
+        model = Education
+        fields = ['school', 'place', 'certificate']

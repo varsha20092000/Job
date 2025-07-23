@@ -379,7 +379,7 @@ body {
     }
 
     .submit-btn.blue-btn {
-      background-color: #195b87;
+      background-color:#007bff;
       margin-bottom: 20px;
     }
 
@@ -436,54 +436,70 @@ body {
 
 .skill-tag {
   background-color: #d1ecf1;
-  color: #0c3560;
+  color: #0c5460;
   padding: 6px 10px;
   border-radius: 20px;
   font-size: 14px;
   display: inline-block;
 }
+
 .suggestions {
-  border: 1px solid #ccc;
-  max-height: 100px;
-  overflow-y: auto;
+  margin-top: -8px;
   background: white;
+  border: 1px solid #ccc;
+  border-top: none;
+  max-height: 150px;
+  overflow-y: auto;
+  z-index: 100;
   position: absolute;
-  z-index: 10;
-  width: 200px;
-  display: none;
-  margin-top: 2px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  width: 100%;
 }
 
 .suggestions div {
-  padding: 6px 10px;
+  padding: 8px 12px;
   cursor: pointer;
 }
 
 .suggestions div:hover {
-  background: #f0f0f0;
-}
-
-.skill-box {
-  padding: 6px 10px;
-  background-color: #e6f7ff;
-  border-radius: 20px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 14px;
-  border: 1px solid #91d5ff;
-}
-
-.skill-box .remove-skill {
-  cursor: pointer;
-  color: red;
-  font-weight: bold;
+  background-color: #f0f0f0;
 }
 
   </style>
 </head>
 <body>
+ 
+  {% if applied_successfully %}
+  <div id="successPopup" style="
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 9999;
+  ">
+    <div style="
+      background: #d4edda;
+      color: #155724;
+      padding: 20px 30px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      text-align: center;
+      max-width: 400px;
+    ">
+      <h3>✅ Application Submitted Successfully!</h3>
+      <p>Your job application has been submitted. We will contact you soon..</p>
+      <button onclick="document.getElementById('successPopup').style.display='none'" style="
+        margin-top: 15px;
+        padding: 8px 16px;
+        background-color: #28a745;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      ">Close</button>
+    </div>
+  </div>
+{% endif %}
 
   <div class="job-card">
   <div class="header-section">
@@ -531,6 +547,7 @@ body {
   <a href="{% url 'home' %}" class="back-btn">
     <i class="fas fa-arrow-left" style="color:#377ec6;"></i> Back to Jobs
   </a>
+<input type="hidden" name="status" value="Applied">
 
   <button class="apply-btn" id="openApplyForm">
     Apply Now <i class="fas fa-paper-plane" style="color:#3498db;"></i>
@@ -610,19 +627,32 @@ body {
 
     <button type="button" id="addEducationBtn" class="submit-btn blue-btn">➕ Add More Educational Details</button>
 
-   <div class="form-group full-width">
-  <label for="skillInput">
-    <i class="fas fa-user-cog" style="margin-right: 6px;"></i> Skills
-  </label>
-  <div style="display: flex; align-items: center; gap: 6px; margin-top: 5px;">
-    <input type="text" id="skillInput" placeholder="Add a skill..." autocomplete="off" style="flex: 1;">
-    <button type="button" id="addSkillBtn" style="font-size: 14px; padding: 2px 8px;">+</button>
-  </div>
+   <!-- Skill Section -->
+<div>
+  <label for="skillInput"><strong>Skills</strong></label>
+  <div style="display: flex; gap: 10px;">
+    <input
+      type="text"
+      id="skillInput"
+      placeholder="Type a skill"
+      autocomplete="off"
+      style="padding: 8px; border: 1px solid #ccc; border-radius: 4px;"
+    />
+    <button
+  type="button"
+  id="addSkillBtn"
+  style="padding: 2px 6px; font-size: 12px; background-color: #007bff; color: white; border: none; border-radius: 4px; height: 28px; width: 28px; display: flex; align-items: center; justify-content: center;"
+>
+  +
+</button>
 
-  <div id="suggestions" class="suggestions"></div>
+  </div>
+  <div id="suggestions" style="border: 1px solid #ccc; border-radius: 4px; margin-top: 5px; display: none; position: absolute; background-color: white; z-index: 999;"></div>
+
   <div id="skillBoxContainer" style="margin-top: 10px; display: flex; flex-wrap: wrap; gap: 8px;"></div>
 
-  
+  <!-- Hidden input for submitting skills -->
+  <input type="hidden" id="skillsHiddenInput" name="skills" />
 </div>
 
 
@@ -643,6 +673,7 @@ body {
       <label><i class="fas fa-file-upload icon"></i> Upload CV/Resume:</label>
       <input type="file" name="resume" required>
     </div>
+<input type="hidden" name="status" value="Applied">
 
     <button type="submit" class="submit-btn">Submit Application</button>
   </form>
@@ -650,56 +681,18 @@ body {
 
   </div>
 
-  {% if applied_successfully %}
-  <!-- Applied Successfully Popup -->
-  <div id="successModal" style="
-      position: fixed;
-      top: 0; left: 0;
-      width: 100vw; height: 100vh;
-      background-color: rgba(0, 0, 0, 0.6);
-      display: flex; align-items: center; justify-content: center;
-      z-index: 9999;">
-    <div style="
-        background: white;
-        padding: 30px;
-        border-radius: 12px;
-        text-align: center;
-        box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);">
-      <div style="
-          font-size: 60px;
-          color: white;
-          background-color: #3490dc;
-          width: 100px;
-          height: 100px;
-          border-radius: 50%;
-          margin: 0 auto;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          border: 4px solid white;">
-        ✔
-      </div>
-      <h2 style="margin-top: 20px; color: #3490dc;">Applied Successfully</h2>
-    </div>
-  </div>
-
-  <script>
-    
-    window.onload = function () {
-      const modal = document.getElementById("successModal");
-      if (modal) {
-        modal.style.display = "flex";
-        setTimeout(() => {
-          modal.style.display = "none";
-        }, 3000);
-      }
-    };
-  </script>
-  {% endif %}
-
-  <script>
-  // Show success modal
+  
+<script>
+   window.onload = function() {
+    const popup = document.getElementById('successPopup');
+    if (popup) {
+      setTimeout(() => {
+        popup.style.display = 'none';
+      }, 4000); // hide after 4 seconds
+    }
+  };
   window.onload = function () {
+    // Success Modal
     const modal = document.getElementById("successModal");
     if (modal) {
       modal.style.display = "flex";
@@ -707,130 +700,172 @@ body {
         modal.style.display = "none";
       }, 3000);
     }
-  };
 
-  // Open and close job apply modal
-  document.getElementById("openApplyForm").addEventListener("click", function () {
-    document.getElementById("applyFormModal").classList.remove("hidden");
-  });
+    // Apply Form Modal Logic
+    const openApplyForm = document.getElementById("openApplyForm");
+    const closeApplyForm = document.getElementById("closeApplyForm");
+    const applyFormModal = document.getElementById("applyFormModal");
 
-  document.getElementById("closeApplyForm").addEventListener("click", function () {
-    document.getElementById("applyFormModal").classList.add("hidden");
-  });
-
-  window.onclick = function (event) {
-    const modal = document.getElementById("applyFormModal");
-    if (event.target == modal) {
-      modal.classList.add("hidden");
-    }
-  };
-
-  // Education logic
-  let educationCount = 1;
-
-  function createEducationBlock(count) {
-    const div = document.createElement('div');
-    div.classList.add('education-section');
-    div.innerHTML = `
-      <div style="display: flex; justify-content: space-between; align-items: center;">
-        <h4 style="margin: 0;"><i class="fas fa-graduation-cap" style="margin-right: 6px;"></i> Education ${count + 1}</h4>
-        <div>
-          <button type="button" class="delete-education" style="background:none;border:none;color:red;font-size:20px;cursor:pointer;">🗑️</button>
-          <button type="button" class="close-education" style="background:none;border:none;color:black;font-size:20px;cursor:pointer;">❌</button>
-        </div>
-      </div>
-      <input type="text" name="education[${count}][school]" placeholder="School/College Name">
-      <input type="text" name="education[${count}][place]" placeholder="Place">
-      <input type="text" name="education[${count}][marks]" placeholder="Marks Scored">
-      <label>Upload Certificate:</label>
-      <input type="file" name="education[${count}][certificate]">`;
-    return div;
-  }
-
-  document.getElementById('addEducationBtn').addEventListener('click', function () {
-    const container = document.getElementById('educationContainer');
-    const newBlock = createEducationBlock(educationCount);
-    container.appendChild(newBlock);
-    educationCount++;
-    setupDeleteButtons(newBlock);
-  });
-
-  function setupDeleteButtons(block) {
-    const deleteBtn = block.querySelector('.delete-education');
-    const closeBtn = block.querySelector('.close-education');
-    deleteBtn.addEventListener('click', () => block.remove());
-    closeBtn.addEventListener('click', () => block.remove());
-  }
-
-  // Skills logic
-   const skillsList = ["painting", "python", "public speaking", "photoshop", "project management", "problem solving", "presentation"];
-  const skillInput = document.getElementById("skillInput");
-  const addSkillBtn = document.getElementById("addSkillBtn");
-  const skillBoxContainer = document.getElementById("skillBoxContainer");
-  const suggestionsBox = document.getElementById("suggestions");
-
-  let addedSkills = [];
-
-  skillInput.addEventListener("input", function () {
-    const value = this.value.toLowerCase();
-    suggestionsBox.innerHTML = "";
-    if (value.length === 0) {
-      suggestionsBox.style.display = "none";
-      return;
-    }
-
-    const matches = skillsList.filter(skill => skill.toLowerCase().startsWith(value) && !addedSkills.includes(skill));
-    if (matches.length === 0) {
-      suggestionsBox.style.display = "none";
-      return;
-    }
-
-    suggestionsBox.style.display = "block";
-    matches.forEach(skill => {
-      const div = document.createElement("div");
-      div.textContent = skill;
-      div.addEventListener("click", function () {
-        addSkill(skill);
-        skillInput.value = "";
-        suggestionsBox.style.display = "none";
+    if (openApplyForm && closeApplyForm && applyFormModal) {
+      openApplyForm.addEventListener("click", function () {
+        applyFormModal.classList.remove("hidden");
       });
-      suggestionsBox.appendChild(div);
-    });
-  });
 
-  addSkillBtn.addEventListener("click", function () {
-    const value = skillInput.value.trim();
-    if (value && !addedSkills.includes(value)) {
-      addSkill(value);
-      skillInput.value = "";
-      suggestionsBox.style.display = "none";
+      closeApplyForm.addEventListener("click", function () {
+        applyFormModal.classList.add("hidden");
+      });
+
+      window.onclick = function (event) {
+        if (event.target == applyFormModal) {
+          applyFormModal.classList.add("hidden");
+        }
+      };
     }
-  });
 
-  function addSkill(skill) {
-    addedSkills.push(skill);
-    const box = document.createElement("div");
-    box.className = "skill-box";
-    box.innerHTML = `
-      ${skill}
-      <span class="remove-skill" title="Remove">✖</span>
-    `;
+    // Education Logic
+    let educationCount = 1;
 
-    box.querySelector(".remove-skill").addEventListener("click", () => {
-      skillBoxContainer.removeChild(box);
-      addedSkills = addedSkills.filter(s => s !== skill);
-    });
-
-    skillBoxContainer.appendChild(box);
-  }
-
-  document.addEventListener("click", function (e) {
-    if (!suggestionsBox.contains(e.target) && e.target !== skillInput) {
-      suggestionsBox.style.display = "none";
+    function createEducationBlock(count) {
+      const div = document.createElement('div');
+      div.classList.add('education-section');
+      div.innerHTML = `
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <h4 style="margin: 0;"><i class="fas fa-graduation-cap" style="margin-right: 6px;"></i> Education ${count + 1}</h4>
+          <div>
+            <button type="button" class="delete-education" style="background:none;border:none;color:red;font-size:20px;cursor:pointer;">🗑️</button>
+            <button type="button" class="close-education" style="background:none;border:none;color:black;font-size:20px;cursor:pointer;">❌</button>
+          </div>
+        </div>
+        <input type="text" name="education[${count}][school]" placeholder="School/College Name">
+        <input type="text" name="education[${count}][place]" placeholder="Place">
+        <input type="text" name="education[${count}][marks]" placeholder="Marks Scored">
+        <label>Upload Certificate:</label>
+        <input type="file" name="education[${count}][certificate]">`;
+      return div;
     }
-  });
+
+    const addEducationBtn = document.getElementById('addEducationBtn');
+    const educationContainer = document.getElementById('educationContainer');
+
+    if (addEducationBtn && educationContainer) {
+      addEducationBtn.addEventListener('click', function () {
+        const newBlock = createEducationBlock(educationCount);
+        educationContainer.appendChild(newBlock);
+        educationCount++;
+        setupDeleteButtons(newBlock);
+      });
+    }
+
+    function setupDeleteButtons(block) {
+      const deleteBtn = block.querySelector('.delete-education');
+      const closeBtn = block.querySelector('.close-education');
+      deleteBtn.addEventListener('click', () => block.remove());
+      closeBtn.addEventListener('click', () => block.remove());
+    }
+
+    // Skill Selection Logic
+    const skillsList = [
+      "painting", "python", "public speaking", "photoshop",
+      "project management", "problem solving", "presentation"
+    ];
+
+    const skillInput = document.getElementById("skillInput");
+    const addSkillBtn = document.getElementById("addSkillBtn");
+    const skillBoxContainer = document.getElementById("skillBoxContainer");
+    const suggestionsBox = document.getElementById("suggestions");
+    const skillsHiddenInput = document.getElementById("skillsHiddenInput");
+
+    let addedSkills = [];
+
+    if (skillInput && suggestionsBox && skillBoxContainer && skillsHiddenInput) {
+
+      skillInput.addEventListener("input", function () {
+        const value = this.value.toLowerCase().trim();
+        suggestionsBox.innerHTML = "";
+        if (value.length === 0) {
+          suggestionsBox.style.display = "none";
+          return;
+        }
+
+        const matches = skillsList.filter(skill =>
+          skill.toLowerCase().startsWith(value) && !addedSkills.includes(skill)
+        );
+
+        if (matches.length === 0) {
+          suggestionsBox.style.display = "none";
+          return;
+        }
+
+        suggestionsBox.style.display = "block";
+        matches.forEach(skill => {
+          const div = document.createElement("div");
+          div.classList.add("suggestion-item");
+          div.textContent = skill;
+          div.style.cursor = "pointer";
+          div.style.padding = "4px 8px";
+          div.addEventListener("click", function () {
+            addSkill(skill);
+            skillInput.value = "";
+            suggestionsBox.style.display = "none";
+          });
+          suggestionsBox.appendChild(div);
+        });
+      });
+
+      addSkillBtn.addEventListener("click", function () {
+        const skill = skillInput.value.trim();
+        if (skill !== "" && !addedSkills.includes(skill)) {
+          addSkill(skill);
+          skillInput.value = "";
+        }
+      });
+
+      function addSkill(skill) {
+        if (addedSkills.includes(skill)) return;
+
+        addedSkills.push(skill);
+        updateSkillsHiddenInput();
+
+        const box = document.createElement("div");
+        box.className = "skill-box";
+        box.style.padding = "4px 8px";
+        box.style.border = "1px solid #ccc";
+        box.style.borderRadius = "4px";
+        box.style.background = "#f0f0f0";
+        box.style.display = "flex";
+        box.style.alignItems = "center";
+        box.style.gap = "6px";
+
+        const text = document.createElement("span");
+        text.textContent = skill;
+
+        const remove = document.createElement("span");
+        remove.textContent = "✖";
+        remove.title = "Remove";
+        remove.style.cursor = "pointer";
+        remove.addEventListener("click", () => {
+          skillBoxContainer.removeChild(box);
+          addedSkills = addedSkills.filter(s => s !== skill);
+          updateSkillsHiddenInput();
+        });
+
+        box.appendChild(text);
+        box.appendChild(remove);
+        skillBoxContainer.appendChild(box);
+      }
+
+      function updateSkillsHiddenInput() {
+        skillsHiddenInput.value = addedSkills.join(',');
+      }
+
+      document.addEventListener("click", function (e) {
+        if (!suggestionsBox.contains(e.target) && e.target !== skillInput) {
+          suggestionsBox.style.display = "none";
+        }
+      });
+    }
+  };
 </script>
-
 
 </body>
 

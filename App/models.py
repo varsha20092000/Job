@@ -112,7 +112,7 @@ class FullJobApplication(models.Model):
 # 5️⃣ Application Display for Admin (username, jobname, date only)
 class JobApplication(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    job = models.ForeignKey(AdminJob, on_delete=models.CASCADE)
+    job = models.ForeignKey(Job, on_delete=models.CASCADE)
     
     job_name = models.CharField(max_length=255)
     company_name = models.CharField(max_length=255)
@@ -136,6 +136,7 @@ class JobApplication(models.Model):
     job_code = models.CharField(max_length=50, blank=True, null=True)
     
     STATUS_CHOICES = (
+         ('Applied', 'Applied'),
         ('Pending', 'Pending'),
         ('Selected', 'Selected'),
         ('Rejected', 'Rejected'),
@@ -147,6 +148,7 @@ class JobApplication(models.Model):
 
     class Meta:
         app_label = 'App'
+        
 
 # ➡️ Continue with your other models (SubscriptionPlan, Payment, Notification, Contact, Review, SavedJob, JobAlert, Interview, SiteAnalytics)
 # (No problem there. You can keep them same.)
@@ -251,6 +253,14 @@ class SiteAnalytics(models.Model):
 from django.utils import timezone
 
 class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    phone = models.CharField(max_length=15, blank=True, null=True)
+    gender = models.CharField(max_length=10, blank=True, null=True)
+    dob = models.DateField(blank=True, null=True)
+    address = models.TextField(blank=True, null=True)
+    education = models.TextField(blank=True, null=True)
+    age = models.IntegerField(blank=True, null=True)
+    resume = models.FileField(upload_to='resumes/', blank=True, null=True)
     ACCOUNT_CHOICES = (
         ('jobseeker', 'Job Seeker'),
         ('company', 'Company'),
@@ -263,3 +273,25 @@ class Profile(models.Model):
         return f"{self.user.username} - {self.account_type}"
     class Meta:
         app_label = 'App'
+
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from django.contrib.auth.models import User
+from .models import Profile
+
+@receiver(post_save, sender=User)
+def create_profile(sender, instance, created, **kwargs):
+    if created and not hasattr(instance, 'profile'):
+        Profile.objects.create(user=instance, account_type='jobseeker')
+
+from django.contrib.auth.models import User
+
+class Education(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='educations')
+    school = models.CharField(max_length=255)
+    place = models.CharField(max_length=255)
+    marks = models.CharField(max_length=100)
+    certificate = models.FileField(upload_to='certificates/', blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.school} ({self.marks})"

@@ -21,6 +21,9 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('App.urls')),
-     path('dashboard/', include('admin_panel.urls')),
-    
+    path('dashboard/', include('admin_panel.urls')),
 ]
+
+# ✅ Add both static and media properly
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

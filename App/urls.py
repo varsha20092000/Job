@@ -50,6 +50,12 @@ urlpatterns = [
     path('subscription/payment/', views.subscription_payment, name='subscription_payment'),
     path('subscription/success/', views.subscription_success, name='subscription_success'),
     path('job/<int:job_id>/apply/', views.apply_for_job, name='apply_for_job'),
+    path('jobseeker/job/<int:job_id>/', views.jobseeker_job_detail_view, name='jobseeker_job_detail'),
+    path('job/<int:job_id>/applicants/', views.view_applicants, name='view_applicants'),
+    path('job/<int:job_id>/applicant/<int:user_id>/', views.view_applicant_detail, name='view_applicant_detail')
+
+
+
 
 ]+static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

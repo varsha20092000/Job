@@ -184,18 +184,26 @@ def companyreg(request):
 
 
 from django.http import HttpResponseForbidden
+from django.db.models import Count
 @login_required
-def companyhome(request): 
+def companyhome(request):
     if not Company.objects.filter(user=request.user).exists():
         return HttpResponseForbidden("❌ Not authorized as Company.")
 
-    # Get only jobs posted by the logged-in company user
     jobs = Job.objects.filter(user=request.user).order_by('-posted_date')
-     # Pagination
+
+    for job in jobs:
+        job.applicant_count = JobApplication.objects.filter(job=job).values('user').distinct().count()
+
     paginator = Paginator(jobs, 3)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    return render(request, 'comphome.html', {'jobs': jobs,'page_obj': page_obj})
+
+    return render(request, 'comphome.html', {
+        'jobs': jobs,
+        'page_obj': page_obj,
+    })
+
 @login_required
 def jobseeker_home(request):
     if not JobSeeker.objects.filter(user=request.user).exists():
@@ -1206,8 +1214,11 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from admin_panel.models import AdminJobApplication
 import traceback
-from App.models import Job as AppJob  # Job model with company_name field
-from admin_panel.models import Job as AdminJob
+
+
+from admin_panel.models import Job
+from App.models import JobApplication
+
 from App.models import JobApplication  # Job application model
 @login_required
 def apply_for_job(request, job_id):
@@ -1221,10 +1232,19 @@ def apply_for_job(request, job_id):
             application.job = job
             application.job_name = job.job_name
             application.company_name = job.company_name
+            application.status = 'Applied'
             application.save()
+
+            # ✅ Save resume to profile
+            resume_file = request.FILES.get('resume')
+            if resume_file:
+                profile = Profile.objects.get(user=request.user)
+                profile.resume = resume_file
+                profile.save()
+
             return render(request, 'jobseeker_job_detail.html', {
-                'form': JobApplicationForm(),  # Empty form after submit
-                'job': job,           # 👈 Pass as 'selected_job'
+                'form': JobApplicationForm(),
+                'job': job,
                 'applied_successfully': True
             })
     else:
@@ -1232,9 +1252,11 @@ def apply_for_job(request, job_id):
 
     return render(request, 'jobseeker_job_detail.html', {
         'form': form,
-        'job': job  # 👈 This is the fix
+        'job': job,
+        'form_errors': form.errors,
     })
 
+   
 import uuid
 
 def save(self, *args, **kwargs):
@@ -1269,3 +1291,75 @@ def post_job(request):
         return redirect('companyhome')
 
     return render(request, 'post_job.html', {'generated_code': get_random_string(8).upper()})
+def jobseeker_job_detail_view(request, job_id):
+    job = get_object_or_404(Job, id=job_id)
+    application_exists = JobApplication.objects.filter(job=job, user=request.user).exists()
+    context = {
+        'job': job,
+        'applied_successfully': application_exists,
+    }
+    return render(request, 'jobseeker/job_detail.html', context)
+@login_required
+def view_applicants(request, job_id):
+    job = get_object_or_404(Job, id=job_id)
+
+    if job.user != request.user:
+        return HttpResponseForbidden("❌ You are not allowed to view these applicants.")
+
+    
+    applicants = JobApplication.objects.filter(job=job).select_related('user', 'user__profile')
+
+
+    return render(request, 'applicant_list.html', {
+        'job': job,
+        'applicants': applicants,
+    })
+from django.contrib.auth.models import User
+from django.shortcuts import get_object_or_404, render
+from .models import Job, JobApplication, Profile, Education
+@login_required
+def view_applicant_detail(request, job_id, user_id):
+    job = get_object_or_404(Job, id=job_id)
+    application = get_object_or_404(JobApplication, job=job, user_id=user_id)
+    applicant = get_object_or_404(User, id=user_id)
+    profile = get_object_or_404(Profile, user=applicant)
+    education = Education.objects.filter(user=applicant)  # ✅ Updated here
+    
+    context = {
+        'job': job,
+        'application': application,
+        'applicant': applicant,
+        'profile': profile,
+        'education': education,
+    }
+    return render(request, 'applicant_detail.html', context)
+
+# views.py
+
+from django.shortcuts import render, redirect
+from .forms import ResumeUploadForm, CertificateUploadForm
+from .models import Profile, Education
+
+def upload_documents(request):
+    if request.method == 'POST':
+        resume_form = ResumeUploadForm(request.POST, request.FILES, instance=request.user.profile)
+        certificate_form = CertificateUploadForm(request.POST, request.FILES)
+        if resume_form.is_valid() and certificate_form.is_valid():
+            resume_form.save()
+            certificate = certificate_form.save(commit=False)
+            certificate.user = request.user
+            certificate.save()
+            return redirect('profile')  # or any other success page
+    else:
+        resume_form = ResumeUploadForm(instance=request.user.profile)
+        certificate_form = CertificateUploadForm()
+
+    return render(request, 'upload_documents.html', {
+        'resume_form': resume_form,
+        'certificate_form': certificate_form,
+    })
+
+
+
+
+
