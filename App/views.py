@@ -187,6 +187,8 @@ from django.http import HttpResponseForbidden
 from django.db.models import Count
 @login_required
 def companyhome(request):
+    current_user = request.user
+    other_jobs = Job.objects.exclude(user=current_user).order_by('-posted_date')[:10]
     if not Company.objects.filter(user=request.user).exists():
         return HttpResponseForbidden("❌ Not authorized as Company.")
 
@@ -202,6 +204,7 @@ def companyhome(request):
     return render(request, 'comphome.html', {
         'jobs': jobs,
         'page_obj': page_obj,
+        'other_jobs': other_jobs
     })
 
 @login_required
@@ -1138,12 +1141,45 @@ def candidate_detail_view(request, candidate_id):
         return render(request, "404.html", status=404)  # Or a custom error page
     
     return render(request, "candidate_detail.html", {"candidate": candidate})
-def profile_form_view(request):
+@login_required
+def profile_form_view(request): 
+    user = request.user
+
+    # Get or create related models
+    company, _ = Company.objects.get_or_create(user=user)
+    profile, _ = Profile.objects.get_or_create(user=user)
+
     if request.method == 'POST':
-        context = {"message": "Profile submitted successfully!"}
+        form = CompanyForm(request.POST, request.FILES, instance=company)
+
+        if form.is_valid():
+            company = form.save(commit=False)
+            company.user = user
+
+            # Keep previous image if new one is not uploaded
+            if 'profile_image' in request.FILES:
+                company.profile_image = request.FILES['profile_image']
+
+            company.save()
+            return redirect('profile_form')  # Refresh and show saved state
+
     else:
-        context = {}
-    return render(request, "profile_form.html", context)
+        # Pre-fill only missing values (others come from form.instance)
+        initial_data = {
+            'name': user.first_name,
+            'phone': company.phone or profile.phone or '',
+            'email': user.email,
+        }
+        form = CompanyForm(instance=company, initial=initial_data)
+
+    context = {
+        'form': form,
+        'company': company,
+        'user': user,
+        'profile': profile,
+    }
+
+    return render(request, 'profile_form.html', context)
 from .forms import CompanyForm
 from .models import Company
 
@@ -1215,16 +1251,26 @@ from django.contrib.auth.decorators import login_required
 from admin_panel.models import AdminJobApplication
 import traceback
 
+from django.shortcuts import render, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from .models import Job, JobApplication, Profile, Education
+from .forms import JobApplicationForm
+from django.http import HttpResponseForbidden
 
-from admin_panel.models import Job
-from App.models import JobApplication
 
-from App.models import JobApplication  # Job application model
+from django.shortcuts import render, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from .models import Job, JobApplication, Profile, Education
+from .forms import JobApplicationForm
+
 @login_required
 def apply_for_job(request, job_id):
     job = get_object_or_404(Job, id=job_id)
 
     if request.method == 'POST':
+        print(request.POST)
+        print(request.FILES)
+
         form = JobApplicationForm(request.POST, request.FILES)
         if form.is_valid():
             application = form.save(commit=False)
@@ -1235,18 +1281,43 @@ def apply_for_job(request, job_id):
             application.status = 'Applied'
             application.save()
 
-            # ✅ Save resume to profile
+            # ✅ Save profile info
+            profile = Profile.objects.get(user=request.user)
+            profile.phone = request.POST.get('phone')
+            profile.gender = request.POST.get('gender')
+            profile.dob = request.POST.get('dob')  # Field name in model is 'dob'
+            profile.address = request.POST.get('place')
+            profile.age = request.POST.get('age')
+            profile.profile_picture = request.FILES.get('avatar')
+
+            # ✅ Save resume (file upload)
             resume_file = request.FILES.get('resume')
             if resume_file:
-                profile = Profile.objects.get(user=request.user)
                 profile.resume = resume_file
-                profile.save()
 
+            profile.save()
+
+            # ✅ Save education (first set only)
+            school = request.POST.get('education[0][school]')
+            place = request.POST.get('education[0][place]')
+            marks = request.POST.get('education[0][marks]')
+            certificate = request.FILES.get('education[0][certificate]')
+            if school and place and marks:
+                Education.objects.create(
+                    user=request.user,
+                    school=school,
+                    place=place,
+                    marks=marks,
+                    certificate=certificate
+                )
+
+            # ✅ Show success message
             return render(request, 'jobseeker_job_detail.html', {
                 'form': JobApplicationForm(),
                 'job': job,
                 'applied_successfully': True
             })
+
     else:
         form = JobApplicationForm()
 
@@ -1317,14 +1388,17 @@ def view_applicants(request, job_id):
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404, render
 from .models import Job, JobApplication, Profile, Education
+
 @login_required
 def view_applicant_detail(request, job_id, user_id):
     job = get_object_or_404(Job, id=job_id)
-    application = get_object_or_404(JobApplication, job=job, user_id=user_id)
     applicant = get_object_or_404(User, id=user_id)
     profile = get_object_or_404(Profile, user=applicant)
-    education = Education.objects.filter(user=applicant)  # ✅ Updated here
-    
+    education = Education.objects.filter(user=applicant)
+
+    # ✅ Safely get the latest application (if multiple exist)
+    application = JobApplication.objects.filter(job=job, user=applicant).order_by('-applied_date').first()
+
     context = {
         'job': job,
         'application': application,
@@ -1333,8 +1407,6 @@ def view_applicant_detail(request, job_id, user_id):
         'education': education,
     }
     return render(request, 'applicant_detail.html', context)
-
-# views.py
 
 from django.shortcuts import render, redirect
 from .forms import ResumeUploadForm, CertificateUploadForm
@@ -1360,6 +1432,123 @@ def upload_documents(request):
     })
 
 
+@login_required
+def edit_job(request, job_id):
+    job = get_object_or_404(Job, id=job_id)
+
+    if request.method == 'POST':
+        job.job_name = request.POST.get('job_name')
+        job.company_name = request.POST.get('company_name')
+        job.location = request.POST.get('location')
+        job.short_description = request.POST.get('short_description')
+        job.job_time = request.POST.get('job_time')
+        job.experience = request.POST.get('experience')
+        job.posted_location = request.POST.get('posted_location')
+        job.posted_date = request.POST.get('posted_date')
+        job.vacancy = request.POST.get('vacancy')
+        job.job_code = request.POST.get('job_code')
+        job.contact_number = request.POST.get('contact')
+        job.duration = request.POST.get('duration')
+        job.work_hour = request.POST.get('work_hour')
+        job.email = request.POST.get('email')
+        job.hourly_rates = request.POST.get('wage')
+        job.salary = request.POST.get('salary')
+        job.save()
+        return redirect('companyhome')
+
+    return render(request, 'edit_job.html', {'job': job})
+@login_required
+def delete_job(request, job_id):
+    job = get_object_or_404(Job, id=job_id)
+    if request.method == 'POST' and job.user == request.user:
+        job.delete()
+    return redirect('companyhome')  # or wherever you list jobs
 
 
+from django.core.mail import send_mail
+from django.contrib import messages
+from django.conf import settings
+from django.http import HttpResponse
+from django.core.mail import EmailMessage
+def email_support(request):
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        user_email = request.POST.get('email')
+        subject = request.POST.get('subject')
+        message = request.POST.get('message')
 
+        full_message = f"From: {name}\nEmail: {user_email}\n\n{message}"
+
+        try:
+            email = EmailMessage(
+                subject,
+                full_message,
+                'your_verified_email@gmail.com',  # fixed sender
+                ['support@example.com'],          # receiver
+                reply_to=[user_email],            # for replies
+            )
+            email.send()
+            return render(request, 'email_success.html')
+        except Exception as e:
+            return HttpResponse(f"Email sending failed: {e}", status=500)
+
+    return render(request, 'email_support_form.html')
+def call_support(request):
+    return render(request, 'call_support.html')
+
+from .models import Job
+from datetime import date, timedelta
+
+def filtered_jobs(request):
+    jobs = Job.objects.all()
+
+    job_date = request.GET.get('job_date')
+    job_type = request.GET.get('job_type')
+    location = request.GET.get('location')
+    work_days = request.GET.get('work_days')
+    work_hours = request.GET.get('work_hours')
+
+    if job_date == 'today':
+        jobs = jobs.filter(posted_date=date.today())
+    elif job_date == 'less10':
+        jobs = jobs.filter(posted_date__gte=date.today()-timedelta(days=10))
+    elif job_date == 'more10':
+        jobs = jobs.filter(posted_date__lte=date.today()-timedelta(days=10))
+
+    if job_type:
+        jobs = jobs.filter(job_type=job_type)
+
+    if location:
+        jobs = jobs.filter(location__iexact=location)
+
+    if work_days:
+        jobs = jobs.filter(work_days__iexact=work_days)
+
+    if work_hours:
+        jobs = jobs.filter(work_hour=work_hours)
+
+    return render(request, 'filtered_jobs.html', {'jobs': jobs})
+
+from datetime import date, timedelta
+from django.shortcuts import render
+from .models import Job
+from django.db.models import Q
+from django.contrib.auth.decorators import login_required
+from .models import Job  # make sure this is your Job model
+@login_required
+def filtered_jobs(request):
+    user = request.user
+    jobs = Job.objects.filter(user=user)  # ✅ only jobs posted by current user
+
+    search_query = request.GET.get('search')
+    sort_by = request.GET.get('sort')
+
+    if search_query:
+        jobs = jobs.filter(job_name__icontains=search_query)
+
+    if sort_by == 'newest':
+        jobs = jobs.order_by('-posted_date')
+    elif sort_by == 'oldest':
+        jobs = jobs.order_by('posted_date')
+
+    return render(request, 'filtered_jobs.html', {'jobs': jobs})

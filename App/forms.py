@@ -41,12 +41,12 @@ class CompanyForm(forms.ModelForm):
     class Meta:
         model = Company
         fields = [
-            'name',
-            'website',
-            'description',
-            'location',
-            'logo'
+            'company_name', 'location', 'google_map', 'company_type',
+            'employee_size', 'company_industry', 'company_number',
+            'company_hr_number', 'profile_image', 'pancard',
+            'adhaar', 'personal_id'
         ]
+
 
 from App.models import JobApplication
 class JobApplicationForm(forms.ModelForm):

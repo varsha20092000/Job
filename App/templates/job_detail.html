@@ -143,17 +143,39 @@
             padding: 15px;
             font-size: 14px;
         }
+        .brand-link {
+  text-decoration: none;
+}
+
+.brand-link h1 {
+  color: white;
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.brand-link h1 i {
+  color: white;
+  font-size: 1.5rem;
+}
     </style>
 </head>
 <body>
 
     <!-- HEADER -->
     <header>
-        <h1><i class="fas fa-briefcase"></i> JOB365 - Company Dashboard</h1>
+       <a href="{% url 'companyhome' %}" class="brand-link">
+  <h1>
+    <i class="fas fa-briefcase"></i> JOB365 – Company Dashboard
+  </h1>
+</a>
         <nav>
             <a href="{% url 'companyhome' %}"><i class="fas fa-home"></i> Home</a>
-            <a href="#"><i class="fas fa-user-circle"></i> Profile</a>
-            <a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            <a href="{% url 'profile_form' %}"><i class="fa-solid fa-user"></i> Profile</a>
+    <a href="{% url 'login' %}"><i class="fa-solid fa-sign-out-alt"></i> Logout</a>
         </nav>
     </header>
 

@@ -22,6 +22,7 @@
             background: #f8f8f8;
             color: #333;
             overflow-x: hidden;
+            overflow-y: hidden;
         }
 
         /* --------------------- Header --------------------- */
@@ -1028,21 +1029,114 @@
         .job-card {
             margin: 20px 0;
         }
+
         .pagination {
-    margin: 20px 0;
-    text-align: center;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .pagination a,
+        .pagination span {
+            padding: 8px 12px;
+            margin: 0 3px;
+            border: 1px solid #ccc;
+            text-decoration: none;
+            color: #333;
+        }
+
+        .pagination .current {
+            background-color: #007BFF;
+            color: white;
+            border-color: #007BFF;
+        }
+        .dropdown-options {
+  display: none;
+  position: absolute;
+  top: 28px;
+  right: 0;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  z-index: 1000;
 }
-.pagination a, .pagination span {
-    padding: 8px 12px;
-    margin: 0 3px;
-    border: 1px solid #ccc;
-    text-decoration: none;
-    color: #333;
+.dropdown-options a,
+.dropdown-options button {
+  padding: 8px 12px;
+  display: block;
+  text-align: left;
+  width: 100%;
+  border: none;
+  background: none;
+  text-decoration: none;
+  color: #333;
+  cursor: pointer;
 }
-.pagination .current {
-    background-color: #007BFF;
-    color: white;
-    border-color: #007BFF;
+.dropdown-options button:hover,
+.dropdown-options a:hover {
+  background-color: #f3f3f3;
+}
+.suggested-jobs {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  max-height: 500px;
+  overflow-y: auto;
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
+  margin-top: 20px;
+  max-height: 1000px;
+
+}
+
+.suggested-jobs h2 {
+  font-size: 20px;
+  margin-bottom: 15px;
+  color: #007bff;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.job-posting {
+  border-bottom: 1px solid #eaeaea;
+  padding: 15px 10px;
+}
+
+.job-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.job-posting h3 {
+  margin: 0;
+  font-size: 18px;
+  color: #333;
+}
+
+.job-posting p {
+  margin: 5px 0;
+  color: #555;
+  font-size: 14px;
+}
+
+.view-details-btn {
+  display: inline-block;
+  margin-top: 8px;
+  background-color: #007bff;
+  color: white;
+  padding: 6px 10px;
+  border-radius: 5px;
+  font-size: 13px;
+  text-decoration: none;
+}
+
+.view-details-btn i {
+  margin-right: 5px;
+}
+
+.view-details-btn:hover {
+  background-color: #0056b3;
 }
 
     </style>
@@ -1094,8 +1188,8 @@
             <div class="dropdown">
                 <button class="dropbtn">Contact <i class="fa-solid fa-caret-down"></i></button>
                 <div class="dropdown-content">
-                    <a href="#"><i class="fa-solid fa-envelope"></i> Email Support</a>
-                    <a href="#"><i class="fa-solid fa-phone"></i> Call Support</a>
+                    <a href="{% url 'email_support' %}"><i class="fa-solid fa-envelope"></i> Email Support</a>
+        <a href="{% url 'call_support' %}"><i class="fa-solid fa-phone"></i> Call Support</a>
                 </div>
             </div>
 
@@ -1149,53 +1243,51 @@
                 <button class="clear-btn" onclick="clearFilters()">Clear</button>
             </div>
 
-            <!-- Job Posted Date -->
-            <div class="filter-section">
-                <h3>Job Posted Date</h3>
-                <label><input type="checkbox" name="job-date" value="today"> Today</label>
-                <label><input type="checkbox" name="job-date" value="less10"> Less than 10 days</label>
-                <label><input type="checkbox" name="job-date" value="more10"> More than 10 days</label>
-            </div>
+           <div class="filter-section">
+  <h3>Job Posted Date</h3>
+  <label><input type="radio" name="job_date" value="today"> Today</label>
+  <label><input type="radio" name="job_date" value="less10"> Less than 10 days</label>
+  <label><input type="radio" name="job_date" value="more10"> More than 10 days</label>
+</div>
 
-            <!-- Job Type -->
-            <div class="filter-section">
-                <h3>Job Type</h3>
-                <label><input type="checkbox" name="job-type" value="physical"> Physical work</label>
-                <label><input type="checkbox" name="job-type" value="office"> Office work</label>
-                <label><input type="checkbox" name="job-type" value="it"> IT work</label>
-                <label><input type="checkbox" name="job-type" value="kitchen"> Kitchen work</label>
-                <label><input type="checkbox" name="job-type" value="field"> Field work</label>
-                <label><input type="checkbox" name="job-type" value="health"> Health work</label>
-                <label><input type="checkbox" name="job-type" value="other"> Other</label>
-            </div>
+<div class="filter-section">
+  <h3>Job Type</h3>
+  <label><input type="radio" name="job_type" value="physical"> Physical work</label>
+  <label><input type="radio" name="job_type" value="office"> Office work</label>
+  <label><input type="radio" name="job_type" value="it"> IT work</label>
+  <label><input type="radio" name="job_type" value="kitchen"> Kitchen work</label>
+  <label><input type="radio" name="job_type" value="field"> Field work</label>
+  <label><input type="radio" name="job_type" value="health"> Health work</label>
+  <label><input type="radio" name="job_type" value="other"> Other</label>
+</div>
 
-            <!-- Location -->
-            <div class="filter-section">
-                <h3>Location</h3>
-                <label><input type="checkbox" name="location" value="kochi"> Kochi</label>
-                <label><input type="checkbox" name="location" value="chennai"> Chennai</label>
-                <label><input type="checkbox" name="location" value="delhi"> Delhi</label>
-            </div>
+<div class="filter-section">
+  <h3>Location</h3>
+  <label><input type="radio" name="location" value="kochi"> Kochi</label>
+  <label><input type="radio" name="location" value="chennai"> Chennai</label>
+  <label><input type="radio" name="location" value="delhi"> Delhi</label>
+</div>
 
-            <div class="filter-section">
-                <h3>work days</h3>
-                <label><input type="checkbox" name="location" value="kochi">Mon-Wed</label>
-                <label><input type="checkbox" name="location" value="chennai">Tue-Thur</label>
-                <label><input type="checkbox" name="location" value="delhi">Wed-Fri </label>
-                <label><input type="checkbox" name="location" value="kochi">Tue-Wed</label>
-                <label><input type="checkbox" name="location" value="chennai">Wed-Thur</label>
-                <label><input type="checkbox" name="location" value="delhi">Sat-Sun </label>
-            </div>
+<div class="filter-section">
+  <h3>Work Days</h3>
+  <label><input type="radio" name="work_days" value="mon-wed"> Mon–Wed</label>
+  <label><input type="radio" name="work_days" value="tue-thur"> Tue–Thur</label>
+  <label><input type="radio" name="work_days" value="wed-fri"> Wed–Fri</label>
+  <label><input type="radio" name="work_days" value="tue-wed"> Tue–Wed</label>
+  <label><input type="radio" name="work_days" value="wed-thur"> Wed–Thur</label>
+  <label><input type="radio" name="work_days" value="sat-sun"> Sat–Sun</label>
+</div>
 
-            <div class="filter-section">
-                <h3>work Hours</h3>
-                <label><input type="checkbox" name="location" value="kochi">8 hours</label>
-                <label><input type="checkbox" name="location" value="chennai"> 5 hours</label>
-                <label><input type="checkbox" name="location" value="delhi"> 7 hours</label>
-                <label><input type="checkbox" name="location" value="kochi">4 hours</label>
-                <label><input type="checkbox" name="location" value="chennai"> 9 hours</label>
-                <label><input type="checkbox" name="location" value="delhi"> 10 hours</label>
-            </div>
+<div class="filter-section">
+  <h3>Work Hours</h3>
+  <label><input type="radio" name="work_hours" value="8"> 8 hours</label>
+  <label><input type="radio" name="work_hours" value="5"> 5 hours</label>
+  <label><input type="radio" name="work_hours" value="7"> 7 hours</label>
+  <label><input type="radio" name="work_hours" value="4"> 4 hours</label>
+  <label><input type="radio" name="work_hours" value="9"> 9 hours</label>
+  <label><input type="radio" name="work_hours" value="10"> 10 hours</label>
+</div>
+
         </div>
 
         <!-- -------------------------- Jobs Section -------------------------- -->
@@ -1203,7 +1295,7 @@
             <!-- Top Row: Title, Subtext, and Buttons -->
             <div class="top-row">
                 <div>
-                    <h1>Showing <strong></strong> jobs you posted</h1>
+                    <strong><h1>Showing <strong></strong> jobs you posted</h1></strong>
                     <p>jobs near your location</p>
                 </div>
                 <div class="top-row-buttons">
@@ -1215,26 +1307,45 @@
                         </button>
                     </a>
 
-
+<a href="{% url 'call_support' %}">
                     <button class="support-btn">
                         <i class="fa-solid fa-headset"></i>
                         Customer Support
                     </button>
-
+</a>
                 </div>
             </div>
 
 
             <div class="search-box">
-
+            
                 <div class="search-text">
                     <div class="search-icon">🔍</div>
                     <input type="text" id="search-input" placeholder="Search jobs by title, company or skill">
                 </div>
-                <div class="search-actions">
-                    <button id="search-btn">Search</button>
-                    <button id="filter-btn">Filter</button>
-                </div>
+                <form method="GET" action="{% url 'filtered_jobs' %}" class="search-box" style="display: flex; gap: 10px; align-items: center; margin: 20px auto; max-width: 600px;">
+  
+  <!-- Search Field with Binocular Icon -->
+  <div style="position: relative; flex: 1;">
+    <i class="fa-solid fa-binoculars" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #888;"></i>
+    <input type="text" name="search" placeholder="Search by company or job title" 
+           style="padding: 10px 12px 10px 40px; width: 100%; border-radius: 6px; border: 1px solid #ccc; font-size: 15px;">
+  </div>
+
+  <!-- Sort Dropdown -->
+  <select name="sort" style="padding: 10px; border-radius: 6px; border: 1px solid #ccc; font-size: 15px;">
+    <option value="">Sort By</option>
+    <option value="newest">Newest</option>
+    <option value="oldest">Oldest</option>
+  </select>
+
+  <!-- Search Button -->
+  <button type="submit" style="background: #007bff; color: white; padding: 10px 18px; border: none; border-radius: 6px; cursor: pointer;">
+    Search
+  </button>
+</form>
+
+            
             </div>
 
             {% for job in page_obj %}
@@ -1248,126 +1359,102 @@
                         <h3 style="margin: 0;">{{ job.job_name }} <span class="urgent-badge">Urgent</span></h3>
                         <p style="margin: 0;">{{ job.company_name }}</p>
                     </div>
-                    <div class="job-card-header-right" style="margin-left: auto;">
-                        <i class="fa-solid fa-ellipsis-vertical"></i>
-                    </div>
-                </div>
-                
+                    <div class="job-card-header-right" style="position: relative; margin-left: auto;">
+  <i class="fa-solid fa-ellipsis-vertical" onclick="toggleDropdown('{{ job.id }}')" style="cursor: pointer; font-size: 18px; color: #444;"></i>
 
-                <div class="job-card-meta">
-                    <span class="job-type"><i class="fa-solid fa-clock"></i> {{ job.job_time }}</span>
-                    <span class="experience"><i class="fa-solid fa-calendar"></i> {{ job.experience }}</span>
-                    <span class="location"><i class="fa-solid fa-location-dot"></i> {{ job.location }}</span>
-
-                    <span class="posted-date">{{ job.posted_date }}</span>
-                </div>
-
-                <p><strong>Location:</strong> {{ job.location }}</p>
-                <p><strong>Posted:</strong> {{ job.posted_date }}</p>
-                <p><strong>per/hour:</strong> ₹{{ job.hourly_rates }}</p>
-
-               
-                <p>{{ job.short_description }}</p>
-
-                <div class="job-card-footer">
-                    <div class="contact-pill"><i class="fa-solid fa-phone"></i> Contact: {{ job.contact_number }}</div>
-
-                <div class="applied">
-  <i class="fa-solid fa-user"></i>
-  {% if job.applicant_count > 0 %}
-    <a href="{% url 'view_applicants' job.id %}" style="text-decoration: none; color: inherit;">
-      {{ job.applicant_count }} Applied
-    </a>
-  {% else %}
-    0 Applied
-  {% endif %}
+  <div id="dropdown-{{ job.id }}" class="dropdown-options" style="display: none; position: absolute; top: 28px; right: 0; background: #fff; border: 1px solid #ddd; border-radius: 5px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); z-index: 1000;">
+    <a href="{% url 'edit_job' job.id %}" style="padding: 8px 12px; display: block; text-decoration: none; color: #333;">✏️ Edit</a>
+    <form method="POST" action="{% url 'delete_job' job.id %}">
+      {% csrf_token %}
+      <button type="submit" style="padding: 8px 12px; width: 100%; text-align: left; background: none; border: none; color: red; cursor: pointer;">🗑️ Delete</button>
+    </form>
+  </div>
 </div>
 
+            </div>
+   
 
 
-                    
-                </div>
-            </div>
-            {% empty %}
-            <p>No jobs posted yet.</p>
-            {% endfor %}
-            <div class="pagination">
-                <span class="step-links">
-                    {% if page_obj.has_previous %}
-                        <a href="?page=1">&laquo; first</a>
-                        <a href="?page={{ page_obj.previous_page_number }}">← previous</a>
-                    {% endif %}
-            
-                    <span class="current">
-                        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
-                    </span>
-            
-                    {% if page_obj.has_next %}
-                        <a href="?page={{ page_obj.next_page_number }}">next →</a>
-                        <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
-                    {% endif %}
-                </span>
-            </div>
-            
-        </section>
-        <!-- Container for new jobs -->
-        <div id="jobContainer"></div>
+    <div class="job-card-meta">
+        <span class="job-type"><i class="fa-solid fa-clock"></i> {{ job.job_time }}</span>
+        <span class="experience"><i class="fa-solid fa-calendar"></i> {{ job.experience }}</span>
+        <span class="location"><i class="fa-solid fa-location-dot"></i> {{ job.location }}</span>
 
-        <!-- -------------------------- Suggested Jobs -------------------------- -->
-        <aside class="suggested-jobs">
-            <h2>Other Company Job posts</h2>
-            <div class="job-posting">
-                <h3>Modern Furniture Ltd</h3>
-                <p><strong>Position:</strong> Carpenter</p>
-                <p><strong>Rate:</strong> ₹1200/day</p>
-            </div>
-            <div class="job-posting">
-                <h3>Xyz Technologies</h3>
-                <p><strong>Position:</strong> Junior Designer</p>
-                <p><strong>Rate:</strong> ₹25,000/month</p>
-            </div>
-            <div class="job-posting">
-                <h3>Xyz Technologies</h3>
-                <p><strong>Position:</strong> Junior Designer</p>
-                <p><strong>Rate:</strong> ₹25,000/month</p>
-            </div>
-            <div class="job-posting">
-                <h3>Xyz Technologies</h3>
-                <p><strong>Position:</strong> Junior Designer</p>
-                <p><strong>Rate:</strong> ₹25,000/month</p>
-            </div>
-            <div class="job-posting">
-                <h3>Xyz Technologies</h3>
-                <p><strong>Position:</strong> Junior Designer</p>
-                <p><strong>Rate:</strong> ₹25,000/month</p>
-            </div>
-            <div class="job-posting">
-                <h3>Xyz Technologies</h3>
-                <p><strong>Position:</strong> Junior Designer</p>
-                <p><strong>Rate:</strong> ₹25,000/month</p>
-            </div>
-            <div class="job-posting">
-                <h3>Xyz Technologies</h3>
-                <p><strong>Position:</strong> Junior Designer</p>
-                <p><strong>Rate:</strong> ₹25,000/month</p>
-            </div>
-            <div class="job-posting">
-                <h3>Xyz Technologies</h3>
-                <p><strong>Position:</strong> Junior Designer</p>
-                <p><strong>Rate:</strong> ₹25,000/month</p>
-            </div>
-            <div class="job-posting">
-                <h3>Xyz Technologies</h3>
-                <p><strong>Position:</strong> Junior Designer</p>
-                <p><strong>Rate:</strong> ₹25,000/month</p>
-            </div>
-            <div class="job-posting">
-                <h3>Xyz Technologies</h3>
-                <p><strong>Position:</strong> Junior Designer</p>
-                <p><strong>Rate:</strong> ₹25,000/month</p>
-            </div>
-            <!-- Add more suggested jobs as needed -->
-        </aside>
+        <span class="posted-date">{{ job.posted_date }}</span>
+    </div>
+
+    <p><strong>Location:</strong> {{ job.location }}</p>
+    <p><strong>Posted:</strong> {{ job.posted_date }}</p>
+    <p><strong>per/hour:</strong> ₹{{ job.hourly_rates }}</p>
+
+
+    <p>{{ job.short_description }}</p>
+
+    <div class="job-card-footer">
+        <div class="contact-pill"><i class="fa-solid fa-phone"></i> Contact: {{ job.contact_number }}</div>
+
+        <div class="applied">
+            <i class="fa-solid fa-user"></i>
+            {% if job.applicant_count > 0 %}
+            <a href="{% url 'view_applicants' job.id %}" style="text-decoration: none; color: inherit;">
+                {{ job.applicant_count }} Applied
+            </a>
+            {% else %}
+            0 Applied
+            {% endif %}
+        </div>
+
+
+
+
+    </div>
+    </div>
+    {% empty %}
+    <p>No jobs posted yet.</p>
+    {% endfor %}
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ page_obj.previous_page_number }}">← previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+            </span>
+
+            {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">next →</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+
+    </section>
+    <!-- Container for new jobs -->
+    <div id="jobContainer"></div>
+
+    <!-- -------------------------- Suggested Jobs -------------------------- -->
+    <aside class="suggested-jobs">
+  <h2><i class="fa-solid fa-briefcase"></i> Other Company Job Posts</h2>
+
+  {% for job in other_jobs %}
+    <div class="job-posting">
+      <div class="job-header">
+        <i class="fa-solid fa-building"></i>
+        <h3>{{ job.company_name }}</h3>
+      </div>
+      <p><strong>Position:</strong> {{ job.job_name }}</p>
+      <p><strong>Rate:</strong> ₹{{ job.salary }}</p>
+      <a href="{% url 'job_details' job.id %}" class="view-details-btn">
+        <i class="fa-solid fa-circle-info"></i> View Details
+      </a>
+    </div>
+  {% empty %}
+    <p style="color: #888; text-align: center;">No other job posts available.</p>
+  {% endfor %}
+</aside>
+
     </div>
 
     <!-- -------------------------- Footer -------------------------- -->
@@ -1453,7 +1540,39 @@
                 checkbox.checked = false;
             });
         }
+        function toggleDropdown(jobId) {
+            const menu = document.getElementById('dropdown-' + jobId);
+            const isVisible = menu.style.display === 'block';
+            document.querySelectorAll('.dropdown-menu').forEach(el => el.style.display = 'none');
+            menu.style.display = isVisible ? 'none' : 'block';
+        }
+        document.addEventListener('click', function (event) {
+            if (!event.target.closest('.job-card-header-right')) {
+                document.querySelectorAll('.dropdown-menu').forEach(el => el.style.display = 'none');
+            }
+            
+        });
+        document.querySelectorAll('.filter-box input[type="radio"]').forEach(input => {
+  input.addEventListener('change', () => {
+    const filters = {
+      job_date: document.querySelector('input[name="job_date"]:checked')?.value || '',
+      job_type: document.querySelector('input[name="job_type"]:checked')?.value || '',
+      location: document.querySelector('input[name="location"]:checked')?.value || '',
+      work_days: document.querySelector('input[name="work_days"]:checked')?.value || '',
+      work_hours: document.querySelector('input[name="work_hours"]:checked')?.value || '',
+    };
 
+    // Use query parameters to pass filters to backend
+    const params = new URLSearchParams(filters).toString();
+    window.location.href = `/filtered-jobs/?${params}`;
+  });
+});
+
+function clearFilters() {
+  document.querySelectorAll('.filter-box input[type="radio"]').forEach(input => input.checked = false);
+  window.location.href = '/filtered-jobs/';  // Reset to unfiltered list
+}
+        
     </script>
 </body>
 

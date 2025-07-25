@@ -52,10 +52,15 @@ urlpatterns = [
     path('job/<int:job_id>/apply/', views.apply_for_job, name='apply_for_job'),
     path('jobseeker/job/<int:job_id>/', views.jobseeker_job_detail_view, name='jobseeker_job_detail'),
     path('job/<int:job_id>/applicants/', views.view_applicants, name='view_applicants'),
-    path('job/<int:job_id>/applicant/<int:user_id>/', views.view_applicant_detail, name='view_applicant_detail')
+    path('job/<int:job_id>/applicant/<int:user_id>/', views.view_applicant_detail, name='view_applicant_detail'),
+    path('job/<int:job_id>/edit/', views.edit_job, name='edit_job'),
+path('job/<int:job_id>/delete/', views.delete_job, name='delete_job'),
+  path('support/email/', views.email_support, name='email_support'),
+    path('support/call/', views.call_support, name='call_support'),
 
+path('filtered-jobs/', views.filtered_jobs, name='filtered_jobs'),
 
-
+  path('filtered-jobs/', views.filtered_jobs, name='filtered_jobs'),
 
 ]+static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -134,44 +134,46 @@
   <h2><i class="fas fa-id-badge"></i> Applicant Detail</h2>
 
   <!-- Personal Info -->
-  <div class="section">
-    <h3><i class="fas fa-user-circle"></i> Personal Information</h3>
+<div class="section">
+  <h3><i class="fas fa-user-circle"></i> Personal Information</h3>
 
-    <div class="detail-row">
-      <i class="fas fa-user icon"></i>
-      <strong>Name:</strong> {{ applicant.first_name }} {{ applicant.last_name }}
-    </div>
-
-    <div class="detail-row">
-      <i class="fas fa-envelope icon"></i>
-      <strong>Email:</strong> {{ applicant.email }}
-    </div>
-
-    <div class="detail-row">
-      <i class="fas fa-phone icon"></i>
-      <strong>Phone:</strong> {{ applicant.profile.phone|default:"Not provided" }}
-    </div>
-
-    <div class="detail-row">
-      <i class="fas fa-venus-mars icon"></i>
-      <strong>Gender:</strong> {{ applicant.profile.gender }}
-    </div>
-
-    <div class="detail-row">
-      <i class="fas fa-birthday-cake icon"></i>
-      <strong>Date of Birth:</strong> {{ applicant.profile.dob }}
-    </div>
-
-    <div class="detail-row">
-      <i class="fas fa-hourglass-half icon"></i>
-      <strong>Age:</strong> {{  applicant.profile.age }}
-    </div>
-
-    <div class="detail-row">
-      <i class="fas fa-map-marker-alt icon"></i>
-      <strong>Address:</strong> {{ applicant.profile.address }}
-    </div>
+  <div class="detail-row">
+    <i class="fas fa-user icon"></i>
+    <strong>Name:</strong> {{ applicant.first_name }} {{ applicant.last_name }}
   </div>
+
+  <div class="detail-row">
+    <i class="fas fa-envelope icon"></i>
+    <strong>Email:</strong> {{ applicant.email }}
+  </div>
+
+  <div class="detail-row">
+    <i class="fas fa-phone icon"></i>
+    <strong>Phone:</strong> {{ profile.phone|default:"Not provided" }}
+  </div>
+
+  <div class="detail-row">
+    <i class="fas fa-venus-mars icon"></i>
+    <strong>Gender:</strong> {{ profile.gender|default:"Not provided" }}
+  </div>
+
+  <div class="detail-row">
+    <i class="fas fa-birthday-cake icon"></i>
+    <strong>Date of Birth:</strong> {{ profile.dob|default:"Not provided" }}  <!-- ✅ correct -->
+
+  </div>
+
+  <div class="detail-row">
+    <i class="fas fa-hourglass-half icon"></i>
+    <strong>Age:</strong> {{ profile.age|default:"Not provided" }}
+  </div>
+
+  <div class="detail-row">
+    <i class="fas fa-map-marker-alt icon"></i>
+    <strong>Address:</strong> {{ profile.address|default:"Not provided" }}
+  </div>
+</div>
+
 <hr>
 <!-- Education Section -->
 <h3><i class="fas fa-graduation-cap"></i> Educational Details</h3>

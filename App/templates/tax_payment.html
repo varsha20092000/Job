@@ -359,13 +359,24 @@ body {
 #clear-filters:hover {
   background-color: #0056b3; /* Darker blue on hover */
 }
+.brand-link {
+  text-decoration: none;
+}
 
+.brand-link h1 {
+  color: white;
+  margin: 0;
+  font-size: 1.8rem;
+  font-weight: bold;
+}
   </style>
 </head>
 <body>
         <!-- Header -->
 <div class="header">
-    <h1>JOB 365</h1>
+   <a href="{% url 'companyhome' %}" class="brand-link">
+  <h1>JOB 365</h1>
+</a>
     <div class="header-right">
         <a href="{% url 'companyhome' %}">Home</a>
 
@@ -394,7 +405,7 @@ body {
             <button class="dropbtn">Certificate <i class="fa-solid fa-caret-down"></i></button>
             <div class="dropdown-content">
                 <a href="{% url 'requested_certificates' %}"><i class="fa-solid fa-file-alt"></i> Employee Certificate</a>
-                <a href="#"><i class="fa-solid fa-award"></i> Show Certificates</a>
+               
             </div>
         </div>
 
@@ -402,8 +413,8 @@ body {
         <div class="dropdown">
             <button class="dropbtn">Contact <i class="fa-solid fa-caret-down"></i></button>
             <div class="dropdown-content">
-                <a href="#"><i class="fa-solid fa-envelope"></i> Email Support</a>
-                <a href="#"><i class="fa-solid fa-phone"></i> Call Support</a>
+                <a href="{% url 'email_support' %}"><i class="fa-solid fa-envelope"></i> Email Support</a>
+        <a href="{% url 'call_support' %}"><i class="fa-solid fa-phone"></i> Call Support</a>
             </div>
         </div>
 
@@ -431,8 +442,8 @@ body {
                 <i class="fa-solid fa-caret-down"></i>
             </button>
             <div class="dropdown-content">
-                <a href="#"><i class="fa-solid fa-user"></i> Profile</a>
-                <a href="#"><i class="fa-solid fa-sign-out-alt"></i> Logout</a>
+                <a href="{% url 'profile_form' %}"><i class="fa-solid fa-user"></i> Profile</a>
+                    <a href="{% url 'login' %}"><i class="fa-solid fa-sign-out-alt"></i> Logout</a>
             </div>
         </div>
     </div>

@@ -454,7 +454,16 @@
 .text-yellow { color: #f39c12; }
 .text-orange { color: #e67e22; }
 .text-dark { color: #2c3e50; }
+.brand-link {
+  text-decoration: none;
+}
 
+.brand-link h1 {
+  color: white;
+  margin: 0;
+  font-size: 1.8rem;
+  font-weight: bold;
+}
 
     </style>
 </head>
@@ -463,7 +472,9 @@
 
     <!-- Header -->
     <div class="header">
-        <h1>JOB 365</h1>
+        <a href="{% url 'companyhome' %}" class="brand-link">
+  <h1>JOB 365</h1>
+</a>
         <div class="header-right">
             <a href="{% url 'companyhome' %}">Home</a>
 
@@ -493,7 +504,7 @@
                 <div class="dropdown-content">
                     <a href="{% url 'requested_certificates' %}"><i class="fa-solid fa-file-alt"></i> Employee
                         Certificate</a>
-                    <a href="certificate_detail"><i class="fa-solid fa-award"></i> Show Certificates</a>
+                  
                 </div>
             </div>
 
@@ -501,8 +512,8 @@
             <div class="dropdown">
                 <button class="dropbtn">Contact <i class="fa-solid fa-caret-down"></i></button>
                 <div class="dropdown-content">
-                    <a href="#"><i class="fa-solid fa-envelope"></i> Email Support</a>
-                    <a href="#"><i class="fa-solid fa-phone"></i> Call Support</a>
+                    <a href="{% url 'email_support' %}"><i class="fa-solid fa-envelope"></i> Email Support</a>
+        <a href="{% url 'call_support' %}"><i class="fa-solid fa-phone"></i> Call Support</a>
                 </div>
             </div>
 

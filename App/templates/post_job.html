@@ -135,21 +135,34 @@
     border: 1px solid #ccc;
     font-size: 14px;
 }
+.brand-link {
+  text-decoration: none;
+}
 
+.brand-link h1 {
+  color: white;
+  margin: 0;
+  font-size: 1.8rem;
+  font-weight: bold;
+}
     </style>
 </head>
 <body>
 
     <!-- Header -->
     <div class="header">
-        <h1>JOB 365</h1>
+       <a href="{% url 'companyhome' %}" class="brand-link">
+  <h1>JOB 365</h1>
+</a>
         <div class="header-right">
             <a href="{%url 'companyhome'%}">Home</a>
-            <a href="#">Jobs</a>
-            <a href="#">Payment</a>
-            <a href="#">Certificate</a>
-            <a href="#">Contact</a>
-            <a href="#">Notifications</a>
+            <a href="{% url 'job_details_blank' %}">Jobs</a>
+            <a href="{% url 'employee_payment' %}">Payment</a>
+            
+            <a href="{% url 'call_support' %}">Contact</a>
+            <a href="{% url 'compnotifications' %}">Notifications</a>
+            <a href="{% url 'login' %}"><i class="fa-solid fa-sign-out-alt"></i> Logout</a>
+
         </div>
     </div>
 
