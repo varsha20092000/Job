@@ -37,13 +37,9 @@ SECRET_KEY = 'django-insecure-(y@s)#sly5-b5__0r)ogdsvwofm8!v646)p(6x()=t)0!ou&7b
 
 # Debug mode
 DEBUG = True  # Set to False in production
-ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "localhost").split(",")
-# Allowed hosts from environment
-host_env = os.environ.get("DJANGO_ALLOWED_HOSTS") or os.environ.get("ALLOWED_HOSTS")
-if host_env:
-    ALLOWED_HOSTS = host_env.split(",")
-else:
-    ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
+import os
+
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '127.0.0.1,localhost').split(',')
 
 logger.warning("✅ ALLOWED_HOSTS in settings.py: %s", ALLOWED_HOSTS)
 
