@@ -162,3 +162,7 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'varshakvinod680@gmail.com'
 EMAIL_HOST_PASSWORD = 'oufr gobi mlmu iitn'  # Not your Gmail password!
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+
+print(f"DEBUG: {DEBUG}")
+print(f"ALLOWED_HOSTS: {ALLOWED_HOSTS}")
