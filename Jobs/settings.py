@@ -39,8 +39,7 @@ SECRET_KEY = 'django-insecure-(y@s)#sly5-b5__0r)ogdsvwofm8!v646)p(6x()=t)0!ou&7b
 DEBUG = True  # Set to False in production
 import os
 
-ALLOWED_HOSTS = ['job365-project.onrender.com', 'localhost', '127.0.0.1']
-
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS',  "localhost").split(',')
 
 logger.warning("✅ ALLOWED_HOSTS in settings.py: %s", ALLOWED_HOSTS)
 
