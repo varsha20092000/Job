@@ -15,6 +15,8 @@ from dotenv import load_dotenv
 import dj_database_url
 
 load_dotenv()
+print("⚠️ settings.py loaded")
+print("🚀 ALLOWED_HOSTS =", ALLOWED_HOSTS)
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
