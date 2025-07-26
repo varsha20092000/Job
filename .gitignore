@@ -1,0 +1,16 @@
+# Django
+*.pyc
+__pycache__/
+db.sqlite3
+.env
+media/
+staticfiles/
+venv/
+*.log
+
+# VS Code
+.vscode/
+
+# macOS/Windows
+.DS_Store
+Thumbs.db
