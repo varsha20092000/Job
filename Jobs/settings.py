@@ -15,8 +15,6 @@ from dotenv import load_dotenv
 import dj_database_url
 
 load_dotenv()
-print("⚠️ settings.py loaded")
-
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -33,17 +31,7 @@ SECRET_KEY = 'django-insecure-(y@s)#sly5-b5__0r)ogdsvwofm8!v646)p(6x()=t)0!ou&7b
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-allowed_hosts_env = os.getenv('ALLOWED_HOSTS')
-if allowed_hosts_env:
-    ALLOWED_HOSTS = [host.strip() for host in allowed_hosts_env.split(',')]
-else:
-    ALLOWED_HOSTS = ['job365-project.onrender.com', 'localhost', '127.0.0.1']
-
-
-
-
-
-print(f"ALLOWED_HOSTS: {ALLOWED_HOSTS}")
+ALLOWED_HOSTS = ['job-fxld.onrender.com', 'localhost', '127.0.0.1']
 
 from django.urls import reverse_lazy
 
@@ -160,6 +148,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 import os
 from django.core.management import call_command
 
+# if os.environ.get("RENDER") == "true":
+#     try:
+#         call_command("loaddata", "jobs.json")
+#         print("✅ Loaded jobs.json into PostgreSQL")
+#     except Exception as e:
+#         print("❌ Fixture load error:", e)
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
@@ -168,7 +162,3 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'varshakvinod680@gmail.com'
 EMAIL_HOST_PASSWORD = 'oufr gobi mlmu iitn'  # Not your Gmail password!
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-
-
-print(f"DEBUG: {DEBUG}")
-print(f"ALLOWED_HOSTS: {ALLOWED_HOSTS}")
