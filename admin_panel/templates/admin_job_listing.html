@@ -1,0 +1,308 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Job Listing</title>
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <style>
+    /* Global Reset & Base Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f5f7fa;
+    }
+    a {
+      text-decoration: none;
+      color: #333;
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background-color: #fff;
+      padding: 10px 20px;
+      border-bottom: 1px solid #ccc;
+    }
+    .header .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #333;
+    }
+    .header .top-links a {
+      margin-left: 20px;
+      font-size: 0.95rem;
+      color: #333;
+      font-weight: 500;
+    }
+
+    /* Container holds sidebar + main content */
+    .container {
+      display: flex;
+      width: 100%;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 250px;
+      background-color: #fff;
+      border-radius: 8px;
+      margin: 20px;
+      padding: 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    .avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      border: 4px solid #66b8ff; /* Blue outline */
+      margin: 0 auto 10px auto;
+      background-image: url('/static/images/boy (1).png'); 
+      background-size: cover;
+      background-position: center;
+    }
+    .admin-name {
+      font-size: 1.1rem;
+      color: #333;
+      margin-bottom: 5px;
+    }
+    .admin-location {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      color: #b80000; /* Red icon for map */
+      margin-bottom: 10px;
+    }
+    .admin-location i {
+      color: #b80000;
+    }
+    .admin-location span {
+      font-size: 0.9rem;
+      color: #333;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #000;
+      margin: 10px 0;
+    }
+    .settings-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      color: #333;
+      font-weight: 500;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+    .settings-link i {
+      color: #666;
+    }
+
+    /* Main content area */
+    .main-content {
+      flex: 1;
+      margin: 20px;
+      background-color: transparent;
+    }
+
+    /* Search bar + filter row */
+    .search-filter-row {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .search-filter-row input[type="text"] {
+      flex: 1;
+      max-width: 400px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 0.95rem;
+    }
+    .search-filter-row button {
+      background-color: #4caf50;
+      color: #fff;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .search-filter-row button:hover {
+      background-color: #45a049;
+    }
+
+    /* Job listing title */
+    .job-listing-title {
+      font-size: 1.2rem;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    /* Job Card */
+    .job-card {
+      position: relative;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .job-card h3 {
+      font-size: 1rem;
+      color: #333;
+      margin-bottom: 5px;
+    }
+    .job-card p {
+      margin: 5px 0;
+      font-size: 0.95rem;
+      color: #111; /* Extra dark text */
+    }
+    .job-card .label {
+      font-weight: 700;
+      color: #111;
+    }
+    /* Status star in top-right corner */
+    .status-star {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      background-color: #e0f7e7; /* default for Active */
+      color: #2a8c4a;
+      padding: 5px 10px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+    /* Inactive style */
+    .inactive {
+      background-color: #fbdcdc !important;
+      color: #b80000 !important;
+    }
+    /* "Applied x days ago" in bottom-right corner */
+    .applied-ago {
+      text-align: right;
+      font-size: 0.85rem;
+      color: #666;
+      margin-top: 10px;
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="logo">JOB 365</div>
+    <div class="top-links">
+      <a href="#">Home</a>
+      <a href="#">Logout</a>
+    </div>
+  </header>
+
+  <div class="container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="avatar"></div>
+      <div class="admin-name">Admin home</div>
+      <div class="admin-location">
+        <i class="fas fa-map-marker-alt"></i>
+        <span>Calicut, Kerala</span>
+      </div>
+      <hr>
+      <div class="settings-link">
+        <i class="fas fa-cog"></i>
+        <span>Settings</span>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <!-- Search + Filter -->
+      <div class="search-filter-row">
+        <input type="text" placeholder="Search jobs by title, company or skill">
+        <button>
+          <i class="fas fa-search"></i>
+          Search
+        </button>
+        <button>
+          <i class="fas fa-filter"></i>
+          Filter
+        </button>
+      </div>
+
+      <!-- Job Listing Title -->
+      <div class="job-listing-title">Job listing</div>
+      {% for job in page_obj %}
+      <div class="job-card">
+        <!-- Status tag -->
+        {% if job.status == "Active" %}
+          <div class="status-star">
+            <i class="fas fa-star"></i>
+            {{ job.status }}
+          </div>
+        {% else %}
+          <div class="status-star inactive">
+            <i class="fas fa-star"></i>
+            {{ job.status }}
+          </div>
+        {% endif %}
+    
+        <h3>Job Title: {{ job.job_name }}</h3>
+        <p><span class="label">Company Name:</span> {{ job.company_name }}</p>
+        <p><span class="label">Location:</span> {{ job.location }}</p>
+        <p><span class="label">Hourly Rate:</span> {{ job.hourly_rates }}</p>
+        <p><span class="label">Job Details:</span> {{ job.job_details }}</p>
+        <p><span class="label">Duration:</span> {{ job.duration }}</p>
+        <p><span class="label">Contact Number:</span> {{ job.contact_number }}</p>
+        <p><span class="label">Email:</span> {{ job.email }}</p>
+    
+        <div class="applied-ago">Posted {{ job.created_at|timesince }} ago</div>
+      </div>
+    {% empty %}
+      <p>No jobs found.</p>
+    {% endfor %}
+    
+    </div>
+    
+  </div>
+  <div class="pagination" style="text-align: center; margin-top: 20px;">
+    {% if page_obj.has_previous %}
+      <a href="?page=1" style="margin: 0 5px;">« First</a>
+      <a href="?page={{ page_obj.previous_page_number }}" style="margin: 0 5px;">‹ Prev</a>
+    {% endif %}
+  
+    {% for num in page_obj.paginator.page_range %}
+      {% if num == page_obj.number %}
+        <span style="font-weight: bold; color: white; background: #2365a7; padding: 6px 12px; border-radius: 6px;">{{ num }}</span>
+      {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+        <a href="?page={{ num }}" style="margin: 0 5px;">{{ num }}</a>
+      {% endif %}
+    {% endfor %}
+  
+    {% if page_obj.has_next %}
+      <a href="?page={{ page_obj.next_page_number }}" style="margin: 0 5px;">Next ›</a>
+      <a href="?page={{ page_obj.paginator.num_pages }}" style="margin: 0 5px;">Last »</a>
+    {% endif %}
+  </div>
+  
+</body>
+</html>

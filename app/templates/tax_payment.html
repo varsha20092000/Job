@@ -1,0 +1,616 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Tax Payment Details</title>
+  <link rel="stylesheet" href="{% static 'css/tax_payment.css' %}">
+  <link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+/>
+
+
+  <style>
+    /* tax_payment.css */
+
+/* Basic resets */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background-color: #f9f9f9;
+}
+
+.container {
+  display: flex;
+  min-height: 100vh;
+  margin-left: 500px;
+}
+
+/* Sidebar Styles */
+.sidebar {
+  width: 400px;
+  background-color: #fff;
+  padding: 20px;
+  border-right: 1px solid #ddd;
+  height: 80%;
+  margin-top: 80px;
+}
+
+.sidebar h2 {
+  margin-bottom: 20px;
+  font-size: 1.2rem;
+}
+
+.date-filter, .location-filter, .search-filter {
+  margin-bottom: 20px;
+  
+}
+
+.date-filter label,
+.location-filter label,
+.search-filter label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.date-filter input,
+.search-filter input {
+  width: 100%;
+  padding: 5px;
+  margin-bottom: 8px;
+}
+
+.location-filter p {
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.location-filter label {
+  display: block;
+  margin-bottom: 8px;
+}
+
+#clear-filters {
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+/* Main Content Styles */
+.main-content {
+  flex: 1;
+  padding: 20px;
+}
+
+.main-content h1 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+}
+
+/* Tax Cards */
+.tax-details {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.tax-card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.tax-card h2 {
+  font-size: 1.2rem;
+  margin-bottom: 8px;
+}
+
+.tax-card p {
+  margin-bottom: 4px;
+  color: #555;
+}
+        /* General Header Styling */
+        .header {
+    background: #007bff; /* Blue Header */
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+}
+
+.header h1 {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+/* Header Right */
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+/* Dropdown Styling */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropbtn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* Dropdown Content */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    min-width: 180px;
+    z-index: 10;
+    top: 100%;
+    left: 0;
+}
+
+.dropdown-content a {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    color: #333;
+    text-decoration: none;
+    gap: 10px;
+    font-size: 0.95rem;
+}
+
+.dropdown-content a:hover {
+    background: #f0f0f0;
+}
+
+/* Show Dropdown on Hover */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Icons inside Dropdown */
+.dropdown-content i {
+    color: #007bff;
+}
+
+/* Avatar */
+.avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+}
+
+/* Notification Button */
+.notification-btn {
+    position: relative;
+}
+
+/* Notification Badge (Red Circle) */
+.notification-badge {
+    background: red;
+    color: white;
+    font-size: 0.8rem;
+    font-weight: bold;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: -5px;
+    right: -10px;
+}
+a {
+    text-decoration: none;
+}
+/* Reset & Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+}
+
+/* Container for All Cards */
+.tax-cards-container {
+  width: 40%;
+  max-width: 1000px;
+  margin: 20px auto;
+}
+.tax-cards-container h1 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* Individual Card Styles */
+.tax-card {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  padding: 16px;
+  margin-bottom: 20px;
+  width: 40%;
+}
+
+/* Header Section of the Card */
+.tax-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.left {
+  display: flex;
+  gap: 16px;
+}
+
+/* Pink Icon Circle */
+.icon-container {
+  width: 48px;
+  height: 48px;
+  background-color: #ffa8d2; /* Pink shade */
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.icon-container i {
+  color: #fff;
+  font-size: 1.1rem;
+}
+
+/* Title, Company, Location */
+.title h3 {
+  margin: 0;
+  font-size: 1rem;
+  color: #333;
+}
+.company {
+  margin: 4px 0 0;
+  font-size: 0.9rem;
+  color: #555;
+}
+.location {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #777;
+}
+
+/* Job Code Badge */
+.job-code {
+  background-color: #ebf0f5;
+  padding: 4px 8px;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+/* Card Body */
+.tax-card-body {
+  margin-top: 16px;
+}
+.info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+  color: #333;
+}
+.info i {
+  margin-right: 8px;
+  color: #555;
+}
+.icon-money {
+  color: #28a745; /* A green shade */
+}
+
+.icon-tax {
+  color: #f39c12; /* A warm yellow/orange shade */
+}
+.icon-location {
+  color: red; /* Or use a specific hex code like #e74c3c for a nice red */
+  margin-right: 6px; /* Optional: adds some spacing between the icon and text */
+}
+/* Container for the header: Filter and Clear button on one line */
+.filter-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px; /* Adjust spacing as needed */
+}
+
+/* Clear Button Styles */
+#clear-filters {
+  background-color: #007bff; /* Blue background */
+  color: #fff;             /* White text */
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.3s ease;
+}
+
+#clear-filters:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+}
+.brand-link {
+  text-decoration: none;
+}
+
+.brand-link h1 {
+  color: white;
+  margin: 0;
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+  </style>
+</head>
+<body>
+        <!-- Header -->
+<div class="header">
+   <a href="{% url 'companyhome' %}" class="brand-link">
+  <h1>JOB 365</h1>
+</a>
+    <div class="header-right">
+        <a href="{% url 'companyhome' %}">Home</a>
+
+        <!-- Jobs Dropdown -->
+        <div class="dropdown">
+            <button class="dropbtn">Jobs <i class="fa-solid fa-caret-down"></i></button>
+            <div class="dropdown-content">
+              <a href="{% url 'job_details_blank' %}"><i class="fa-solid fa-briefcase"></i> Posted Jobs</a>
+
+                <a href="{% url 'employee_details' %}"><i class="fa-solid fa-user-tie"></i> Employee Details</a>
+            </div>
+        </div>
+
+        <!-- Payment Dropdown -->
+        <div class="dropdown">
+            <button class="dropbtn">Payment <i class="fa-solid fa-caret-down"></i></button>
+            <div class="dropdown-content">
+                <a href="{% url 'employee_payment' %}"><i class="fa-solid fa-user"></i> Employee Payment</a>
+                <a href="{% url 'tax_payment' %}"><i class="fa-solid fa-money-bill-wave"></i> Tax Payment</a>
+                <a href="{% url 'total_payment' %}"><i class="fa-solid fa-coins"></i> Total Payment</a>
+            </div>
+        </div>
+
+        <!-- Certificate Dropdown -->
+        <div class="dropdown">
+            <button class="dropbtn">Certificate <i class="fa-solid fa-caret-down"></i></button>
+            <div class="dropdown-content">
+                <a href="{% url 'requested_certificates' %}"><i class="fa-solid fa-file-alt"></i> Employee Certificate</a>
+               
+            </div>
+        </div>
+
+        <!-- Contact Dropdown -->
+        <div class="dropdown">
+            <button class="dropbtn">Contact <i class="fa-solid fa-caret-down"></i></button>
+            <div class="dropdown-content">
+                <a href="{% url 'email_support' %}"><i class="fa-solid fa-envelope"></i> Email Support</a>
+        <a href="{% url 'call_support' %}"><i class="fa-solid fa-phone"></i> Call Support</a>
+            </div>
+        </div>
+
+        <!-- Notifications with Badge -->
+        <div class="dropdown">
+            <button class="dropbtn notification-btn">
+                Notification 
+                <span class="notification-badge">6</span> 
+                <i class="fa-solid fa-caret-down"></i>
+            </button>
+            <div class="dropdown-content">
+                <a href="#"><i class="fa-solid fa-bell"></i> Job application received</a>
+                <a href="#"><i class="fa-solid fa-bell"></i> Interview scheduled</a>
+                <a href="#"><i class="fa-solid fa-bell"></i> Job approved</a>
+                <a href="#"><i class="fa-solid fa-bell"></i> Payment completed</a>
+                <a href="#"><i class="fa-solid fa-bell"></i> New applicant</a>
+                <a href="#"><i class="fa-solid fa-bell"></i> Certificate issued</a>
+            </div>
+        </div>
+
+        <!-- User Profile Dropdown -->
+        <div class="dropdown">
+            <button class="dropbtn user-btn">
+                <img src="https://www.w3schools.com/w3images/avatar2.png" alt="Profile Avatar" class="avatar">
+                <i class="fa-solid fa-caret-down"></i>
+            </button>
+            <div class="dropdown-content">
+                <a href="{% url 'profile_form' %}"><i class="fa-solid fa-user"></i> Profile</a>
+                    <a href="{% url 'login' %}"><i class="fa-solid fa-sign-out-alt"></i> Logout</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+  <div class="container">
+    <!-- Left Sidebar (Filters) -->
+    <aside class="sidebar">
+        <div class="filter-header">
+          <h2>Filter</h2>
+          <button id="clear-filters">Clear</button>
+        </div>
+        
+        <!-- Date Filter -->
+        <div class="date-filter">
+          <label for="from-date">From:</label>
+          <input type="date" id="from-date" name="from-date">
+      
+          <label for="to-date">To:</label>
+          <input type="date" id="to-date" name="to-date">
+        </div>
+      
+        <!-- Location Filter -->
+        <div class="location-filter">
+          <p>Location:</p>
+          <label>
+            <input type="radio" name="location" value="Kochi"> Kochi
+          </label>
+          <label>
+            <input type="radio" name="location" value="Delhi"> Delhi
+          </label>
+          <label>
+            <input type="radio" name="location" value="Bangalore"> Bangalore
+          </label>
+          <label>
+            <input type="radio" name="location" value="Chennai"> Chennai
+          </label>
+          <label>
+            <input type="radio" name="location" value="Coimbatore"> Coimbatore
+          </label>
+          <label>
+            <input type="radio" name="location" value="Mumbai"> Mumbai
+          </label>
+        </div>
+      
+        <!-- Search by location -->
+        <div class="search-filter">
+          <label for="search-location">Search by location:</label>
+          <input type="text" id="search-location" name="search-location" placeholder="Enter location">
+        </div>
+      </aside>
+      
+    <!-- Main Content (Tax Payment Details) -->
+    <main class="main-content">
+      <h1>Tax payment details</h1>
+      <!-- Container for the list of tax details -->
+      <div class="tax-details" id="tax-details-list">
+        <div class="tax-details" id="tax-details-list">
+            {% for detail in tax_details %}
+            <div class="tax-card">
+              <!-- Card Header -->
+              <div class="tax-card-header">
+                <div class="left">
+                  <!-- Pink Circle Icon -->
+                  <div class="icon-container">
+                    <i class="fas fa-star"></i>
+                  </div>
+                  <!-- Title, Company, Location -->
+                  <div class="title">
+                    <h3>{{ detail.job_title }}</h3>
+                    <p class="company">{{ detail.company }}</p>
+                    <p class="location">
+                        <i class="fas fa-map-marker-alt icon-location"></i>
+                        <span>{{ detail.location }}</span>
+                      </p>
+                      
+                  </div>
+                </div>
+                <!-- Job Code Badge -->
+                <div class="job-code">
+                  Job code : {{ detail.job_code }}
+                </div>
+              </div>
+        
+              <!-- Card Body -->
+              <div class="tax-card-body">
+                <p class="info">
+                  <i class="fas fa-money-bill-wave"></i>
+                  <span>Total paid amount to employees : {{ detail.total_paid }}</span>
+                </p>
+                <p class="info">
+                  <i class="fas fa-percent"></i>
+                  <span>Total tax payment : {{ detail.tax_percentage }}</span>
+                </p>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+      </div>
+    </main>
+  </div>
+
+  <script >
+    // tax_payment.js
+
+document.addEventListener('DOMContentLoaded', () => {
+  const fromDateInput = document.getElementById('from-date');
+  const toDateInput = document.getElementById('to-date');
+  const locationRadioButtons = document.querySelectorAll('input[name="location"]');
+  const searchLocationInput = document.getElementById('search-location');
+  const clearButton = document.getElementById('clear-filters');
+  const taxDetailsList = document.getElementById('tax-details-list');
+
+  // Function to apply filters on the displayed cards
+  function applyFilters() {
+    const fromDate = fromDateInput.value;
+    const toDate = toDateInput.value;
+    let selectedLocation = null;
+    locationRadioButtons.forEach(radio => {
+      if (radio.checked) {
+        selectedLocation = radio.value;
+      }
+    });
+    const searchText = searchLocationInput.value.toLowerCase().trim();
+
+    // For each tax card, decide if it should be visible
+    const cards = taxDetailsList.querySelectorAll('.tax-card');
+    cards.forEach(card => {
+      const cardText = card.innerText.toLowerCase();
+
+      let isVisible = true;
+
+      // (A) Example date filter logic (not fully implemented)
+      // You could store date info in data attributes if you have real data.
+      // For now, we'll skip actual date comparison or just do a dummy check.
+
+      // (B) Location filter
+      if (selectedLocation && !cardText.includes(selectedLocation.toLowerCase())) {
+        isVisible = false;
+      }
+
+      // (C) Search by location
+      if (searchText && !cardText.includes(searchText)) {
+        isVisible = false;
+      }
+
+      // Toggle card visibility
+      card.style.display = isVisible ? 'block' : 'none';
+    });
+  }
+
+  // Listen for changes on filters
+  fromDateInput.addEventListener('change', applyFilters);
+  toDateInput.addEventListener('change', applyFilters);
+  locationRadioButtons.forEach(radio => radio.addEventListener('change', applyFilters));
+  searchLocationInput.addEventListener('input', applyFilters);
+
+  // Clear button resets all filters
+  clearButton.addEventListener('click', () => {
+    fromDateInput.value = '';
+    toDateInput.value = '';
+    locationRadioButtons.forEach(radio => (radio.checked = false));
+    searchLocationInput.value = '';
+    applyFilters(); // Re-apply filters to show all cards
+  });
+});
+
+  </script>
+</body>
+</html>

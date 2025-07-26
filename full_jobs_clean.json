@@ -1,0 +1,28 @@
+﻿[
+{
+  "model": "App.job",
+  "pk": 1,
+  "fields": {
+    "user": 1,
+    "job_name": "Frontend Developer",
+    "company_name": "DesignCo",
+    "location": "Remote",
+    "job_time": "Full Time",
+    "experience": "1-2 Year",
+    "job_code": "FD123",
+    "work_hour": 8,
+    "short_description": "Create and maintain UI components.",
+    "job_details": "We are looking for a frontend developer with React skills.",
+    "vacancies": 3,
+    "duration": "6 months",
+    "contact_number": "1234567890",
+    "email": "hr@designco.com",
+    "status": "Active",
+    "hourly_rates": "25",
+    "salary": "120000.00",
+    "posted_date": "2025-07-10T10:00:00Z",
+    "created_at": "2025-07-10T10:00:00Z",
+    "skills": "React, CSS, HTML"
+  }
+}
+]

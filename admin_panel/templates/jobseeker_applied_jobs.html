@@ -1,0 +1,181 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Job seekers applied job details</title>
+  <!-- Font Awesome for icons (if needed) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <style>
+    /* Global Reset & Base Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f5f7fa;
+    }
+    a {
+      text-decoration: none;
+      color: #333;
+    }
+    
+    /* Header */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background-color: #fff;
+      padding: 10px 20px;
+      border-bottom: 1px solid #ccc;
+    }
+    .header .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #333;
+    }
+    .header .top-links a {
+      margin-left: 20px;
+      font-size: 0.95rem;
+      color: #333;
+      font-weight: 500;
+    }
+    
+    /* Page Wrapper: Contains Left Image and Content Container */
+    .page-wrapper {
+      display: flex;
+      width: 90%;
+      max-width: 1200px;
+      margin: 20px auto;
+      gap: 20px;
+    }
+    
+    /* Left Image Container */
+    .left-image {
+      width: 800px;
+      height: 500px;
+      flex-shrink: 0;
+      overflow: hidden;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      margin-left: -300px;
+      margin-top: 100px;
+    }
+    .left-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    /* Content Container */
+    .container {
+      flex: 1;
+    }
+    .container h1 {
+      font-size: 1.3rem;
+      margin-bottom: 20px;
+      color: #195299;
+    }
+    
+    /* Job Card Styles */
+    .job-card {
+      position: relative;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .job-card p {
+      margin: 8px 0;
+      font-size: 0.95rem;
+      color: #111;
+    }
+    .label {
+      font-weight: 700;
+      color: #111;
+    }
+    
+    /* Status Badge (top-right corner) */
+    .status-badge {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background-color: #e0f7e7;
+      color: #2a8c4a;
+      padding: 5px 10px;
+      border-radius: 4px;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+    
+    /* Remove Button */
+    .remove-btn {
+      background-color: #0974aa;
+      color: #fff;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    .remove-btn:hover {
+      background-color: #bbb;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="logo">JOB 365</div>
+    <div class="top-links">
+      <a href="#">Home</a>
+      <a href="#">Logout</a>
+    </div>
+  </header>
+  
+  <!-- Page Wrapper: Left Image and Container -->
+  <div class="page-wrapper">
+    <!-- Left-side image -->
+    <div class="left-image">
+      <img src="{% static 'images/5.jpg' %}" alt="Left Side Image">
+    </div>
+    
+    <!-- Container with Job Cards -->
+    <div class="container">
+      <h1>Job seekers applied job details</h1>
+      {% for job in applied_jobs %}
+        <div class="job-card">
+          {% if job.status == "Applied" %}
+            <div class="status-badge" style="background-color: #e0f7e7; color: #2a8c4a;">
+              status : {{ job.status }}
+            </div>
+          {% elif job.status == "Saved" %}
+            <div class="status-badge" style="background-color: #f0f0f0; color: #555;">
+              status : {{ job.status }}
+            </div>
+          {% else %}
+            <div class="status-badge">
+              status : {{ job.status }}
+            </div>
+          {% endif %}
+          <p><span class="label">Name of applicant :</span> {{ job.applicant_name }}</p>
+          <p><span class="label">Job name :</span> {{ job.job_name }}</p>
+          <p><span class="label">Job code :</span> {{ job.job_code }}</p>
+          <p><span class="label">Shop name / company name :</span> {{ job.shop_name }}</p>
+          <p><span class="label">Hourly rates :</span> {{ job.hourly_rates }}</p>
+          <p><span class="label">Location :</span> {{ job.location }}</p>
+          <a href="{% url 'jobseeker_details' %}" class="remove-btn">Detail</a>
+          <button class="remove-btn">Remove</button>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+  
+</body>
+</html>

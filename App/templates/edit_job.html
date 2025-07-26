@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Job</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    .form-group, .form-item {
+      margin-bottom: 15px;
+    }
+
+    .form-group.two-column {
+      display: flex;
+      gap: 20px;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    input[type="email"],
+    input[type="date"],
+    textarea,
+    select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    textarea {
+      height: 100px;
+    }
+
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .meta-item {
+      flex: 1;
+    }
+
+    .job-details-section {
+      background: #f9f9f9;
+      padding: 15px;
+      border-radius: 5px;
+    }
+
+    .wage-container {
+      margin: 20px 0;
+    }
+
+    .post-job-btn {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .post-job-btn i {
+      margin-right: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <form method="POST">
+      {% csrf_token %}
+      <h2><i class="fa-solid fa-pen-to-square"></i> Edit Job Post</h2>
+
+      <div class="form-group two-column">
+        <input type="text" name="job_name" value="{{ job.job_name }}" placeholder="Job Title" required>
+        <input type="text" name="company_name" value="{{ job.company_name }}" placeholder="Company Name" required>
+      </div>
+
+      <div class="form-group">
+        <input type="text" name="location" value="{{ job.location }}" placeholder="Location" required>
+      </div>
+
+      <div class="form-group">
+        <textarea name="short_description" placeholder="Short Description..." required>{{ job.short_description }}</textarea>
+      </div>
+
+      <div class="form-group meta-row">
+        <div class="meta-item">
+          <label>Time</label>
+          <select name="job_time" required>
+            <option value="Full Time" {% if job.job_time == 'Full Time' %}selected{% endif %}>Full Time</option>
+            <option value="Part Time" {% if job.job_time == 'Part Time' %}selected{% endif %}>Part Time</option>
+          </select>
+        </div>
+        <div class="meta-item">
+          <label>Experience</label>
+          <select name="experience" required>
+            <option value="1-2 Year" {% if job.experience == '1-2 Year' %}selected{% endif %}>1-2 Year</option>
+            <option value="2-5 Year" {% if job.experience == '2-5 Year' %}selected{% endif %}>2-5 Year</option>
+            <option value="5+ Year" {% if job.experience == '5+ Year' %}selected{% endif %}>5+ Year</option>
+          </select>
+        </div>
+        <div class="meta-item">
+          <label>Posted Location</label>
+          <input type="text" name="posted_location" value="{{ job.posted_location }}" required>
+        </div>
+        <div class="meta-item">
+          <label>Posted Date</label>
+          <input type="date" name="posted_date" value="{{ job.posted_date|date:'Y-m-d' }}" required>
+        </div>
+      </div>
+
+      <div class="job-details-section">
+        <div class="form-group">
+          <div class="form-item">
+            <label>Vacancy</label>
+            <input type="number" name="vacancy" value="{{ job.vacancy }}" required>
+          </div>
+          <div class="form-item">
+            <label>Job Code</label>
+            <input type="text" name="job_code" value="{{ job.job_code }}" readonly>
+          </div>
+          <div class="form-item">
+            <label>Contact</label>
+            <input type="text" name="contact" value="{{ job.contact_number }}" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="form-item">
+            <label>Duration</label>
+            <select name="duration" required>
+              <option value="1 Week" {% if job.duration == '1 Week' %}selected{% endif %}>1 Week</option>
+              <option value="2 Weeks" {% if job.duration == '2 Weeks' %}selected{% endif %}>2 Weeks</option>
+              <option value="1 Month" {% if job.duration == '1 Month' %}selected{% endif %}>1 Month</option>
+              <option value="2 Months" {% if job.duration == '2 Months' %}selected{% endif %}>2 Months</option>
+            </select>
+          </div>
+          <div class="form-item">
+            <label>Work Hour</label>
+            <input type="number" name="work_hour" value="{{ job.work_hour }}" min="1">
+          </div>
+          <div class="form-item">
+            <label>Email</label>
+            <input type="email" name="email" value="{{ job.email }}">
+          </div>
+        </div>
+      </div>
+
+      <div class="wage-container">
+        <label>Wage Details/Hour (₹)</label>
+        <input type="range" min="200" max="1000" value="{{ job.hourly_rates }}" class="slider" id="wageRange" name="wage">
+        <p><span id="wageValue">{{ job.hourly_rates }}</span> /hr</p>
+      </div>
+
+      <div class="form-group">
+        <label for="salary">Monthly Salary (₹)</label>
+        <input type="number" name="salary" value="{{ job.salary }}" step="0.01" required>
+      </div>
+
+      <button type="submit" class="post-job-btn">
+        <i class="fa-solid fa-paper-plane"></i> Update Job
+      </button>
+    </form>
+  </div>
+
+  <script>
+    const wageSlider = document.getElementById("wageRange");
+    const wageValue = document.getElementById("wageValue");
+    wageSlider.oninput = function () {
+      wageValue.innerText = this.value;
+    };
+  </script>
+</body>
+</html>

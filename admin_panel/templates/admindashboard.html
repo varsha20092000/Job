@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>JOB 365 Admin Dashboard</title>
+  <style>
+   /*******************************************************
+ * 1. GLOBAL RESET + BASE STYLES
+ *******************************************************/
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Base font & background for the whole page */
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f5f7fa;
+}
+
+/* Base link styling */
+a {
+  text-decoration: none;
+  color: #333; /* or color: inherit; depending on preference */
+}
+
+/*******************************************************
+ * 2. HEADER STYLES
+ *******************************************************/
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #fff;
+  padding: 10px 20px;
+  border-bottom: 1px solid #ccc;
+}
+
+.header .logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.header .top-links a {
+  margin-left: 20px;
+  font-size: 0.95rem;
+  color: #333;
+  font-weight: 500;
+}
+
+/*******************************************************
+ * 3. CONTAINER + SIDEBAR LAYOUT
+ *******************************************************/
+/* Parent container that holds sidebar and main content */
+.container {
+  display: flex;
+}
+
+/* Light blue sidebar area */
+.sidebar {
+  width: 250px;
+  background-color: #b3e7ff;
+  padding: 20px;
+  border-radius: 10px;
+  /* Optional: set a fixed height if needed */
+  height: 930px;
+}
+
+/* Remove default list styles in sidebar */
+.sidebar ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Sidebar items styled like buttons */
+.sidebar ul li {
+  background-color: #fff;
+  color: #333;
+  padding: 12px;
+  margin-bottom: 15px;
+  text-align: center;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 0.95rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.sidebar ul li:hover {
+  background-color: #e8f8ff; /* Slightly lighter hover color */
+}
+
+/*******************************************************
+ * 4. BASIC DASHBOARD MAIN CONTENT (the older .dashboard)
+ *******************************************************/
+.dashboard {
+  flex: 1;
+  padding: 20px;
+  background-color: #f5f7fa;
+}
+
+.dashboard h2 {
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* Stats Section (older style) */
+.stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.stat-box {
+  flex: 1 1 220px;
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  min-width: 220px;
+}
+
+.stat-box h4 {
+  margin-bottom: 10px;
+  font-size: 1rem;
+  color: #555;
+}
+
+.stat-box p {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+/* Action Buttons */
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.actions button {
+  background-color: #107dca;
+  border: none;
+  border-radius: 4px;
+  padding: 12px 20px;
+  color: #fff;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.actions button:hover {
+  background-color: #7db9d0;
+}
+
+/* Example Chart Area */
+.chart {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  min-height: 200px;
+}
+
+.chart p {
+  color: #666;
+  font-size: 0.95rem;
+}
+
+/*******************************************************
+ * 5. ALTERNATE / CUSTOM DASHBOARD CONTAINER + CARDS
+ *******************************************************/
+/* Main container for a fancier dashboard layout */
+.dashboard-container {
+  width: 95%;
+  max-width: 1200px;
+  margin: 30px auto;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  padding: 30px;
+}
+
+/* Heading with “ADMIN” in blue, etc. */
+.dashboard-title {
+  font-size: 2rem;
+  margin-bottom: 25px;
+  color: #333;
+}
+.dashboard-title .highlight {
+  color: #2daafc; /* Bright blue for "ADMIN" */
+}
+
+/* TOP ROW: Two large gradient cards */
+.top-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+.large-card {
+  flex: 1 1 300px;
+  min-width: 280px;
+  height: 140px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  color: #fff;
+  position: relative;
+}
+.large-card.blue {
+  background: linear-gradient(135deg, #66b8ff, #3aa8ff);
+}
+.large-card.cyan {
+  background: linear-gradient(135deg, #79d1e0, #4cc7dd);
+}
+.large-card .icon {
+  font-size: 50px;
+  margin-right: 15px;
+}
+.large-card .card-text h4 {
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+}
+.large-card .card-text p {
+  font-size: 0.95rem;
+}
+
+/* MIDDLE ROW: Three smaller stat boxes with borders */
+.middle-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+.small-card {
+  flex: 1 1 220px;
+  min-width: 200px;
+  background-color: #fff;
+  border: 2px solid #d5e7f6;
+  border-radius: 10px;
+  padding: 15px;
+  text-align: center;
+}
+.small-card h4 {
+  font-size: 1rem;
+  margin-bottom: 6px;
+  color: #333;
+}
+.small-card p {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+/* BOTTOM ROW: Chart + Buttons side by side */
+.bottom-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.chart-container {
+  flex: 1 1 400px;
+  min-width: 280px;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+}
+.chart-title {
+  margin-bottom: 15px;
+  font-size: 1rem;
+  color: #333;
+  font-weight: 600;
+}
+.bar-chart {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
+  height: 150px;
+  background-color: #f9fbfd;
+  border-radius: 8px;
+  padding: 10px;
+}
+.bar {
+  width: 30px;
+  background: linear-gradient(180deg, #7eb8f6, #579ff5);
+  border-radius: 4px;
+}
+.bar1 {
+  height: 60px;
+}
+.bar2 {
+  height: 100px;
+}
+.bar3 {
+  height: 80px;
+}
+
+/* Right-side buttons column */
+.buttons-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  flex: 1 1 200px;
+  min-width: 200px;
+  justify-content: flex-start;
+}
+.buttons-container button {
+  background-color: #2678c0;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 15px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  text-align: center;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  transition: background-color 0.3s ease;
+}
+.buttons-container button:hover {
+  background-color: #173fa4;
+}
+
+/*******************************************************
+ * 6. RESPONSIVE MEDIA QUERIES
+ *******************************************************/
+@media (max-width: 768px) {
+  .top-row, .middle-row, .bottom-row {
+    flex-direction: column;
+  }
+  .large-card {
+    height: auto;
+  }
+}
+
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <div class="header">
+    <div class="logo">JOB 365</div>
+    <div class="top-links">
+      <a href="#">Home</a>
+      <a href="#">Logout</a>
+    </div>
+  </div>
+
+  <!-- Main Container -->
+  <div class="container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <ul>
+        <ul>
+            <li><a href="{% url 'user_management' %}">User Management</a></li>
+            <li><a href="{% url 'admin_job_listing' %}">Job Listing Management</a></li>
+            <li><a href="{% url 'subscriptions' %}">Subscription and payments</a></li>
+            <li><a href="{% url 'content_management' %}">Content Management</a></li>
+            <li><a href="{% url 'settings_customization' %}">Settings and customization</a></li>
+            <li><a href="{% url 'report_analytics' %}">Report and analytics</a></li>
+          </ul>
+          
+      </ul>
+    </div>
+
+    <!-- Dashboard -->
+    <div class="dashboard">
+      <h2>ADMIN DASHBOARD</h2>
+
+      <!-- Stats -->
+      <div class="stats">
+        <div class="stat-box">
+          <h4>Total number of job posting</h4>
+          <p>+55% more than last week</p>
+        </div>
+        <div class="stat-box">
+          <h4>Total number of job seekers</h4>
+          <p>-2% less than last week</p>
+        </div>
+        <div class="stat-box">
+          <h4>Pending job applications</h4>
+          <p>+45% more than last week</p>
+        </div>
+        <div class="stat-box">
+          <h4>Total number of job posting</h4>
+          <p>+40% more than last week</p>
+        </div>
+      </div>
+
+      <!-- Buttons -->
+      <div class="actions">
+        <a href="{% url 'job_create' %}">
+          <button>ADD JOBS</button>
+        </a>
+        <a href="{% url 'applications' %}">
+          <button>Applications</button>
+        </a>
+        <a href="{% url 'list_jobseekers' %}">
+          <button>jobseeker List</button>
+        </a>
+        <a href="{% url 'list_companies' %}">
+          <button>company List</button>
+        </a>
+      </div>
+
+      <!-- Chart Placeholder -->
+      <div class="chart">
+        <p>Bar chart or graph goes here (placeholder).</p>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

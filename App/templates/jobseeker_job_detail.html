@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Job Details</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+ body {
+  background: linear-gradient(to right, #e4e8ed, #f8f9fb); /* subtle two-tone */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  color: #333;
+}
+
+
+.job-card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 30px 40px;
+  max-width: 700px;
+  margin: 60px auto;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08); /* soft elevation */
+}
+
+
+.header-section h1 {
+  font-size: 28px;
+  margin-bottom: 10px;
+  color: #2c3e50;
+}
+
+.header-section h2 {
+  font-size: 18px;
+  font-weight: 500;
+  color: #7f8c8d;
+  margin-bottom: 25px;
+}
+
+h3 {
+  font-size: 20px;
+  color: #2c3e50;
+  margin-top: 25px;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #ecf0f1;
+  padding-bottom: 8px;
+}
+
+.info-item {
+  margin: 8px 0;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.info-item i {
+  margin-right: 10px;
+}
+
+a.back-btn {
+  display: inline-block;
+  margin-top: 30px;
+  padding: 10px 18px;
+  font-size: 15px;
+  color: #377ec6;
+  background-color: #eef4fb;
+  border: 1px solid #377ec6;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+a.back-btn:hover {
+  background-color: #dbeafe;
+  color: #255a9c;
+  border-color: #255a9c;
+}
+
+.apply-btn {
+  display: inline-block;
+  background-color: #377ec6;
+  color: #fff;
+  padding: 10px 18px;
+  font-size: 15px;
+  border: none;
+  border-radius: 8px;
+  margin-left: 15px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.apply-btn i {
+  margin-left: 6px;
+}
+
+.apply-btn:hover {
+  background-color: #255a9c;
+}
+
+    .back-btn {
+      background-color: #f1f5f9;
+      color: #0f172a;
+      margin-right: 10px;
+    }
+    .apply-btn {
+      background-color: #2563eb;
+      color: white;
+    }
+    .modal {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background-color: rgba(0,0,0,0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10000;
+    }
+    .modal.hidden {
+      display: none;
+    }
+    .modal-content {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 600px;
+      position: relative;
+    }
+    .modal-content h2 {
+      font-size: 24px;
+      color: #1d4ed8;
+      margin-bottom: 20px;
+    }
+    .modal-content input, .modal-content select, .modal-content textarea {
+      width: 100%;
+      margin-bottom: 15px;
+      padding: 10px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      font-size: 15px;
+    }
+    .modal-content label {
+      font-weight: 600;
+      display: block;
+      margin-bottom: 5px;
+    }
+    .submit-btn {
+      padding: 10px 20px;
+      background-color: #1070b9;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .close {
+      position: absolute;
+      right: 20px;
+      top: 20px;
+      font-size: 24px;
+      cursor: pointer;
+      color: #475569;
+    }
+    .education-section {
+      padding: 15px;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+    .education-section h4 {
+      margin-bottom: 10px;
+    }
+    .back-btn {
+  display: inline-flex;
+  align-items: center;
+  background-color: #ecf4fc;
+  color: #377ec6;
+  border: 1px solid #377ec6;
+  padding: 8px 14px;
+  font-size: 16px;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.back-btn i {
+  margin-right: 8px;
+  font-size: 18px;
+  color: #377ec6;
+}
+
+.back-btn:hover {
+  background-color: #377ec6;
+  color: #fff;
+}
+
+.back-btn:hover i {
+  color: #fff;
+}
+.job-application-form {
+  max-width: 900px;
+  margin: auto;
+  padding: 30px;
+  background: #f4f8fc;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.form-row {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  flex: 1;
+  position: relative;
+}
+
+.form-group.full-width {
+  flex: 100%;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="number"],
+input[type="date"],
+select,
+textarea {
+  width: 100%;
+  padding: 12px 12px 12px 40px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  transition: 0.3s ease;
+}
+
+textarea {
+  resize: vertical;
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: #3b82f6;
+  background: #fff;
+}
+
+.icon {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  color: #3b82f6;
+  pointer-events: none;
+}
+
+.sub-heading {
+  font-size: 1.2rem;
+  margin: 25px 0 10px;
+  color: #333;
+}
+
+.submit-btn {
+  background-color: #2d80cf;
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.3s ease;
+}
+
+.submit-btn:hover {
+  background-color: #275bae;
+}
+
+.blue-btn {
+  background-color: #3b82f6;
+}
+
+label {
+  display: block;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  color: #555;
+}
+
+ html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: auto;
+}
+
+body {
+  background-color: #f1f1f1;
+}
+
+.form-container {
+  max-height: 95vh; /* so it fits the screen */
+  overflow-y: auto;  /* enables scrolling inside */
+  margin: auto;
+  background: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+
+    .job-application-form .form-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .job-application-form .form-group {
+      flex: 1;
+      min-width: 45%;
+      position: relative;
+    }
+
+    .job-application-form .form-group.full-width {
+      min-width: 100%;
+    }
+
+    .job-application-form input,
+    .job-application-form select,
+    .job-application-form textarea {
+      width: 100%;
+      padding: 10px 12px 10px 36px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 15px;
+    }
+
+    .job-application-form textarea {
+      resize: vertical;
+    }
+
+    .job-application-form .icon {
+      position: absolute;
+      top: 50%;
+      left: 10px;
+      transform: translateY(-50%);
+      color: #666;
+      font-size: 14px;
+    }
+
+    .job-application-form h3.sub-heading {
+      font-size: 20px;
+      color: #333;
+      margin-top: 25px;
+      margin-bottom: 10px;
+    }
+
+    .education-section {
+      background-color: #eef2f7;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+    }
+
+    .submit-btn {
+      background: #007bff;
+      color: #fff;
+      border: none;
+      padding: 12px 25px;
+      font-size: 16px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .submit-btn.blue-btn {
+      background-color:#007bff;
+      margin-bottom: 20px;
+    }
+
+    .submit-btn:hover {
+      background-color: #0056b3;
+    }
+
+    label {
+      font-weight: 600;
+      display: block;
+      margin-bottom: 6px;
+      margin-top: 10px;
+    }
+
+    @media (max-width: 768px) {
+      .job-application-form .form-group {
+        min-width: 100%;
+      }
+    }
+    .skill-input-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+#skillInput {
+  flex: 1;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 15px;
+}
+
+#addSkillBtn {
+  background-color: #1984ab;
+  color: #fff;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+#addSkillBtn:hover {
+  background-color: #0a3d70;
+}
+
+.skills-box {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.skill-tag {
+  background-color: #d1ecf1;
+  color: #0c5460;
+  padding: 6px 10px;
+  border-radius: 20px;
+  font-size: 14px;
+  display: inline-block;
+}
+
+.suggestions {
+  margin-top: -8px;
+  background: white;
+  border: 1px solid #ccc;
+  border-top: none;
+  max-height: 150px;
+  overflow-y: auto;
+  z-index: 100;
+  position: absolute;
+  width: 100%;
+}
+
+.suggestions div {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.suggestions div:hover {
+  background-color: #f0f0f0;
+}
+
+  </style>
+</head>
+<body>
+ 
+  {% if applied_successfully %}
+  <div id="successPopup" style="
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 9999;
+  ">
+    <div style="
+      background: #d4edda;
+      color: #155724;
+      padding: 20px 30px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      text-align: center;
+      max-width: 400px;
+    ">
+      <h3>✅ Application Submitted Successfully!</h3>
+      <p>Your job application has been submitted. We will contact you soon..</p>
+      <button onclick="document.getElementById('successPopup').style.display='none'" style="
+        margin-top: 15px;
+        padding: 8px 16px;
+        background-color: #28a745;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      ">Close</button>
+    </div>
+  </div>
+{% endif %}
+
+  <div class="job-card">
+  <div class="header-section">
+    <h1><i class="fas fa-briefcase" style="color:#2980b9;"></i> {{ job.job_name }}</h1>
+    <h2><i class="fas fa-building" style="color:#8e44ad;"></i> {{ job.company_name }}</h2>
+  </div>
+
+  <h3><i class="fas fa-info-circle" style="color:#27ae60;"></i> Job Information</h3>
+
+  <div class="info-item">
+    <i class="fas fa-map-marker-alt" style="color:#e74c3c;"></i> <strong>Location:</strong> {{ job.location }}
+  </div>
+  <div class="info-item">
+    <i class="fas fa-wallet" style="color:#f39c12;"></i> <strong>Salary:</strong> {{ job.salary }}
+  </div>
+  <div class="info-item">
+    <i class="fas fa-clock" style="color:#16a085;"></i> <strong>Hourly Rate:</strong> {{ job.hourly_rates }}
+  </div>
+  <div class="info-item">
+    <i class="fas fa-lightbulb" style="color:#f1c40f;"></i> <strong>Skills Required:</strong> {{ job.skills }}
+  </div>
+  <div class="info-item">
+    <i class="fas fa-users" style="color:#d35400;"></i> <strong>Vacancies:</strong> {{ job.vacancies }}
+  </div>
+  <div class="info-item">
+    <i class="fas fa-hourglass-half" style="color:#2c3e50;"></i> <strong>Duration:</strong> {{ job.duration }}
+  </div>
+
+  <h3><i class="fas fa-align-left" style="color:#8e44ad;"></i> Job Details</h3>
+  <div class="info-item">
+  <i class="fas fa-file-alt" style="color:#34495e;"></i> {{ job.job_details }}
+</div>
+
+  <h3><i class="fas fa-address-book" style="color:#9b59b6;"></i> Contact Information</h3>
+  <div class="info-item">
+  <i class="fas fa-phone-alt" style="color:#2c3e50;"></i> <strong>Phone:</strong> {{ job.contact_number }}
+</div>
+<div class="info-item">
+  <i class="fas fa-envelope" style="color:#e67e22;"></i> <strong>Email:</strong> {{ job.email }}
+</div>
+<div class="info-item">
+  <i class="fas fa-check-circle" style="color:#2ecc71;"></i> <strong>Status:</strong> {{ job.status }}
+</div>
+
+  <a href="{% url 'home' %}" class="back-btn">
+    <i class="fas fa-arrow-left" style="color:#377ec6;"></i> Back to Jobs
+  </a>
+<input type="hidden" name="status" value="Applied">
+
+  <button class="apply-btn" id="openApplyForm">
+    Apply Now <i class="fas fa-paper-plane" style="color:#3498db;"></i>
+  </button>
+</div>
+
+
+  </div>
+
+  <div id="applyFormModal" class="modal hidden">
+    <div class="modal-content">
+      <span class="close" id="closeApplyForm">&times;</span>
+      <h2 class="text-xl font-bold mb-4" style="display: flex; align-items: center; gap: 10px;">
+        <i class="fas fa-user-tie" style="color: #3b82f6; font-size: 1.8rem;"></i>
+        {{ job.job_name }}
+      </h2>
+<div class="form-container">
+  <form method="POST" action="{% url 'apply_for_job' job.id %}" enctype="multipart/form-data" class="job-application-form">
+    {% csrf_token %}
+
+    <div class="form-row">
+      <div class="form-group">
+        <i class="fas fa-user icon"></i>
+        <input type="text" name="full_name" placeholder="Full Name" required>
+      </div>
+      <div class="form-group">
+        <i class="fas fa-calendar icon"></i>
+        <input type="number" name="age" placeholder="Age" required>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <i class="fas fa-envelope icon"></i>
+        <input type="email" name="email" placeholder="Enter your Email" required>
+      </div>
+      <div class="form-group">
+        <i class="fas fa-phone icon"></i>
+        <input type="text" name="phone" placeholder="Enter your Phone Number" required>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <i class="fas fa-venus-mars icon"></i>
+        <select name="gender" required>
+          <option value="">Select Gender</option>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <i class="fas fa-birthday-cake icon"></i>
+        <input type="date" name="dob" required>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group full-width">
+        <i class="fas fa-map-marker-alt icon"></i>
+        <input type="text" name="place" placeholder="Place" required>
+      </div>
+    </div>
+    
+    <h3 class="sub-heading"><i class="fas fa-graduation-cap" style="margin-right: 8px; color: #2c3e50;"></i>Educational Details:</h3>
+    <div id="educationContainer">
+      <div class="education-section">
+        <h4>Education 1</h4>
+        <input type="text" name="education[0][school]" placeholder="School/College Name">
+        <input type="text" name="education[0][place]" placeholder="Place">
+        <input type="text" name="education[0][marks]" placeholder="Marks Scored">
+        <label>Upload Certificate:</label>
+        <input type="file" name="education[0][certificate]">
+      </div>
+    </div>
+
+    <button type="button" id="addEducationBtn" class="submit-btn blue-btn">➕ Add More Educational Details</button>
+
+   <!-- Skill Section -->
+<div>
+  <label for="skillInput"><strong>Skills</strong></label>
+  <div style="display: flex; gap: 10px;">
+    <input
+      type="text"
+      id="skillInput"
+      placeholder="Type a skill"
+      autocomplete="off"
+      style="padding: 8px; border: 1px solid #ccc; border-radius: 4px;"
+    />
+    <button
+  type="button"
+  id="addSkillBtn"
+  style="padding: 2px 6px; font-size: 12px; background-color: #007bff; color: white; border: none; border-radius: 4px; height: 28px; width: 28px; display: flex; align-items: center; justify-content: center;"
+>
+  +
+</button>
+
+  </div>
+  <div id="suggestions" style="border: 1px solid #ccc; border-radius: 4px; margin-top: 5px; display: none; position: absolute; background-color: white; z-index: 999;"></div>
+
+  <div id="skillBoxContainer" style="margin-top: 10px; display: flex; flex-wrap: wrap; gap: 8px;"></div>
+
+  <!-- Hidden input for submitting skills -->
+  <input type="hidden" id="skillsHiddenInput" name="skills" />
+</div>
+
+
+
+    <div class="form-group">
+      <label><i class="fas fa-image icon"></i> Upload Profile Photo:</label>
+      <input type="file" name="avatar">
+    </div>
+
+   <div class="form-group full-width">
+  <label for="cover_letter">
+    <i class="fas fa-pen" style="margin-right: 6px;"></i> Cover Letter:
+  </label>
+  <textarea name="cover_letter" id="cover_letter" placeholder="Write your cover letter..." rows="4" required></textarea>
+</div>
+
+    <div class="form-group">
+      <label><i class="fas fa-file-upload icon"></i> Upload CV/Resume:</label>
+      <input type="file" name="resume" required>
+    </div>
+<input type="hidden" name="status" value="Applied">
+
+    <button type="submit" class="submit-btn">Submit Application</button>
+  </form>
+</div>
+
+  </div>
+
+  
+<script>
+   window.onload = function() {
+    const popup = document.getElementById('successPopup');
+    if (popup) {
+      setTimeout(() => {
+        popup.style.display = 'none';
+      }, 4000); // hide after 4 seconds
+    }
+  };
+  window.onload = function () {
+    // Success Modal
+    const modal = document.getElementById("successModal");
+    if (modal) {
+      modal.style.display = "flex";
+      setTimeout(() => {
+        modal.style.display = "none";
+      }, 3000);
+    }
+
+    // Apply Form Modal Logic
+    const openApplyForm = document.getElementById("openApplyForm");
+    const closeApplyForm = document.getElementById("closeApplyForm");
+    const applyFormModal = document.getElementById("applyFormModal");
+
+    if (openApplyForm && closeApplyForm && applyFormModal) {
+      openApplyForm.addEventListener("click", function () {
+        applyFormModal.classList.remove("hidden");
+      });
+
+      closeApplyForm.addEventListener("click", function () {
+        applyFormModal.classList.add("hidden");
+      });
+
+      window.onclick = function (event) {
+        if (event.target == applyFormModal) {
+          applyFormModal.classList.add("hidden");
+        }
+      };
+    }
+
+    // Education Logic
+    let educationCount = 1;
+
+    function createEducationBlock(count) {
+      const div = document.createElement('div');
+      div.classList.add('education-section');
+      div.innerHTML = `
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <h4 style="margin: 0;"><i class="fas fa-graduation-cap" style="margin-right: 6px;"></i> Education ${count + 1}</h4>
+          <div>
+            <button type="button" class="delete-education" style="background:none;border:none;color:red;font-size:20px;cursor:pointer;">🗑️</button>
+            <button type="button" class="close-education" style="background:none;border:none;color:black;font-size:20px;cursor:pointer;">❌</button>
+          </div>
+        </div>
+        <input type="text" name="education[${count}][school]" placeholder="School/College Name">
+        <input type="text" name="education[${count}][place]" placeholder="Place">
+        <input type="text" name="education[${count}][marks]" placeholder="Marks Scored">
+        <label>Upload Certificate:</label>
+        <input type="file" name="education[${count}][certificate]">`;
+      return div;
+    }
+
+    const addEducationBtn = document.getElementById('addEducationBtn');
+    const educationContainer = document.getElementById('educationContainer');
+
+    if (addEducationBtn && educationContainer) {
+      addEducationBtn.addEventListener('click', function () {
+        const newBlock = createEducationBlock(educationCount);
+        educationContainer.appendChild(newBlock);
+        educationCount++;
+        setupDeleteButtons(newBlock);
+      });
+    }
+
+    function setupDeleteButtons(block) {
+      const deleteBtn = block.querySelector('.delete-education');
+      const closeBtn = block.querySelector('.close-education');
+      deleteBtn.addEventListener('click', () => block.remove());
+      closeBtn.addEventListener('click', () => block.remove());
+    }
+
+    // Skill Selection Logic
+    const skillsList = [
+      "painting", "python", "public speaking", "photoshop",
+      "project management", "problem solving", "presentation"
+    ];
+
+    const skillInput = document.getElementById("skillInput");
+    const addSkillBtn = document.getElementById("addSkillBtn");
+    const skillBoxContainer = document.getElementById("skillBoxContainer");
+    const suggestionsBox = document.getElementById("suggestions");
+    const skillsHiddenInput = document.getElementById("skillsHiddenInput");
+
+    let addedSkills = [];
+
+    if (skillInput && suggestionsBox && skillBoxContainer && skillsHiddenInput) {
+
+      skillInput.addEventListener("input", function () {
+        const value = this.value.toLowerCase().trim();
+        suggestionsBox.innerHTML = "";
+        if (value.length === 0) {
+          suggestionsBox.style.display = "none";
+          return;
+        }
+
+        const matches = skillsList.filter(skill =>
+          skill.toLowerCase().startsWith(value) && !addedSkills.includes(skill)
+        );
+
+        if (matches.length === 0) {
+          suggestionsBox.style.display = "none";
+          return;
+        }
+
+        suggestionsBox.style.display = "block";
+        matches.forEach(skill => {
+          const div = document.createElement("div");
+          div.classList.add("suggestion-item");
+          div.textContent = skill;
+          div.style.cursor = "pointer";
+          div.style.padding = "4px 8px";
+          div.addEventListener("click", function () {
+            addSkill(skill);
+            skillInput.value = "";
+            suggestionsBox.style.display = "none";
+          });
+          suggestionsBox.appendChild(div);
+        });
+      });
+
+      addSkillBtn.addEventListener("click", function () {
+        const skill = skillInput.value.trim();
+        if (skill !== "" && !addedSkills.includes(skill)) {
+          addSkill(skill);
+          skillInput.value = "";
+        }
+      });
+
+      function addSkill(skill) {
+        if (addedSkills.includes(skill)) return;
+
+        addedSkills.push(skill);
+        updateSkillsHiddenInput();
+
+        const box = document.createElement("div");
+        box.className = "skill-box";
+        box.style.padding = "4px 8px";
+        box.style.border = "1px solid #ccc";
+        box.style.borderRadius = "4px";
+        box.style.background = "#f0f0f0";
+        box.style.display = "flex";
+        box.style.alignItems = "center";
+        box.style.gap = "6px";
+
+        const text = document.createElement("span");
+        text.textContent = skill;
+
+        const remove = document.createElement("span");
+        remove.textContent = "✖";
+        remove.title = "Remove";
+        remove.style.cursor = "pointer";
+        remove.addEventListener("click", () => {
+          skillBoxContainer.removeChild(box);
+          addedSkills = addedSkills.filter(s => s !== skill);
+          updateSkillsHiddenInput();
+        });
+
+        box.appendChild(text);
+        box.appendChild(remove);
+        skillBoxContainer.appendChild(box);
+      }
+
+      function updateSkillsHiddenInput() {
+        skillsHiddenInput.value = addedSkills.join(',');
+      }
+
+      document.addEventListener("click", function (e) {
+        if (!suggestionsBox.contains(e.target) && e.target !== skillInput) {
+          suggestionsBox.style.display = "none";
+        }
+      });
+    }
+  };
+</script>
+
+</body>
+
+</html>

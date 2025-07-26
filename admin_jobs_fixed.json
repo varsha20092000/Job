@@ -1,0 +1,54 @@
+[
+{
+  "model": "admin_panel.job",
+  "pk": 1,
+  "fields": {
+    "job_name": "Test Job",
+    "company_name": "Test Company",
+    "location": "Remote",
+    "hourly_rates": "500",
+    "job_details": "Sample job description",
+    "vacancies": 5,
+    "duration": "6 months",
+    "contact_number": "9876543210",
+    "email": "test@example.com",
+    "status": "Active",
+    "created_at": "2025-07-14T14:46:56.675Z",
+    "salary": "75000.00",
+    "posted_date": "2025-07-14T14:46:57.445Z",
+    "skills": "Python, Django"
+  }
+},
+{
+  "model": "admin_panel.job",
+  "pk": 2,
+  "fields": {
+    "job_name": "Second Dummy Job",
+    "company_name": "Another Company",
+    "location": "Remote",
+    "hourly_rates": "600",
+    "job_details": "Another job detail",
+    "vacancies": 3,
+    "duration": "3 months",
+    "contact_number": "9123456789",
+    "email": "another@example.com",
+    "status": "Active",
+    "created_at": "2025-07-14T14:50:43.303Z",
+    "salary": "65000.00",
+    "posted_date": "2025-07-14T14:50:43.304Z",
+    "skills": "JavaScript, React"
+  }
+}, {
+    "model": "admin_panel.job",
+    "pk": 7,
+    "fields": {
+      "job_name": "Python Developer",
+      "company_name": "ABC Corp",
+      "location": "Remote",
+      "salary": "90000",
+      "job_type": "Full-Time",
+      "description": "Develop Django apps and REST APIs.",
+      "posted_date": "2025-07-01"
+    }
+  }
+]

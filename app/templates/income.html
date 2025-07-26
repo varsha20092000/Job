@@ -1,0 +1,439 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{% static 'App/static/css/income.css' %}">
+  <title>Income Page</title>
+  <style>
+    .filter-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: bold;
+      padding: 10px;
+      border-bottom: 2px solid black;
+    }
+    .center-panel {
+    display: grid;
+    gap: 20px;
+  }
+  .income-item {
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+    position: relative;
+  }
+  .income-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  }
+  .income-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .dots-menu {
+    cursor: pointer;
+    font-size: 20px;
+  }
+  .icon {
+    margin-right: 5px;
+  }
+  .income-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .income-item {
+    border: 1px solid #ccc;
+    padding: 16px;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    position: relative;
+    transition: box-shadow 0.3s;
+  }
+
+  .income-item:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  .menu-dots {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    cursor: pointer;
+  }
+
+  .income-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .print-btn-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .print-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  .print-btn:hover {
+    background-color: #0056b3;
+  }
+  .blue-box {
+    background-color: #007BFF;
+    color: white;
+    padding: 20px;
+    margin-bottom: 15px;
+    position: relative;
+    border-radius: 10px;
+    transition: background-color 0.3s;
+  }
+
+  .blue-box:hover {
+    background-color: #0056b3;
+  }
+
+  .icon-corner {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+
+  .white-icon {
+    color: white;
+    font-size: 20px;
+  }
+
+  .income-icon {
+    font-size: 24px;
+    margin-bottom: 5px;
+  }
+
+  .white-line {
+    border: 1px solid white;
+    margin-top: 10px;
+  }
+
+  .summary-button {
+    background: none;
+    border: none;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  .summary-button:hover {
+    text-decoration: underline;
+  }
+
+  .icon {
+    font-size: 24px;
+    margin-bottom: 5px;
+  }
+  .right-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.summary-box {
+  background-color: #007BFF;
+  color: white;
+  padding: 20px;
+  border-radius: 10px;
+  position: relative;
+  transition: transform 0.3s ease;
+}
+
+.summary-box:hover {
+  transform: scale(1.05);
+}
+
+.summary-box h3 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.top-icon {
+  font-size: 20px;
+}
+
+.summary-box p {
+  font-size: 24px;
+  margin: 10px 0;
+}
+
+hr {
+  border: 1px solid white;
+}
+
+.action-btn {
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.action-btn:hover {
+  background-color: #0056b3;
+}.relative {
+            position: relative;
+        }
+        .hidden {
+            display: none;
+        }
+        .absolute {
+            position: absolute;
+        }
+        .hover\:text-gray-300:hover {
+            color: gray;
+        }
+        .bg-white {
+            background-color: white;
+        }
+        .shadow-md {
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .rounded-lg {
+            border-radius: 0.5rem;
+        }
+        .w-48 {
+            width: 12rem;
+        }
+        .text-gray-800 {
+            color: #2d3748;
+        }
+        .hover\:bg-gray-100:hover {
+            background-color: #f7fafc;
+        }
+        .flex {
+            display: flex;
+        }
+        .items-center {
+            align-items: center;
+        }
+        .px-4 {
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+        .py-2 {
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+        }
+        .mt-2 {
+            margin-top: 0.5rem;
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-around; /* This will spread out the items evenly */
+            background-color: #1c85a8;;
+            padding: 10px;
+        }
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            padding: 14px 20px;
+            text-align: center;
+        }
+        .navbar a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>JOB 365</h1>
+      <nav class="navbar">
+        <a href="{% url 'home' %}">Home</a>
+        <a href="{% url 'jobs' %}">Jobs</a>
+        <a href="{% url 'certificate' %}">Certificate</a>
+        <a href="{% url 'income' %}" class="active">Income</a>
+        <div class="relative">
+            <a href="#" class="hover:text-gray-300" id="contactDropdown">Contact</a>
+            <div class="absolute right-0 mt-2 bg-white shadow-md rounded-lg w-48 hidden" id="contactMenu">
+                <a href="#" class="flex items-center px-4 py-2 text-gray-800 hover:bg-gray-100">
+                    📧 Email Support
+                </a>
+                <a href="#" class="flex items-center px-4 py-2 text-gray-800 hover:bg-gray-100">
+                    📞 Call Support
+                </a>
+                <a href="#" class="flex items-center px-4 py-2 text-gray-800 hover:bg-gray-100">
+                    💬 Message Us
+                </a>
+            </div>
+        </div>
+        <a href="{% url 'notifications' %}">Notification</a>
+        <div class="relative group">
+          <button class="flex items-center text-white">
+              <img src="https://www.w3schools.com/w3images/avatar2.png" alt="Profile Avatar" class="w-8 h-8 rounded-full mr-2">
+              <span class="font-semibold">User</span>
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+          </button>
+      
+          <!-- Dropdown Menu -->
+          <div class="absolute right-0 mt-2 bg-white shadow-md rounded-lg w-48 hidden group-hover:block">
+              <a href="{% url 'profile' %}" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Profile</a>
+              
+              <a href="{% url 'login' %}" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Logout</a>
+          </div>
+      </div>
+    </nav>
+    </header>
+
+    <main>
+      <div class="income-container">
+        <div class="left-panel">
+          <div class="filter-header">
+            <span>Filter</span>
+            <span>Clear</span>
+          </div>
+          <hr class="divider">
+
+          <div class="date-filter">
+            <label for="from-date">
+              <span class="calendar-icon">📅</span> From: : 12-08-2024
+            </label>
+            
+
+            <label for="to-date">
+              <span class="calendar-icon">📅</span> To:  : 12-07-2024
+            </label>
+            
+          </div>
+
+          <div class="location-filter">
+            <label>Location</label>
+            <div class="location-options">
+              <input type="radio" name="location" id="kochi">
+              <label for="kochi">Kochi</label>
+
+              <input type="radio" name="location" id="chennai">
+              <label for="chennai">Chennai</label>
+
+              <input type="radio" name="location" id="bangalore" checked>
+              <label for="bangalore">Bangalore</label>
+
+              <input type="radio" name="location" id="delhi">
+              <label for="delhi">Delhi</label>
+            </div>
+
+            <div class="search-location">
+              <input type="text" placeholder="Search by location" id="location-search" class="filter-input">
+              <button class="search-btn">🔍</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="center-panel">
+          <div class="income-item">
+            <div class="income-header">
+              <h3>Abcd Technologies Pvt Ltd</h3>
+              <span>UI Designer</span>
+              <div class="menu-dots">&#8942;</div>
+            </div>
+            <div class="income-content">
+              <div class="income-info">
+                <p><span class="icon-coins">🪙</span> Total earnings:</p>
+                <p><span class="icon-rupee">₹</span> 1000</p>
+                <p><span class="icon-calendar">📅</span> Transfer date:</p>
+                <p>9 Aug 2024</p>
+              </div>
+              <div class="print-btn-container">
+                <button class="print-btn">🖨️ Print Details</button>
+              </div>
+            </div>
+          </div>
+        
+          <div class="income-item">
+            <div class="income-header">
+              <h3>XYZ Solutions Pvt Ltd</h3>
+              <span>Backend Developer</span>
+              <div class="menu-dots">&#8942;</div>
+            </div>
+            <div class="income-content">
+              <div class="income-info">
+                <p><span class="icon-coins">🪙</span> Total earnings:</p>
+                <p><span class="icon-rupee">₹</span> 1500</p>
+                <p><span class="icon-calendar">📅</span> Transfer date:</p>
+                <p>15 Sep 2024</p>
+              </div>
+              <div class="print-btn-container">
+                <button class="print-btn">🖨️ Print Details</button>
+              </div>
+            </div>
+          </div>
+        
+          <div class="income-item">
+            <div class="income-header">
+              <h3>LMN Corp</h3>
+              <span>Data Analyst</span>
+              <div class="menu-dots">&#8942;</div>
+            </div>
+            <div class="income-content">
+              <div class="income-info">
+                <p><span class="icon-coins">🪙</span> Total earnings:</p>
+                <p><span class="icon-rupee">₹</span> 1200</p>
+                <p><span class="icon-calendar">📅</span> Transfer date:</p>
+                <p>20 Oct 2024</p>
+              </div>
+              <div class="print-btn-container">
+                <button class="print-btn">🖨️ Print Details</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="right-panel">
+          <div class="summary-box total-income">
+            <div class="icon-corner">
+                
+            </div>
+            <h3>₹ Total Income</h3>
+            <p><i class="fas fa-rupee-sign"></i> 5000</p>
+            <hr>
+        </div>
+        
+          <div class="summary-box tax-paid">
+            <div class="icon-corner">
+              <i class="fas fa-percent"></i>
+            </div>
+            <h3>₹  Tax Paid</h3>
+            <p><i class="fas fa-rupee-sign"></i> 1500</p>
+            <hr>
+          </div>
+        
+          <div class="summary-actions">
+            <button><i class="fas fa-print"></i> Print Total Earnings</button>
+            <button><i class="fas fa-percent"></i> Tax Details</button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="{% static 'js/income.js' %}"></script>
+</body>
+</html>

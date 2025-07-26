@@ -1,0 +1,13 @@
+<h2>Upload Resume and Certificate</h2>
+
+<form method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+  
+  <h3>Upload Resume</h3>
+  {{ resume_form.as_p }}
+  
+  <h3>Upload Certificate</h3>
+  {{ certificate_form.as_p }}
+
+  <button type="submit">Upload</button>
+</form>
