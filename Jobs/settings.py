@@ -9,6 +9,9 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
+print("✅ Django settings.py is loading...")
+logging.basicConfig(level=logging.DEBUG)
+
 import os
 from pathlib import Path
 from dotenv import load_dotenv
