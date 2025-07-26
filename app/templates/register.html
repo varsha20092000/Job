@@ -904,7 +904,7 @@
         window.addEventListener('DOMContentLoaded', () => {
     const popup = document.getElementById('popup-message');
     if (popup) {
-      popup.style.display = 'block';
+      popup.style.display = 'flex';
       setTimeout(() => {
         popup.style.display = 'none';
       }, 4000); // auto-hide after 4 seconds
@@ -912,16 +912,17 @@
   });
     </script>
 
-    <div id="popupMessage" class="hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-        <div class="bg-white p-6 rounded shadow-lg text-center w-96">
-            <h2 class="text-xl font-semibold mb-4">Choose Account Type</h2>
-            <button id="companyButton" class="bg-blue-500 text-white py-2 px-4 rounded mr-2">Company</button>
-            <button id="jobseekerButton" class="bg-green-500 text-white py-2 px-4 rounded">Jobseeker</button>
-            <div class="mt-4">
-                <button id="closePopup" class="text-sm text-gray-500 underline">Close</button>
-            </div>
-        </div>
+   <div id="popupMessage" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50" style="display: none;">
+
+  <div class="bg-white p-6 rounded shadow-lg text-center w-96">
+    <h2 class="text-xl font-semibold mb-4">Choose Account Type</h2>
+    <button id="companyButton" class="bg-blue-500 text-white py-2 px-4 rounded mr-2">Company</button>
+    <button id="jobseekerButton" class="bg-green-500 text-white py-2 px-4 rounded">Jobseeker</button>
+    <div class="mt-4">
+      <button id="closePopup" class="text-sm text-gray-500 underline">close</button>
     </div>
+  </div>
+</div>
 
 </body>
 

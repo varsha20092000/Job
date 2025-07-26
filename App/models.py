@@ -21,20 +21,38 @@ class JobSeeker(models.Model):
         app_label = 'App'
 
 # 2️⃣ Company Profile
+from django.db import models
+from django.contrib.auth.models import User
+
 class Company(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
-    website = models.URLField()
-    description = models.TextField()
-    location = models.CharField(max_length=100)
+    website = models.URLField(blank=True)
+    description = models.TextField(blank=True)
+    location = models.CharField(max_length=100, blank=True)
     logo = models.ImageField(upload_to='company_logos/', blank=True, null=True)
     is_complete = models.BooleanField(default=False)
-    company_name = models.CharField(max_length=255, blank=True, null=True)
-    phone = models.CharField(max_length=15, blank=True)  
 
+    company_name = models.CharField(max_length=255, blank=True, null=True)
+    phone = models.CharField(max_length=15, blank=True)
+    profile_image = models.ImageField(upload_to='company_profiles/', blank=True, null=True)
+
+    # ✅ New fields added for full profile support
+    pancard = models.FileField(upload_to='company_docs/', blank=True, null=True)
+    adhaar = models.FileField(upload_to='company_docs/', blank=True, null=True)
+    personal_id = models.FileField(upload_to='company_docs/', blank=True, null=True)
+
+    google_map = models.CharField(max_length=255, blank=True, null=True)
+    company_type = models.CharField(max_length=100, blank=True, null=True)
+    employee_size = models.IntegerField(blank=True, null=True)
+    company_industry = models.CharField(max_length=100, blank=True, null=True)
+
+    company_number = models.CharField(max_length=20, blank=True, null=True)
+    company_hr_number = models.CharField(max_length=20, blank=True, null=True)
 
     def __str__(self):
         return self.company_name or f"Company ({self.user.username})"
+
     class Meta:
         app_label = 'App'
 
@@ -112,7 +130,7 @@ class FullJobApplication(models.Model):
 # 5️⃣ Application Display for Admin (username, jobname, date only)
 class JobApplication(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    job = models.ForeignKey(AdminJob, on_delete=models.CASCADE)
+    job = models.ForeignKey(Job, on_delete=models.CASCADE)
     
     job_name = models.CharField(max_length=255)
     company_name = models.CharField(max_length=255)
@@ -136,6 +154,7 @@ class JobApplication(models.Model):
     job_code = models.CharField(max_length=50, blank=True, null=True)
     
     STATUS_CHOICES = (
+         ('Applied', 'Applied'),
         ('Pending', 'Pending'),
         ('Selected', 'Selected'),
         ('Rejected', 'Rejected'),
@@ -147,6 +166,7 @@ class JobApplication(models.Model):
 
     class Meta:
         app_label = 'App'
+        
 
 # ➡️ Continue with your other models (SubscriptionPlan, Payment, Notification, Contact, Review, SavedJob, JobAlert, Interview, SiteAnalytics)
 # (No problem there. You can keep them same.)
@@ -251,15 +271,42 @@ class SiteAnalytics(models.Model):
 from django.utils import timezone
 
 class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    phone = models.CharField(max_length=15, blank=True, null=True)
+    gender = models.CharField(max_length=10, blank=True, null=True)
+    dob = models.DateField(blank=True, null=True)
+    address = models.TextField(blank=True, null=True)
+    education = models.TextField(blank=True, null=True)
+    age = models.IntegerField(blank=True, null=True)
+    resume = models.FileField(upload_to='resumes/', blank=True, null=True)
+    location = models.CharField(max_length=100, blank=True, null=True)  # 🔴 Add this line
+    profile_image = models.ImageField(upload_to='company_profiles/', blank=True, null=True)
     ACCOUNT_CHOICES = (
         ('jobseeker', 'Job Seeker'),
         ('company', 'Company'),
     )
-
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
     account_type = models.CharField(max_length=20, choices=ACCOUNT_CHOICES)
 
     def __str__(self):
         return f"{self.user.username} - {self.account_type}"
-    class Meta:
-        app_label = 'App'
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from django.contrib.auth.models import User
+from .models import Profile
+
+@receiver(post_save, sender=User)
+def create_profile(sender, instance, created, **kwargs):
+    if created and not hasattr(instance, 'profile'):
+        Profile.objects.create(user=instance, account_type='jobseeker')
+
+from django.contrib.auth.models import User
+
+class Education(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='educations')
+    school = models.CharField(max_length=255)
+    place = models.CharField(max_length=255)
+    marks = models.CharField(max_length=100)
+    certificate = models.FileField(upload_to='certificates/', blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.school} ({self.marks})"

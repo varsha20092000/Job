@@ -320,8 +320,9 @@ a {
             </div>
         </div>
             <a href="{% url 'requested_certificates' %}">Certificate</a>
-            <a href="#">Contact</a>
-            <a href="#">Notifications</a>
+            <a href="{% url 'email_support' %}">Contact</a>
+             <a href="{% url 'profile_form' %}"><i class="fa-solid fa-user"></i> Profile</a>
+                    <a href="{% url 'login' %}"><i class="fa-solid fa-sign-out-alt"></i> Logout</a>
         </div>
     </div>
   <div class="page-wrapper">

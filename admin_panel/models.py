@@ -31,7 +31,13 @@ class AdminJobApplication(models.Model):
     job = models.ForeignKey(Job, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     applied_date = models.DateTimeField(auto_now_add=True)
-
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+   
+    gender = models.CharField(max_length=10, blank=True, null=True)
+    dob = models.DateField(blank=True, null=True)
+    address = models.TextField(blank=True, null=True)
+    education = models.TextField(blank=True, null=True)
+    
     def __str__(self):
         return f"{self.user.username} - {self.job.job_name}"
 

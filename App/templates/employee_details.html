@@ -464,11 +464,23 @@ body {
             margin-top: 10px;
             color: hsl(0, 0%, 90%);
         }
+        .brand-link {
+  text-decoration: none;
+}
+
+.brand-link h1 {
+  color: white;
+  margin: 0;
+  font-size: 1.8rem;
+  font-weight: bold;
+}
     </style>
 </head>
 <body>
     <div class="header">
-        <h1>JOB 365</h1>
+        <a href="{% url 'companyhome' %}" class="brand-link">
+  <h1>JOB 365</h1>
+</a>
         <div class="header-right">
             <a href="{% url 'companyhome' %}">Home</a>
     

@@ -20,7 +20,8 @@ load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
@@ -93,6 +94,9 @@ DATABASES = {
         'PASSWORD': 'TwYglOrNm7iN8wjrUEhxBjuh2K4cbIu8',
         'HOST': 'dpg-d1ntq0emcj7s73fls3h0-a.singapore-postgres.render.com',
         'PORT': '5432',
+        'OPTIONS': {
+            'sslmode': 'require',
+        },
     }
 }
 
@@ -151,3 +155,10 @@ from django.core.management import call_command
 #     except Exception as e:
 #         print("❌ Fixture load error:", e)
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'varshakvinod680@gmail.com'
+EMAIL_HOST_PASSWORD = 'oufr gobi mlmu iitn'  # Not your Gmail password!
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER

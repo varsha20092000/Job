@@ -167,12 +167,12 @@
       <h2>JOB 365</h2>
     </div>
     <div class="nav-right">
-      <a href="#">Home</a>
-      <a href="#">Jobs</a>
-      <a href="#">Payment</a>
+      <a href="{% url 'companyhome' %}">Home</a>
+      <a href="{% url 'job_details_blank' %}">Jobs</a>
+      <a href="{% url 'employee_payment' %}">Payment</a>
       <a href="{% url 'requested_certificates' %}">Certificate</a>
-      <a href="#">Contact</a>
-      <a href="#">Notifications</a>
+      <a href="{% url 'email_support' %}">Contact</a>
+      
     </div>
   </div>
 
