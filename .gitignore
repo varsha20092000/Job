@@ -1,16 +1,15 @@
-# Django
+# Environment
+.env
 *.pyc
 __pycache__/
+
+# Django specific
 db.sqlite3
-.env
-media/
-staticfiles/
-venv/
-*.log
 
-# VS Code
-.vscode/
+# Media and static
+/media/
+/staticfiles/
 
-# macOS/Windows
-.DS_Store
-Thumbs.db
+# Node
+node_modules/
+
