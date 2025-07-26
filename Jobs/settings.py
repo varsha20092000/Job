@@ -33,7 +33,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['job365-project.onrender.com', 'localhost', '127.0.0.1']
 
-
+print(f"ALLOWED_HOSTS: {ALLOWED_HOSTS}")
 
 from django.urls import reverse_lazy
 
