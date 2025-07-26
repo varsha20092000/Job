@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: job365-django
+    env: python
+    buildCommand: |
+      pip install -r requirements.txt
+      npm install
+      npm run build
+      python manage.py collectstatic --noinput
+    startCommand: gunicorn Jobs.wsgi:application
+    
+buildCommand: pip install -r requirements.txt && npm install && npm run build
+envVars:
+      - key: DJANGO_SETTINGS_MODULE
+        value: Jobs.settings
+      - key: PYTHON_VERSION
+        value: 3.11.8
+      - key: SECRET_KEY
+        value: your-strong-secret-key
+      - key: DEBUG
+        value: False
+startCommand: >
+  python manage.py migrate &&
+  python manage.py loaddata full_data.json &&
+  gunicorn Jobs.wsgi:application
+RENDER=true

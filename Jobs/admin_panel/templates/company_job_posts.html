@@ -1,0 +1,215 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Company Job Post Details</title>
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <style>
+    /* Global Reset & Base Styles */
+    * {
+      margin: 0; 
+      padding: 0; 
+      box-sizing: border-box;
+    }
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f5f7fa;
+    }
+    a {
+      text-decoration: none;
+      color: #333;
+    }
+    
+    /* Header */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background-color: #007bff; /* Blue header */
+      padding: 10px 20px;
+      border-bottom: 1px solid #ccc;
+      color: #fff;
+    }
+    .header .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+    .header .top-links a {
+      margin-left: 20px;
+      font-size: 0.95rem;
+      color: #fff;
+      font-weight: 500;
+    }
+    
+    /* Main Layout: Left Image and Content */
+    .main-layout {
+      display: flex;
+      max-width: 1200px;
+      margin: 20px auto;
+      gap: 20px;
+      padding: 0 20px;
+      align-items: flex-start;
+    }
+    
+    /* Left Image Container */
+    .left-image {
+      width: 800px;          /* Fixed width */
+      height: 500px;         /* Fixed height */
+      flex-shrink: 0;
+      overflow: hidden;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      margin-left: -280px;
+      margin-top: 90px;
+    }
+    .left-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    /* Content Container (Middle) */
+    .content {
+      flex: 1;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      padding: 20px;
+    }
+    .content h1 {
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+      color: #007bff;
+      text-align: center;
+      border-bottom: 2px solid #007bff;
+      padding-bottom: 10px;
+    }
+    
+    /* Job Card */
+    .job-card {
+      position: relative;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .job-card p {
+      margin: 8px 0;
+      font-size: 0.95rem;
+      color: #111;
+    }
+    .label {
+      font-weight: 700;
+      color: #111;
+    }
+    
+    /* Status Box in Top-Right Corner */
+    .status-box {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 10px;
+      border-radius: 4px;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+    .status-active {
+      background-color: #ebfbf1;
+      color: #2a8c4a;
+    }
+    .status-inactive {
+      background-color: #fbecec;
+      color: #b80000;
+    }
+    
+    /* Buttons */
+    .detail-btn, .remove-btn {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      margin-right: 10px;
+    }
+    .detail-btn:hover, .remove-btn:hover {
+      background-color: #0069d9;
+    }
+    
+    /* Company Icon */
+    .company-icon {
+      font-size: 1.2rem;
+      color: #007bff;
+      margin-right: 8px;
+    }
+    
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+      .main-layout {
+        flex-direction: column;
+      }
+      .left-image {
+        width: 100%;
+        height: 300px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="logo">JOB 365</div>
+    <div class="top-links">
+      <a href="#">Home</a>
+      <a href="#">Logout</a>
+    </div>
+  </header>
+  
+  <!-- Main Layout -->
+  <div class="main-layout">
+    <!-- Left Image -->
+    <div class="left-image">
+      <img src="{% static 'images/3.jpg' %}" alt="Company Banner">
+    </div>
+    
+    <!-- Content: Job Post Details -->
+    <div class="content">
+      <h1>Company Job Post Details</h1>
+      {% for job in jobs %}
+        <div class="job-card">
+          {% if job.status == "Active" %}
+            <div class="status-box status-active">
+              <i class="fas fa-user"></i>
+              <span>Active</span>
+            </div>
+          {% else %}
+            <div class="status-box status-inactive">
+              <i class="fas fa-user-slash"></i>
+              <span>Inactive</span>
+            </div>
+          {% endif %}
+          <p><span class="label">Job Name</span> : {{ job.job_name }}</p>
+          <p><span class="label">Company/Shop Name</span> : <i class="fas fa-building company-icon"></i>{{ job.company_name }}</p>
+          <p><span class="label">Location</span> : {{ job.location }}</p>
+          <p><span class="label">Hourly Rates</span> : {{ job.hourly_rates }}</p>
+          <p><span class="label">Job Details</span> : {{ job.job_details }}</p>
+          <p><span class="label">Vacancies</span> : {{ job.vacancies }}</p>
+          <p><span class="label">Duration</span> : {{ job.duration }}</p>
+          <p><span class="label">Contact Number</span> : {{ job.contact_number }}</p>
+          <p><span class="label">Email</span> : {{ job.email }}</p>
+          <a href="{% url 'company_details' %}" class="detail-btn">Detail</a>
+          <button class="remove-btn">Remove</button>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</body>
+</html>

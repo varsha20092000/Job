@@ -1,0 +1,156 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Email Support</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #f0f8ff, #ffffff);
+      margin: 0;
+      padding: 0;
+    }
+
+    .support-wrapper {
+      display: flex;
+      min-height: 100vh;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .support-box {
+      display: flex;
+      background: #fff;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+      max-width: 1000px;
+      width: 100%;
+    }
+
+    .support-left {
+      flex: 1;
+      background: #007bff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+    }
+
+    .support-left img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 12px;
+    }
+
+    .support-right {
+      flex: 1;
+      padding: 40px;
+    }
+
+    .support-right h2 {
+      color: #333;
+      margin-bottom: 30px;
+      font-size: 28px;
+    }
+
+    .support-right h2 i {
+      color: #007bff;
+      margin-right: 10px;
+    }
+
+    form label {
+      display: block;
+      margin-bottom: 6px;
+      color: #444;
+      font-weight: 500;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      transition: border 0.3s;
+    }
+
+    input:focus, textarea:focus {
+      border-color: #007bff;
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    button {
+      background: #007bff;
+      color: white;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      width: 100%;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+
+    button i {
+      margin-right: 8px;
+    }
+
+    @media (max-width: 768px) {
+      .support-box {
+        flex-direction: column;
+      }
+      .support-left {
+        padding: 20px;
+      }
+      .support-right {
+        padding: 25px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="support-wrapper">
+    <div class="support-box">
+      <!-- Left Image Section -->
+      <div class="support-left">
+        <img src="{% static 'images/support-icon.webp' %}" alt="Support Icon">
+      </div>
+
+      <!-- Right Form Section -->
+      <div class="support-right">
+        <h2><i class="fa-solid fa-envelope"></i> Email Support</h2>
+        <form method="POST">
+          {% csrf_token %}
+          <label for="name">Your Name</label>
+          <input type="text" name="name" placeholder="Enter your name" required>
+
+          <label for="email">Your Email</label>
+          <input type="email" name="email" placeholder="example@example.com" required>
+
+          <label for="subject">Subject</label>
+          <input type="text" name="subject" placeholder="Subject of your query" required>
+
+          <label for="message">Message</label>
+          <textarea name="message" placeholder="Type your message here..." required></textarea>
+
+          <button type="submit"><i class="fa-solid fa-paper-plane"></i> Send Message</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,53 @@
+# Django
+*.pyc
+__pycache__/
+db.sqlite3
+.env
+
+# Virtual environment
+venv/
+env/
+
+# VSCode/PyCharm
+.vscode/
+.idea/
+
+# Static/media (optional)
+staticfiles/
+media/
+
+# Django
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+db.sqlite3
+*.sqlite3
+.env
+.env.*
+
+# Django migrations
+**/migrations/
+!**/migrations/__init__.py
+
+# Static and media files (optional if dynamically generated)
+staticfiles/
+media/
+
+# VSCode / PyCharm
+.vscode/
+.idea/
+
+# Node.js
+node_modules/
+dist/
+build/
+package-lock.json
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+

@@ -1,0 +1,294 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Company Details</title>
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <style>
+    /* Global Reset & Base Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f5f7fa;
+    }
+    a {
+      text-decoration: none;
+      color: #333;
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background-color: #fff;
+      padding: 10px 20px;
+      border-bottom: 1px solid #ccc;
+    }
+    .header .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #333;
+    }
+    .header .top-links a {
+      margin-left: 20px;
+      font-size: 0.95rem;
+      color: #333;
+      font-weight: 500;
+    }
+
+    /* Container: Sidebar + Main Content */
+    .container {
+      display: flex;
+      margin: 20px;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 250px;
+      background-color: #b3e7ff; /* Light blue background */
+      padding: 20px;
+      border-radius: 8px;
+      height: fit-content;
+    }
+    .sidebar h3 {
+      margin-bottom: 20px;
+      font-size: 1.1rem;
+      color: #333;
+      text-align: center;
+    }
+    .sidebar ul {
+      list-style: none;
+    }
+    .sidebar ul li {
+      background-color: #fff;
+      color: #333;
+      padding: 12px;
+      margin-bottom: 15px;
+      text-align: center;
+      border-radius: 8px;
+      font-weight: 500;
+      font-size: 0.95rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+    .sidebar ul li:hover {
+      background-color: #e8f8ff;
+    }
+
+    /* Main Content Area */
+    .main-content {
+      flex: 1;
+      margin-left: 20px;
+      background-color: #fff;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    /* Search + Filter Row */
+    .search-filter-row {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      margin-bottom: 20px;
+      gap: 10px;
+    }
+    .search-filter-row input[type="text"] {
+      padding: 8px 12px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 0.95rem;
+      width: 300px; /* Increased width */
+    }
+    .search-filter-row button {
+      background-color: #4caf50;
+      color: #fff;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .search-filter-row button:hover {
+      background-color: #45a049;
+    }
+
+    /* Company Details Header */
+    .company-details-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .company-details-header h2 {
+      font-size: 1.4rem;
+      color: #333;
+    }
+    /* Default: Active badge is green; Inactive badge is red */
+    .status-badge {
+      background-color: #e0f7e7;
+      color: #2a8c4a;
+      padding: 5px 10px;
+      border-radius: 4px;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+    .status-inactive {
+      background-color: #fbdcdc !important;
+      color: #b80000 !important;
+    }
+
+    /* Company Info Table */
+    .company-info {
+      margin-top: 10px;
+    }
+    .company-info ul {
+      list-style: none;
+      line-height: 1.8;
+    }
+    .company-info ul li {
+      font-size: 0.95rem;
+      color: #333;
+      margin-bottom: 5px;
+    }
+    .company-info ul li span {
+      font-weight: 600;
+      color: #555;
+    }
+
+    /* No Results Found */
+    .no-results {
+      margin-top: 20px;
+      font-size: 1rem;
+      color: #999;
+    }
+
+    /* Responsive for smaller screens */
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+      }
+      .main-content {
+        margin-left: 0;
+        margin-top: 20px;
+      }
+      .search-filter-row {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .search-filter-row input[type="text"] {
+        margin-bottom: 10px;
+        width: 100%;
+      }
+      .search-filter-row button {
+        margin-bottom: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="logo">JOB 365</div>
+    <div class="top-links">
+      <a href="#">Home</a>
+      <a href="#">Logout</a>
+    </div>
+  </header>
+
+  <!-- Container: Sidebar + Main Content -->
+  <div class="container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <h3>Job post details</h3>
+      <ul>
+        <li onclick="window.location.href='?status=active'">Activate</li>
+        <li onclick="window.location.href='?status=inactive'">Deactivate</li>
+        <li onclick="window.location.href='?action=delete'">Delete</li>
+      </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <!-- Search & Filter -->
+      <div class="search-filter-row">
+        <form id="searchForm" method="get" style="display: flex; align-items: center;">
+          <input
+            type="text"
+            name="search"
+            placeholder="Search by name / company id"
+            value="{{ search_query|default_if_none:'' }}"
+          >
+          <input type="hidden" name="status" value="{{ status|default_if_none:'active' }}">
+          <button type="submit">
+            <i class="fas fa-search"></i> Search
+          </button>
+        </form>
+        <button type="button" onclick="toggleFilter()">
+          <i class="fas fa-filter"></i> Filter
+        </button>
+      </div>
+
+      <!-- Company Details Header -->
+      <div class="company-details-header">
+        <h2>Company details</h2>
+        {% if status == 'inactive' %}
+          <span class="status-badge status-inactive">Status : Inactive</span>
+        {% else %}
+          <span class="status-badge">Status : Active</span>
+        {% endif %}
+      </div>
+
+      {% if company_data %}
+        <!-- Company Info -->
+        <div class="company-info">
+          <ul>
+            <li><span>First name :</span> {{ company_data.first_name }}</li>
+            <li><span>Last name :</span> {{ company_data.last_name }}</li>
+            <li><span>Mobile No :</span> {{ company_data.mobile }}</li>
+            <li><span>Email Id :</span> {{ company_data.email }}</li>
+            <li><span>Address :</span> {{ company_data.address }}</li>
+            <li><span>State :</span> {{ company_data.state }}</li>
+            <li><span>City :</span> {{ company_data.city }}</li>
+            <li><span>Pincode :</span> {{ company_data.pincode }}</li>
+            <li><span>PO Address :</span> {{ company_data.po_address }}</li>
+            <li><span>IFSC code :</span> {{ company_data.ifsc_code }}</li>
+            <li><span>Bank Name :</span> {{ company_data.bank_name }}</li>
+            <li><span>Registration Number :</span> {{ company_data.registration_number }}</li>
+            <li><span>Description :</span> {{ company_data.description }}</li>
+            <li><span>Idcard proof :</span> {{ company_data.idcard_proof }}</li>
+            <li><span>Pancard photo :</span> {{ company_data.pancard_photo }}</li>
+            <li><span>Bank passbook :</span> {{ company_data.bank_passbook }}</li>
+          </ul>
+        </div>
+      {% else %}
+        <p class="no-results">No results found for your search.</p>
+      {% endif %}
+    </div>
+  </div>
+
+  <script>
+    // Example toggle function for the Filter button (expand as needed)
+    function toggleFilter() {
+      // For this demo, simply toggle the status between active and inactive
+      const urlParams = new URLSearchParams(window.location.search);
+      const currentStatus = urlParams.get('status') || 'active';
+      const newStatus = currentStatus === 'active' ? 'inactive' : 'active';
+      const search = urlParams.get('search') || '';
+      window.location.href = `?status=${newStatus}&search=${search}`;
+    }
+  </script>
+</body>
+</html>

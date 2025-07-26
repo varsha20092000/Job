@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Company Users List</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .controls {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    input[type="text"] {
+      padding: 8px;
+      width: 250px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    select, button {
+      padding: 8px 12px;
+      border: none;
+      border-radius: 4px;
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 12px;
+      text-align: left;
+    }
+    th {
+      background-color: #5b99c0;
+      color: white;
+    }
+    tr.highlight {
+      background-color: #c6e8e9 !important;
+    }
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+  </style>
+</head>
+<body>
+  <h1>List of Registered Companies</h1>
+  <div class="controls">
+    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
+        <!-- Search input -->
+        <input type="text" id="searchInput" onkeyup="searchTable()" placeholder="Search by name..." style="padding: 8px; border-radius: 4px; border: 1px solid #ccc;">
+      
+        <!-- Filter dropdown styled like a button -->
+        <div style="position: relative;">
+          <select id="sortSelect" onchange="sortTable()" style="
+            padding: 8px 12px;
+            border-radius: 4px;
+            border: 1px solid #007bff;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+          ">
+            <option value="latest" {% if request.GET.sort == "latest" or not request.GET.sort %}selected{% endif %}>Latest</option>
+            <option value="oldest" {% if request.GET.sort == "oldest" %}selected{% endif %}>Oldest</option>
+          </select>
+        </div>
+      </div>
+      
+      
+    <button onclick="location.reload()">Users</button>
+  </div>
+  <table id="companyTable">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Company Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Date Applied</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for company in companies %}
+      <tr>
+        <td>{{ company.user.username }}</td>
+        <td>{{ company.name }}</td>
+        <td>{{ company.user.email }}</td>
+        <td>{{ company.phone }}</td> 
+        <td>{{ company.user.date_joined }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <script>
+    function searchTable() {
+      const input = document.getElementById("searchInput");
+      const filter = input.value.toLowerCase();
+      const table = document.getElementById("companyTable");
+      const rows = table.getElementsByTagName("tr");
+      for (let i = 1; i < rows.length; i++) {
+        const cells = rows[i].getElementsByTagName("td");
+        let found = false;
+        for (let j = 0; j < cells.length; j++) {
+          const cell = cells[j];
+          if (cell && cell.textContent.toLowerCase().includes(filter)) {
+            found = true;
+            break;
+          }
+        }
+        if (found) {
+          rows[i].style.display = "";
+          rows[i].classList.add("highlight");
+        } else {
+          rows[i].style.display = "none";
+          rows[i].classList.remove("highlight");
+        }
+      }
+    }
+
+    function sortTable() {
+      const table = document.getElementById("companyTable");
+      const tbody = table.querySelector("tbody");
+      const rows = Array.from(tbody.querySelectorAll("tr"));
+      const sortType = document.getElementById("sortSelect").value;
+      
+      rows.sort((a, b) => {
+        const dateA = new Date(a.cells[4].innerText);
+        const dateB = new Date(b.cells[4].innerText);
+        return sortType === "latest" ? dateB - dateA : dateA - dateB;
+      });
+
+      rows.forEach(row => tbody.appendChild(row));
+    }
+    function sortTable() {
+  const sortType = document.getElementById("sortSelect").value;
+  const searchParams = new URLSearchParams(window.location.search);
+
+  // Corrected: use sortType instead of undefined selectedSort
+  searchParams.set("sort", sortType);
+
+  // Reload page with new query string
+  window.location.search = searchParams.toString();
+}
+  </script>
+</body>
+</html>

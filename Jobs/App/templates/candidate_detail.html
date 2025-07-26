@@ -1,0 +1,359 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Candidate Details</title>
+  <!-- Font Awesome for icons (optional) -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+  />
+  <style>
+    /* RESET */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+
+    /* HEADER NAVBAR */
+    header {
+      background-color: #1b489b;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    .header-left h1 {
+      font-size: 1.5rem;
+      color: #fff8f8;
+      font-weight: bold;
+    }
+    .header-right a {
+      margin-left: 1rem;
+      text-decoration: none;
+      color: #fbf0f0;
+      font-size: 0.95rem;
+    }
+    .header-right a:hover {
+      text-decoration: underline;
+    }
+
+    /* MAIN WRAPPER */
+    .container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 20px;
+    }
+
+    /* TITLE */
+    .page-title {
+      font-size: 1.3rem;
+      font-weight: bold;
+      margin-bottom: 1.5rem;
+      color: #007bff;
+    }
+
+    /* CONTENT WRAPPER */
+    .content-wrapper {
+      display: flex;
+      gap: 20px;
+    }
+
+    /* LEFT COLUMN (FORM-LIKE LAYOUT) */
+    .candidate-details {
+      flex: 1;
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 1.5rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      position: relative; /* For positioning images if needed */
+      
+    }
+
+    .candidate-details label {
+      display: block;
+      margin-bottom: 0.3rem;
+      font-weight: bold;
+      font-size: 0.9rem;
+      color: #007bff;
+    }
+    .candidate-details input[type="text"],
+    .candidate-details input[type="email"] {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 0.95rem;
+    }
+    /* For "Open document" link */
+    .open-doc {
+      display: inline-block;
+      color: #007bff;
+      text-decoration: underline;
+      margin-bottom: 1rem;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+    .open-doc:hover {
+      opacity: 0.8;
+    }
+
+    /* TEXTAREA FOR COVER LETTER */
+    .cover-letter {
+      width: 100%;
+      height: 100px;
+      resize: none;
+      margin-bottom: 1rem;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 0.95rem;
+    }
+
+    /* REPLY FIELD */
+    .reply-field {
+      margin-bottom: 1rem;
+    }
+    .reply-field label {
+      margin-bottom: 0.3rem;
+    }
+    .reply-field textarea {
+      width: 100%;
+      height: 80px;
+      resize: none;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    /* ACTION BUTTONS */
+    .action-buttons {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    .action-buttons button {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 4px;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+    .action-buttons button:hover {
+      background-color: #0056b3;
+    }
+    /* For "Reject" in a different style if you want */
+    .reject-btn {
+      background-color: #dc3545;
+    }
+    .reject-btn:hover {
+      background-color: #c82333;
+    }
+
+    /* RIGHT COLUMN (PLACEHOLDER IMAGES) */
+    .images-column {
+      width: 250px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .placeholder-image {
+      width: 100%;
+      height: 200px;
+      background-color: #eee;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      background-image: url("https://via.placeholder.com/250x200?text=Avatar");
+      background-size: cover;
+      background-position: center;
+    }
+    /* Open document link styled as a box */
+.open-doc {
+  display: inline-block;
+  padding: 10px 20px;
+  border: 1px solid #007bff;
+  border-radius: 4px;
+  color: #007bff;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s, color 0.3s;
+}
+.open-doc:hover {
+  background-color: #007bff;
+  color: #fff;
+}
+
+/* The Modal (background overlay) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed;
+  z-index: 1000;
+  padding-top: 100px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.5); /* Semi-transparent background */
+}
+
+/* Modal Content Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 800px;
+  border-radius: 8px;
+  position: relative;
+}
+
+/* Close Button */
+.close {
+  color: #aaa;
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+  </style>
+</head>
+<body>
+  <!-- HEADER -->
+  <header>
+    <div class="header-left">
+      <h1>JOB 365</h1>
+    </div>
+    <div class="header-right">
+      <a href="{% url 'companyhome' %}">Home</a>
+      <a href="{% url 'job_details_blank' %}"><i class="fa-solid fa-briefcase"></i> Posted Jobs</a>
+
+      <a href="{% url 'employee_payment' %}">Payment</a>
+      <a href="{% url 'requested_certificates' %}">Certificate</a>
+      <a href="#">Contact</a>
+      <a href="{% url 'compnotifications' %}">Notifications <span style="color: red;">6</span></a>
+    </div>
+  </header>
+
+  <div class="container">
+    <h2 class="page-title">Candidate details</h2>
+    <div class="content-wrapper">
+      <!-- LEFT COLUMN: FORM-LIKE LAYOUT -->
+      <div class="candidate-details">
+        <label for="candidateName">Candidate name</label>
+        <input type="text" id="candidateName" value="{{ candidate.name }}">
+
+        <div style="display: flex; gap: 1rem;">
+          <div style="flex: 1;">
+            <label for="phoneNumber">Phone number</label>
+            <input type="text" id="phoneNumber" value="{{ candidate.phone }}">
+          </div>
+          <div style="flex: 1;">
+            <label for="email">Email</label>
+            <input type="email" id="email" value="{{ candidate.email }}">
+          </div>
+        </div>
+
+        <label for="education">Educational qualification</label>
+        <input type="text" id="education" value="{{ candidate.education }}">
+
+       <!-- Open Document Link (styled as a box) -->
+<a href="#" class="open-doc" id="openDoc">Open document</a>
+
+<!-- Modal for PDF Viewer -->
+<div id="pdfModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h3>Document (456 MB)</h3>
+    <!-- Embed your PDF here. Replace the src URL with your actual PDF file URL -->
+    <iframe src="{% static 'docs/document.pdf' %}" width="100%" height="500px" frameborder="0"></iframe>
+  </div>
+</div>
+
+
+        <div style="display: flex; gap: 1rem;">
+          <div style="flex: 1;">
+            <label for="location">Location</label>
+            <input type="text" id="location" value="{{ candidate.location }}">
+          </div>
+        </div>
+
+        <label for="coverLetter">Cover letter</label>
+        <textarea class="cover-letter" id="coverLetter">{{ candidate.cover_letter }}</textarea>
+
+        <div class="reply-field">
+          <label for="reply">Reply:</label>
+          <textarea id="reply"></textarea>
+        </div>
+
+        <div class="action-buttons">
+          <button class="select-btn">Select</button>
+          <button class="reject-btn">Reject</button>
+        </div>
+      </div>
+
+      <!-- RIGHT COLUMN: PLACEHOLDER IMAGES -->
+      <div class="images-column">
+        <img src="{% static 'images/gi.png' %}" alt="">
+        <img src="{% static 'images/bo.png' %}" alt="">
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // "Select" button logic
+      document.querySelector('.select-btn').addEventListener('click', () => {
+        alert('Candidate selected!');
+      });
+      // "Reject" button logic
+      document.querySelector('.reject-btn').addEventListener('click', () => {
+        alert('Candidate rejected!');
+      });
+    });
+    document.addEventListener('DOMContentLoaded', function () {
+  const openDocLink = document.getElementById('openDoc');
+  const modal = document.getElementById('pdfModal');
+  const closeBtn = document.querySelector('.modal .close');
+
+  openDocLink.addEventListener('click', function(e) {
+    e.preventDefault();
+    modal.style.display = "block";
+  });
+
+  closeBtn.addEventListener('click', function() {
+    modal.style.display = "none";
+  });
+
+  window.addEventListener('click', function(e) {
+    if (e.target == modal) {
+      modal.style.display = "none";
+    }
+  });
+});
+
+  </script>
+</body>
+</html>

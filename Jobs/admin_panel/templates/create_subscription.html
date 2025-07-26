@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Create New Subscription</title>
+  <!-- Font Awesome for arrow & refresh icons (optional) -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    integrity="sha512-..."
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+ <style>
+    /* Basic reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f5f5f5;
+}
+
+/* Header */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fff;
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+header .logo {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+header nav ul {
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+}
+
+header nav ul li a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+}
+
+/* Page title */
+.page-title {
+  text-align: center;
+  margin: 2rem 0 1rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+/* Container for form rows */
+.form-container {
+  width: 80%;
+  max-width: 900px;
+  margin: 0 auto 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+/* Each row: left label, arrow, right input */
+.row {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Left box style */
+.left-box {
+  background-color: #e9f0f6;
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
+  font-weight: 500;
+  color: #333;
+  text-align: center;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+/* Middle arrow style */
+.arrow {
+  font-size: 1.5rem;
+  color: #333;
+  text-align: center;
+}
+
+/* Right box style */
+.right-box {
+  background-color: #fff;
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Inputs inside right box */
+.right-box input[type="text"],
+.right-box input[type="date"],
+.right-box input[type="file"] {
+  width: 80%;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  color: #333;
+  background: transparent;
+}
+
+/* Upload box for file input + refresh button */
+.upload-box {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Refresh/Reset button for file upload */
+.refresh-btn {
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  padding: 0.4rem 0.6rem;
+  font-size: 1rem;
+}
+
+.refresh-btn i {
+  color: #333;
+}
+
+/* Submit row and button */
+.submit-row {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.submit-btn {
+  background-color: #3399FF;
+  color: #fff;
+  border: none;
+  padding: 0.8rem 2rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.submit-btn:hover {
+  background-color: #1e90ff;
+}
+
+ </style>
+</head>
+<body>
+  <!-- Header / Nav -->
+  <header>
+    <div class="logo">JOB 365</div>
+    <nav>
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Logout</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Page Title -->
+  <h1 class="page-title">Create New Subscription</h1>
+
+  <!-- Main Container for rows -->
+  <div class="form-container">
+
+    <!-- Row 1 -->
+    <div class="row">
+      <div class="left-box">Subscription name</div>
+      <div class="arrow">
+        <i class="fas fa-arrow-right"></i>
+      </div>
+      <div class="right-box">
+        <!-- example placeholder text -->
+        <input type="text" placeholder="1 Month Plan |" />
+      </div>
+    </div>
+
+    <!-- Row 2 -->
+    <div class="row">
+      <div class="left-box">Subscription type</div>
+      <div class="arrow">
+        <i class="fas fa-arrow-right"></i>
+      </div>
+      <div class="right-box">
+        <input type="text" placeholder="Basic / Premium / etc." />
+      </div>
+    </div>
+
+    <!-- Row 3 -->
+    <div class="row">
+      <div class="left-box">Subscription details</div>
+      <div class="arrow">
+        <i class="fas fa-arrow-right"></i>
+      </div>
+      <div class="right-box">
+        <input type="text" placeholder="e.g., Access to job listings" />
+      </div>
+    </div>
+
+    <!-- Row 4 -->
+    <div class="row">
+      <div class="left-box">Payment details</div>
+      <div class="arrow">
+        <i class="fas fa-arrow-right"></i>
+      </div>
+      <div class="right-box">
+        <input type="text" placeholder="e.g., $10/month" />
+      </div>
+    </div>
+
+    <!-- Row 5 -->
+    <div class="row">
+      <div class="left-box">Expiry date</div>
+      <div class="arrow">
+        <i class="fas fa-arrow-right"></i>
+      </div>
+      <div class="right-box">
+        <input type="date" />
+      </div>
+    </div>
+
+    <!-- Row 6 -->
+    <div class="row">
+      <div class="left-box">Upload Image</div>
+      <div class="arrow">
+        <i class="fas fa-arrow-right"></i>
+      </div>
+      <div class="right-box">
+        <div class="upload-box">
+          <input type="file" />
+          <!-- Refresh/Reset icon -->
+          <button class="refresh-btn">
+            <i class="fas fa-sync-alt"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Submit button -->
+    <div class="submit-row">
+      <button class="submit-btn">Submit</button>
+    </div>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,324 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Call Support</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #cce5ec;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .support-container {
+      display: flex;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      overflow: hidden;
+      max-width: 900px;
+      width: 100%;
+    }
+
+    .support-image {
+      flex: 1;
+      background: #eef6fb;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .support-image img {
+      width: 100%;
+      max-width: 350px;
+      height: auto;
+    }
+
+    .support-info {
+      flex: 1;
+      padding: 40px 30px;
+    }
+
+    .support-info h2 {
+      margin: 0 0 10px;
+      color:  #007bff;
+    }
+
+    .support-info p {
+      margin: 10px 0;
+      color: #555;
+      font-size: 16px;
+    }
+
+    .phone-number {
+      font-size: 20px;
+      color: #007bff;
+      font-weight: bold;
+    }
+
+    .chatbox {
+      margin-top: 25px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      padding: 10px;
+      height: 250px;
+      overflow-y: auto;
+      background: #fafafa;
+      display: flex;
+      flex-direction: column;
+      scroll-behavior: smooth;
+    }
+
+    .chat-message {
+      background: #e0f0ff;
+      padding: 10px;
+      border-radius: 10px;
+      margin-bottom: 8px;
+      max-width: 80%;
+    }
+
+    .chat-message.user {
+      background: #d1ffd1;
+      align-self: flex-end;
+    }
+
+    .chat-message.bot {
+      background: #e0f0ff;
+      align-self: flex-start;
+    }
+
+    .user-input {
+      margin-top: 10px;
+      display: flex;
+    }
+
+    .user-input input {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px 0 0 8px;
+    }
+
+    .user-input button {
+      padding: 10px 15px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 0 8px 8px 0;
+      cursor: pointer;
+    }
+
+    .user-input button:hover {
+      background: #0056b3;
+    }
+    .header {
+  background-color: #007bff;
+  color: white;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 80px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+}
+
+.header h1 {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: white;
+  margin: 0;
+}
+
+/* Navigation container */
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Standard links */
+.nav-links a,
+.dropbtn {
+  color: white;
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 500;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  padding: 8px 10px;
+}
+
+.nav-links a:hover,
+.dropbtn:hover {
+  text-decoration: underline;
+}
+
+/* Dropdown styles */
+.dropdown {
+  position: relative;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: white;
+  min-width: 180px;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  z-index: 999;
+  overflow: hidden;
+}
+
+.dropdown-content a {
+  color: #333;
+  padding: 10px 14px;
+  display: block;
+  text-decoration: none;
+  background-color: #f9f9f9;
+}
+
+.dropdown-content a:hover {
+  background-color: #eee;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+.brand-link {
+  text-decoration: none;
+}
+
+.brand-link h1 {
+  color: white;
+  margin: 0;
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem; /* Smaller gap between items */
+  margin-right: 20px; /* Pull everything left slightly */
+  flex-wrap: wrap; /* Allow wrapping if needed */
+  max-width: calc(100vw - 300px); /* Prevent overflow */
+}
+.nav-links a,
+.dropbtn {
+  padding: 6px 8px;
+}
+  </style>
+</head>
+<body>
+  <div class="header">
+  <a href="{% url 'companyhome' %}" class="brand-link">
+  <h1>JOB 365</h1>
+</a>
+  <nav class="nav-links">
+    <a href="{% url 'companyhome' %}">Home</a>
+
+    <div class="dropdown">
+      <button class="dropbtn">Jobs <i class="fa-solid fa-caret-down"></i></button>
+      <div class="dropdown-content">
+        <a href="{% url 'job_details_blank' %}"><i class="fa-solid fa-briefcase"></i> Posted Jobs</a>
+        <a href="{% url 'employee_details' %}"><i class="fa-solid fa-user-tie"></i> Employee Details</a>
+      </div>
+    </div>
+
+   
+
+   
+    <a href="{% url 'profile_form' %}"><i class="fa-solid fa-user"></i> Profile</a>
+    <a href="{% url 'login' %}"><i class="fa-solid fa-sign-out-alt"></i> Logout</a>
+  </nav>
+</div>
+  <div class="support-container">
+    <div class="support-image">
+      <img src="{% static 'images/image2.webp' %}" alt="Call Support" />
+    </div>
+
+    <div class="support-info">
+      <h2><i class="fa-solid fa-phone-volume"></i> Call Support</h2>
+      <p>Available: <strong>9 AM – 6 PM (Mon–Sat)</strong></p>
+      <p class="phone-number">📞 +91 98765 43210</p>
+      <p>For urgent issues, please email us or use our live chat system below.</p>
+
+      <!-- Chatbox -->
+      <div class="chatbox" id="chatbox">
+        <div class="chat-message bot">Hi! 👋 How can we assist you today?</div>
+      </div>
+
+      <!-- User Input -->
+      <div class="user-input">
+        <input type="text" id="chatInput" placeholder="Type your message..." />
+        <button onclick="sendMessage()"><i class="fa fa-paper-plane"></i></button>
+      </div>
+      <!-- Back to Home Button -->
+<div style="text-align: center; margin-top: 25px;">
+  <a href="{% url 'companyhome' %}" style="
+      text-decoration: none;
+      background-color: #007bff;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: 500;
+      transition: background 0.3s;
+      display: inline-block;
+    ">
+    ← Back to Home
+  </a>
+</div>
+
+    </div>
+    
+  </div>
+
+  <script>
+    function sendMessage() {
+      const input = document.getElementById('chatInput');
+      const chatbox = document.getElementById('chatbox');
+      const userText = input.value.trim();
+      if (!userText) return;
+
+      // Append user message
+      const userMsg = document.createElement('div');
+      userMsg.className = 'chat-message user';
+      userMsg.textContent = userText;
+      chatbox.appendChild(userMsg);
+      input.value = '';
+      chatbox.scrollTop = chatbox.scrollHeight;
+
+      // Simulate bot reply
+      setTimeout(() => {
+        const botMsg = document.createElement('div');
+        botMsg.className = 'chat-message bot';
+
+        if (userText.toLowerCase().includes("hello") || userText.toLowerCase().includes("hi")) {
+          botMsg.textContent = "Hello! How can we help you?";
+        } else if (userText.toLowerCase().includes("call")) {
+          botMsg.textContent = "You can reach us at 📞 +91 98765 43210.";
+        } else if (userText.toLowerCase().includes("email")) {
+          botMsg.textContent = "Sure! You can email us at support@example.com";
+        } else {
+          botMsg.textContent = "Thank you for reaching out. A support agent will connect with you shortly.";
+        }
+
+        chatbox.appendChild(botMsg);
+        chatbox.scrollTop = chatbox.scrollHeight;
+      }, 700);
+    }
+  </script>
+</body>
+</html>
