@@ -36,7 +36,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 SECRET_KEY = 'django-insecure-(y@s)#sly5-b5__0r)ogdsvwofm8!v646)p(6x()=t)0!ou&7b'
 
 # Debug mode
-DEBUG = True  # Set to False in production
+DEBUG = False  # Set to False in production
 
 # Allowed hosts from environment
 host_env = os.environ.get("DJANGO_ALLOWED_HOSTS") or os.environ.get("ALLOWED_HOSTS")
