@@ -33,7 +33,8 @@ SECRET_KEY = 'django-insecure-(y@s)#sly5-b5__0r)ogdsvwofm8!v646)p(6x()=t)0!ou&7b
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['job365-project.onrender.com', 'localhost', '127.0.0.1']  # noqa or  # pylint: disable=line-too-long
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost').split(',')
+
 
 
 
