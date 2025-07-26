@@ -9,31 +9,49 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
-import os
+print("✅ Django settings.py is loading...")
+
+import logging
 from pathlib import Path
-
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
-
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-(y@s)#sly5-b5__0r)ogdsvwofm8!v646)p(6x()=t)0!ou&7b'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
-
+from dotenv import load_dotenv
+import dj_database_url
 from django.urls import reverse_lazy
 
+# Load environment variables
+load_dotenv()
+
+# Logger setup
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger(__name__)
+
+# Base directory
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Media files
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
+# Secret key
+SECRET_KEY = 'django-insecure-(y@s)#sly5-b5__0r)ogdsvwofm8!v646)p(6x()=t)0!ou&7b'
+
+# Debug mode
+DEBUG = True  # Set to False in production
+import os
+from decouple import config
+ALLOWED_HOSTS = [
+    'job365-project.onrender.com',
+    'localhost',
+    '127.0.0.1',
+]
+
+
+
+logger.warning("✅ ALLOWED_HOSTS in settings.py: %s", ALLOWED_HOSTS)
+
+# Login URL
 LOGIN_URL = reverse_lazy('login')
 
-
-# Application definition
-
+# Installed apps
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -41,9 +59,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'App','admin_panel',
+    'App',
+    'admin_panel',
+    'whitenoise.runserver_nostatic',
 ]
 
+# Middleware
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -52,15 +73,24 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-     'whitenoise.middleware.WhiteNoiseMiddleware', 
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-ROOT_URLCONF = 'Jobs.urls'
 
+# Static files config
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'App/static')]
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# URL and WSGI config
+ROOT_URLCONF = 'Jobs.urls'
+WSGI_APPLICATION = 'Jobs.wsgi.application'
+
+# Templates
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'app/templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -73,61 +103,44 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'Jobs.wsgi.application'
-
-
 # Database
-# https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'job_db_28g4',
+        'USER': 'job_db_28g4_user',
+        'PASSWORD': 'TwYglOrNm7iN8wjrUEhxBjuh2K4cbIu8',
+        'HOST': 'dpg-d1ntq0emcj7s73fls3h0-a.singapore-postgres.render.com',
+        'PORT': '5432',
+        'OPTIONS': {
+            'sslmode': 'require',
+        },
     }
 }
 
-
-# Password validation
-# https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
-
+# Password validators
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
-
 # Internationalization
-# https://docs.djangoproject.com/en/3.2/topics/i18n/
-
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
 
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.2/howto/static-files/
-
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # For collectstatic
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'App/static')]  # Your Tailwind output.css
-
-# Default primary key field type
-# https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
-
+# Default primary key type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Email settings (⚠️ Use environment variables in production for security)
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'varshakvinod680@gmail.com'
+EMAIL_HOST_PASSWORD = 'oufr gobi mlmu iitn'
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
