@@ -1,23 +1,18 @@
-# Core Django
-Django>=4.0,<5.0
-
-# Tailwind support in Django
-django-tailwind>=3.5.0
-
-# Environment variable management
-python-decouple>=3.6
-
-# WhiteNoise for static file serving
-whitenoise>=6.0.0
-
-# Gunicorn for WSGI HTTP server (production)
-gunicorn>=21.2.0
-
-# PostgreSQL (useful for production, even if using SQLite locally)
-psycopg2-binary>=2.9.9
-
-# Optional: Useful development tools
-django-debug-toolbar>=4.0
-
-# If you're using Pillow for image uploads
-Pillow>=10.0.0
+asgiref==3.8.1
+dj-database-url==3.0.1
+Django==4.2.23
+django-debug-toolbar==5.2.0
+django-tailwind==4.2.0
+djangorestframework==3.15.2
+git-filter-repo==2.47.0
+gunicorn==23.0.0
+packaging==25.0
+pillow==11.1.0
+psycopg2-binary==2.9.10
+python-decouple==3.8
+python-dotenv==1.1.1
+setuptools==76.0.0
+sqlparse==0.5.3
+tzdata==2025.1
+wheel==0.45.1
+whitenoise==6.9.0
