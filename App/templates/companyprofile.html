@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>JOB 365 - Profile</title>
+  <style>
+    /* Reset some default margins/padding */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+      color: #333;
+    }
+    
+    /* Top navigation bar */
+    .top-nav {
+      background-color: #fff;
+      border-bottom: 1px solid #ccc;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 20px;
+    }
+    .top-nav .left-section h1 {
+      font-size: 1.5rem;
+      color: #333;
+    }
+    .top-nav .center-section {
+      display: flex;
+      gap: 15px;
+    }
+    .top-nav .center-section a {
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+    }
+    .top-nav .right-section {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    .top-nav .right-section div {
+      text-align: right;
+    }
+    .top-nav .right-section div span {
+      display: block;
+      font-size: 0.9rem;
+    }
+    
+    /* Main container: side nav + content */
+    .main-container {
+      display: flex;
+      min-height: calc(100vh - 60px); /* account for top-nav height */
+    }
+    
+    /* Side navigation */
+    .side-nav {
+      background-color: #fff;
+      width: 220px;
+      border-right: 1px solid #ccc;
+      padding: 20px;
+    }
+    .side-nav .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+    .side-nav .logo-container img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .side-nav h2 {
+      font-size: 1.1rem;
+      margin: 0;
+    }
+    .side-nav ul {
+      list-style: none;
+      margin-top: 20px;
+    }
+    .side-nav ul li {
+      margin-bottom: 10px;
+    }
+    .side-nav ul li a {
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+    }
+    
+    /* Content area */
+    .content {
+      flex: 1;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+    .form-container {
+      width: 100%;
+      max-width: 600px; /* Reduced width */
+      background-color: #fff;
+      padding: 40px 20px;
+      border-radius: 5px;
+      position: relative;
+    }
+    
+    /* Form sections */
+    .form-section {
+      margin-bottom: 20px;
+    }
+    .form-section h3 {
+      margin-bottom: 10px;
+      font-size: 1.2rem;
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 5px;
+    }
+    
+    /* Form fields layout */
+    .form-group {
+      display: flex;
+      flex-wrap: wrap;
+      margin-bottom: 15px;
+    }
+    .form-group label {
+      width: 150px;
+      font-weight: bold;
+      padding-right: 10px;
+      margin-bottom: 5px;
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      flex: 1;
+      padding: 6px 8px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      font-size: 0.95rem;
+    }
+    .form-group textarea {
+      min-height: 80px;
+      resize: vertical;
+    }
+    
+    /* Buttons positioned at top right */
+    .btn-bar {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      display: flex;
+      gap: 10px;
+    }
+    .btn {
+      padding: 8px 15px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.95rem;
+    }
+    .btn-edit {
+      background-color: #007bff;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .btn-save {
+      background-color: #28a745;
+      color: #fff;
+    }
+    .btn-edit img {
+      width: 16px;
+      height: 16px;
+    }
+  </style>
+</head>
+<body>
+  
+  <!-- Top Navigation Bar -->
+  <div class="top-nav">
+    <div class="left-section">
+      <h1>JOB 365</h1>
+    </div>
+    <div class="center-section">
+      <a href="#">Home</a>
+      <a href="#">Jobs</a>
+      <a href="#">Certificate</a>
+      <a href="#">Income</a>
+      <a href="#">Contact</a>
+      <a href="#">Notifications</a>
+    </div>
+    <div class="right-section">
+      <div>
+        <span>Phone: 1234567891</span>
+        <span>Email: soooog@gmail.com</span>
+        <span>From: Calicut Kerala</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="main-container">
+    <!-- Side Navigation -->
+    <div class="side-nav">
+      <div class="logo-container">
+        <!-- Round icon added near Tech World -->
+        <img src="https://th.bing.com/th?id=OIP.h0QSxOHYz-4guFPoCt9-YgHaHv&w=244&h=255&c=8&rs=1&qlt=90&o=6&dpr=1.6&pid=3.1&rm=2" alt="Company Icon" />
+        <h2>Tech World</h2>
+      </div>
+      <ul>
+        <li><a href="#">Basic Details</a></li>
+        <li><a href="#">Bank Details</a></li>
+        <li><a href="#">Company Details</a></li>
+      </ul>
+    </div>
+    
+    <!-- Main Content / Form -->
+    <div class="content">
+      <div class="form-container">
+        <!-- Buttons positioned at top right -->
+        <div class="btn-bar">
+          <button type="button" id="editBtn" class="btn btn-edit">
+            <img src="edit-icon.png" alt="Edit Icon" />
+            Edit
+          </button>
+          <button type="button" id="saveBtn" class="btn btn-save">
+            Save
+          </button>
+        </div>
+        <form id="profileForm">
+          <!-- Basic Details Section -->
+          <div class="form-section">
+            <h3>Basic Details</h3>
+            <div class="form-group">
+              <label for="firstName">First Name</label>
+              <input type="text" id="firstName" name="firstName" value="Sooryal" readonly />
+            </div>
+            <div class="form-group">
+              <label for="lastName">Last Name</label>
+              <input type="text" id="lastName" name="lastName" value="Lastname" readonly />
+            </div>
+            <div class="form-group">
+              <label for="address">Address</label>
+              <input type="text" id="address" name="address" value="123 Example Street" readonly />
+            </div>
+            <div class="form-group">
+              <label for="locationPref">Location Preference</label>
+              <input type="text" id="locationPref" name="locationPref" value="Calicut" readonly />
+            </div>
+          </div>
+          
+          <!-- Account Details Section -->
+          <div class="form-section">
+            <h3>Account Details</h3>
+            <div class="form-group">
+              <label for="bankAccount">Bank Account Number</label>
+              <input type="text" id="bankAccount" name="bankAccount" value="1234-5678-9012" readonly />
+            </div>
+            <div class="form-group">
+              <label for="ifscCode">IFSC Code</label>
+              <input type="text" id="ifscCode" name="ifscCode" value="IFSC0001234" readonly />
+            </div>
+            <div class="form-group">
+              <label for="idCard">Select ID Card</label>
+              <select id="idCard" name="idCard" disabled>
+                <option value="pan" selected>PAN Card</option>
+                <option value="aadhar">Aadhar Card</option>
+                <option value="voter">Voter ID</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="panNumber">PAN Number</label>
+              <input type="text" id="panNumber" name="panNumber" value="ABCDE1234F" readonly />
+            </div>
+          </div>
+          
+          <!-- Company Details Section -->
+          <div class="form-section">
+            <h3>Company Details</h3>
+            <div class="form-group">
+              <label for="companyName">Your Company Name</label>
+              <input type="text" id="companyName" name="companyName" value="Tech World" readonly />
+            </div>
+            <div class="form-group">
+              <label for="registrationNumber">Registration Number</label>
+              <input type="text" id="registrationNumber" name="registrationNumber" value="REG-123456" readonly />
+            </div>
+            <div class="form-group">
+              <label for="taxDetails">Tax Details</label>
+              <input type="text" id="taxDetails" name="taxDetails" value="GST1234567890" readonly />
+            </div>
+            <div class="form-group">
+              <label for="yearOfStart">Year of Start</label>
+              <input type="text" id="yearOfStart" name="yearOfStart" value="2010" readonly />
+            </div>
+            <div class="form-group">
+              <label for="pincode">Pincode</label>
+              <input type="text" id="pincode" name="pincode" value="673001" readonly />
+            </div>
+            <div class="form-group">
+              <label for="city">City</label>
+              <input type="text" id="city" name="city" value="Calicut" readonly />
+            </div>
+            <div class="form-group">
+              <label for="state">State</label>
+              <input type="text" id="state" name="state" value="Kerala" readonly />
+            </div>
+            <div class="form-group">
+              <label for="country">Country</label>
+              <input type="text" id="country" name="country" value="India" readonly />
+            </div>
+            <div class="form-group">
+              <label for="description">Description about Company and employees</label>
+              <textarea id="description" name="description" readonly>We are a tech solutions provider focusing on software development.</textarea>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('profileForm');
+    const editBtn = document.getElementById('editBtn');
+    const saveBtn = document.getElementById('saveBtn');
+
+    // Initially, fields are read-only (set in the HTML via readonly/disabled).
+    // Toggle them when clicking "Edit" or "Save".
+    editBtn.addEventListener('click', () => {
+      toggleReadOnly(false);
+    });
+
+    saveBtn.addEventListener('click', () => {
+      // Here you could actually submit the form or send an AJAX request.
+      // For now, we'll just toggle fields back to read-only.
+      toggleReadOnly(true);
+      alert('Form saved!');
+    });
+
+    function toggleReadOnly(isReadOnly) {
+      const inputs = form.querySelectorAll('input, select, textarea');
+      inputs.forEach(input => {
+        if (input.tagName.toLowerCase() === 'input' || input.tagName.toLowerCase() === 'textarea') {
+          input.readOnly = isReadOnly;
+        }
+        if (input.tagName.toLowerCase() === 'select') {
+          input.disabled = isReadOnly;
+        }
+      });
+    }
+  </script>
+</body>
+</html>

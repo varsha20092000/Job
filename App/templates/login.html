@@ -1,0 +1,402 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="{% static 'images/favicon.ico' %}">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+    }
+
+    .login-container {
+      display: flex;
+      height: 100vh;
+      align-items: center; /* Align both items vertically in the center */
+    }
+
+    /* Image container on the left side */
+    .image-container {
+      flex: 1;
+      display: flex;
+      justify-content: center; /* Center horizontally */
+      align-items: center; /* Center vertically */
+    }
+
+    .image-container img {
+      width: 70%; /* Adjust width as needed */
+      height: auto;
+      border-radius: 10px; /* Optional: makes the image edges rounded */
+      margin-left: 300px;
+    }
+
+    /* Signin form container on the right side */
+    .signin-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center; /* Align form vertically */
+      align-items: center;
+      padding: 20px;
+      margin-right: 300px;
+      max-width: 500px; /* Increase the max-width for the form */
+      width: 100%;
+      margin-left: 20px
+      
+    }
+
+    .signin-container h2 {
+      font-size: 32px;
+      font-weight: 600;
+      color: #333;
+      margin-right: 140px;
+    }
+
+    .signin-container p {
+      margin: 10px 0;
+      color: #777;
+    }
+
+    .input-container {
+      width: 80%;
+      margin: 10px 0;
+    }
+
+    .input-container label {
+      font-size: 14px;
+      font-weight: 500;
+      color: #333;
+      margin-bottom: 5px;
+      display: block;
+    }
+
+    .input-field {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      font-size: 16px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+
+    .login-btn {
+      width: 80%;
+      padding: 12px;
+      background-color: #008CBA;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-top: 10px;
+    }
+
+    .login-btn:hover {
+      background-color: #007bb5;
+    }
+
+    .social-login {
+      margin: 20px 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .social-btn {
+      width: 80%;
+      padding: 12px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      margin: 5px 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .social-btn.google {
+      background-color: #db4437;
+      color: white;
+    }
+
+    .social-btn.facebook {
+      background-color: #3b5998;
+      color: white;
+    }
+
+    .social-btn i {
+      margin-right: 10px;
+    }
+    
+
+    .social-btn:hover {
+      opacity: 0.9;
+    }
+
+    a {
+      color: #008CBA;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .job-title {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      font-size: 36px;
+      font-weight: 600;
+      color: #060607; /* Blue for JOB 365 */
+    }
+
+    .job-title span {
+      color: #163cc5b6; /* Blue for 365 */
+    }
+    .social-login {
+      margin: 10px 0;
+      display: flex;
+      justify-content: space-between;
+      width: 100%; /* Ensure the buttons fit within the form */
+    }
+
+    /* Social button images */
+    .social-btn img {
+      width: 10%; /* Slightly smaller width to fit both images */
+      border-radius: 5px;
+      cursor: pointer;
+      transition: opacity 0.3s ease; /* Smooth transition for hover effect */
+      margin-left: 10px;
+    }
+
+    .social-btn img:hover {
+      opacity: 0.8; /* Reduce opacity on hover */
+    }
+
+    a {
+      color: #008CBA;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+    .social-login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .social-btn img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    cursor: pointer;
+  }
+  .social-login {
+  display: flex; /* Place items in the same row */
+  justify-content: center; /* Center align the buttons */
+  align-items: center; /* Vertically center align */
+  gap: 15px; /* Add spacing between buttons */
+}
+
+.google-btn img {
+    width: 50px;
+  height: 50px;
+  object-fit: cover; /* Keep images proportionate */
+  cursor: pointer;
+  margin-right: 180px;
+  margin-bottom: -70px;
+
+}
+.facebook-btn img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover; /* Keep images proportionate */
+  cursor: pointer;
+}
+.login-btn {
+            background-color: rgb(41, 161, 188);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-block;
+            cursor: pointer;
+            text-align: center;
+            line-height: 1.5em; /* Adjust as needed */
+        }
+
+        .login-btn:hover {
+            background-color: rgb(42, 156, 178);
+        }
+
+        /* Fix the outline issue when the button is clicked */
+        .login-btn:focus {
+            outline: none;
+        }
+        .error-message {
+    background-color: #f8d7da; /* Light red background */
+    color: #721c24; /* Dark red text */
+    padding: 10px;
+    border: 1px solid #f5c6cb;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.error-text {
+    font-size: 14px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+}
+
+.error-text i {
+    margin-right: 5px; /* Space between icon and text */
+    color: #dc3545; /* Red color for the icon */
+}
+
+.login-btn {
+    background-color: #06a0c9;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    margin: 5px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+
+  .active-btn {
+    background-color: #055d7a;
+  }
+  .input-field{
+      width:100%;
+      max-width:260px;        /* keep it a nice width on large screens   */
+      padding:10px 14px;
+      margin:8px auto;        /* centers inside its parent if you’re using flex/centered layout */
+      font-size:15px;
+      color:#0f2d3f;
+      background:#f8fbfc;
+      border:1px solid #cfd8df;
+      border-radius:6px;
+      outline:none;
+      transition:border-color .25s ease, box-shadow .25s ease;
+  }
+
+  /* ---------- Placeholder ---------- */
+  .input-field::placeholder{
+      color:#8ba1b6;
+      font-weight:400;
+  }
+
+  /* ---------- Focus State ---------- */
+  .input-field:focus{
+      border-color:#06a0c9;               /* brand‑coloured border          */
+      box-shadow:0 0 0 3px rgba(6,160,201,.15); /* subtle glow */
+      background:#ffffff;
+  }
+
+  /* ---------- Invalid (browser) ---------- */
+  .input-field:invalid{
+      border-color:#2570d9;
+  }
+  </style>
+  <title>Login</title>
+</head>
+<body>
+  <div class="job-title">
+    JOB <span>365</span>
+  </div>
+
+  <div class="login-container">
+    <div class="image-container">
+      <img src="{% static 'images/ss2.png' %}" alt="Image" />
+    </div>
+
+    <div class="signin-container">
+      <h2>Sign In</h2>
+      <p>Please sign in to your registered account</p>
+
+      {% if messages %}
+        <div class="error-message">
+          {% for message in messages %}
+            <p class="error-text"><i class="fas fa-times-circle"></i> {{ message }}</p>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+     
+
+      <form method="POST" id="loginForm">
+        {% csrf_token %}
+        
+        <!-- Hidden input to store selected account type -->
+        <input type="hidden" name="account_type" id="accountTypeInput">
+      
+        <!-- Account Type Selection Buttons -->
+        <div style="text-align: center; margin-bottom: 10px;">
+          <button type="button" class="login-btn" onclick="setAccountType('company')">Company</button>
+          <button type="button" class="login-btn" onclick="setAccountType('jobseeker')">Jobseeker</button>
+        </div>
+      
+        <!-- Username and Password Inputs -->
+        <input type="text"
+       name="username"
+       class="input-field"
+       placeholder="Enter Username"
+       autocomplete="off"
+       required>
+
+<input type="password"
+       name="password"
+       class="input-field"
+       placeholder="Enter Password"
+       autocomplete="off"
+       required>
+      
+        <button type="submit" class="login-btn">LOGIN</button>
+      </form>
+      <p style="text-align: center; margin-top: 10px;">
+        Don't have an account? 
+        <a href="{% url 'register' %}" style="color: blue; text-decoration: underline;">Create one</a>
+    </p>
+    
+      <script>
+        let selectedAccountType = "";
+      
+        function setAccountType(type) {
+          selectedAccountType = type;
+          document.getElementById("accountTypeInput").value = type;
+      
+          // Optional: highlight the selected button
+          document.querySelectorAll('.login-btn').forEach(btn => btn.classList.remove("active-btn"));
+          event.target.classList.add("active-btn");
+        }
+      
+        document.getElementById("loginForm").addEventListener("submit", function (e) {
+          if (!selectedAccountType) {
+            alert("⚠️ Please select 'Company' or 'Jobseeker' before logging in.");
+            e.preventDefault(); // Block submission
+          }
+        });
+      </script>
+      
+
+  <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+</body>
+</html>
