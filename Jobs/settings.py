@@ -31,14 +31,19 @@ SECRET_KEY = 'django-insecure-(y@s)#sly5-b5__0r)ogdsvwofm8!v646)p(6x()=t)0!ou&7b
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 import os
-
-ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
 import logging
 
 logger = logging.getLogger(__name__)
-logger.warning("⚙️  STARTING SETTINGS")
-logger.warning("✅ ALLOWED_HOSTS from env: %s", os.environ.get("DJANGO_ALLOWED_HOSTS"))
-logger.warning(f"✅ Final ALLOWED_HOSTS: {ALLOWED_HOSTS}")
+
+# Render sets DJANGO_ALLOWED_HOSTS or your custom ALLOWED_HOSTS
+host_env = os.environ.get("DJANGO_ALLOWED_HOSTS") or os.environ.get("ALLOWED_HOSTS")
+if host_env:
+    ALLOWED_HOSTS = host_env.split(",")
+else:
+    ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
+
+logger.warning("✅ ALLOWED_HOSTS in settings.py: %s", ALLOWED_HOSTS)
+
 
 
 
