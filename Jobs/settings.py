@@ -31,10 +31,11 @@ SECRET_KEY = 'django-insecure-(y@s)#sly5-b5__0r)ogdsvwofm8!v646)p(6x()=t)0!ou&7b
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 import os
+print("⚙️  STARTING SETTINGS")
 
-ALLOWED_HOSTS = ['job365-project.onrender.com', 'localhost', '127.0.0.1']
-
+ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
 print("✅ Final ALLOWED_HOSTS:", ALLOWED_HOSTS)
+
 
 
 from django.urls import reverse_lazy
@@ -149,15 +150,10 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'App/static')]  # Your Tailwind outpu
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-import os
+
 from django.core.management import call_command
 
-# if os.environ.get("RENDER") == "true":
-#     try:
-#         call_command("loaddata", "jobs.json")
-#         print("✅ Loaded jobs.json into PostgreSQL")
-#     except Exception as e:
-#         print("❌ Fixture load error:", e)
+
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
