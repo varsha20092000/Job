@@ -1,0 +1,928 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="icon" href="{% static 'images/favicon.ico' %}">
+
+    <title>Registration Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+
+        .container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .form-container {
+            display: flex;
+            width: 70%;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .left-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .carousel {
+            flex: 1;
+            padding: 20px;
+            position: relative;
+            height: 100%;
+        }
+
+        h1,
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .upload-container {
+            margin: 20px 0;
+        }
+
+        .upload-container label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .upload-container input {
+            display: block;
+            margin-bottom: 20px;
+            padding: 10px;
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .form-carousel-indicators {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .personal-info-container {
+            margin: 20px 0;
+        }
+
+        .personal-info-container input {
+            display: block;
+            margin-bottom: 20px;
+            padding: 10px;
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .dropdown-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .dropdown {
+            position: relative;
+            width: 48%;
+        }
+
+        .dropdown select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        .dropdown .arrow {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            cursor: pointer;
+        }
+
+        .terms-checkbox-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .terms-checkbox-container input[type="checkbox"] {
+            margin-right: 10px;
+        }
+
+        .terms-text {
+            font-size: 14px;
+            color: black;
+        }
+
+        .terms-text a {
+            color: blue;
+            text-decoration: none;
+        }
+
+        .terms-text a:hover {
+            text-decoration: underline;
+        }
+
+        .carousel-item {
+            display: none;
+        }
+
+        .carousel-item.active {
+            display: block;
+        }
+
+        .password-heading {
+            color: #007bff;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .password-input-container {
+            position: relative;
+            margin-bottom: 20px;
+            margin-top: 20px;
+        }
+
+        .password-input {
+            width: 100%;
+            padding: 14px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        .eye-icon {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            cursor: pointer;
+            font-size: 20px;
+        }
+
+        .terms-checkbox-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 100px;
+        }
+
+        .terms-checkbox-container input[type="checkbox"] {
+            margin-right: 10px;
+            transform: scale(1.2);
+        }
+
+        .terms-text {
+            font-size: 14px;
+            line-height: 1.5;
+
+        }
+
+        .terms-text a {
+            color: #007bff;
+            text-decoration: none;
+
+        }
+
+        .terms-text a:hover {
+            text-decoration: underline;
+        }
+
+        .create-account-btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 16px;
+            width: 100%;
+            border-radius: 6px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .create-account-btn:hover {
+            background-color: #0056b3;
+        }
+
+
+
+        .carousel {
+            position: relative;
+            width: 100%;
+            margin: auto;
+            padding: 20px;
+            background-color: white;
+            max-width: 600px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1,
+        h2 {
+            text-align: center;
+        }
+
+        h2.blue {
+            color: #007bff;
+        }
+
+        input,
+        textarea,
+        select {
+            display: block;
+            width: 90%;
+            margin: 10px auto;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        textarea {
+            height: 80px;
+        }
+
+        .dropdown select {
+            width: 94%;
+        }
+
+        .carousel-content {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .carousel-item {
+            min-width: 100%;
+            flex-shrink: 0;
+            display: none;
+        }
+
+        .carousel-item.active {
+            display: block;
+        }
+
+        .carousel-indicators {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        button.prev,
+        button.next {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            margin: 0 10px;
+        }
+
+        .dot {
+            height: 12px;
+            width: 12px;
+            margin: 0 5px;
+            background-color: #bbb;
+            border-radius: 50%;
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        .dot.active {
+            background-color: #007bff;
+        }
+
+        .terms-checkbox-container {
+            display: flex;
+            align-items: center;
+
+            gap: 4px;
+
+        }
+
+        .terms-checkbox-container input[type="checkbox"] {
+            margin: 0;
+
+            padding: 0;
+
+        }
+
+        .terms-checkbox-container .terms-text {
+            margin: 0;
+
+            line-height: 1;
+
+            font-size: 14px;
+
+        }
+
+        .terms-checkbox-container {
+            display: flex;
+            align-items: center;
+
+            gap: 4px;
+
+        }
+
+        .terms-checkbox-container input[type="checkbox"] {
+            margin: 0;
+
+            padding: 0;
+
+        }
+
+        .terms-checkbox-container .terms-text {
+            margin: 0;
+
+            line-height: 1.2;
+
+            font-size: 14px;
+
+            position: relative;
+
+            left: -130px;
+
+        }
+
+        #popupMessage .bg-white {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        #popupMessage button {
+            background-color: #1E90FF;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+
+        #dropdownMenu a {
+            display: block;
+            padding: 10px 20px;
+            color: #333;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        #dropdownMenu a:hover {
+            background-color: #f0f8ff;
+
+        }
+
+        #submitButton {
+            background-color: #1E90FF;
+            /* DodgerBlue */
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #submitButton:hover {
+            background-color: #1C86EE;
+            /* Slightly darker blue */
+        }
+
+        #popupMessage .bg-white {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        #popupMessage button {
+            background-color: #1E90FF;
+            /* DodgerBlue */
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #popupMessage button:hover {
+            background-color: #1C86EE;
+            /* Slightly darker blue */
+        }
+
+        #dropdownMenu a {
+            display: block;
+            padding: 10px 20px;
+            color: #333;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        #dropdownMenu a:hover {
+            background-color: #f0f8ff;
+
+        }
+
+        #submitButton {
+            background-color: #1E90FF;
+
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #submitButton:hover {
+            background-color: #1C86EE;
+
+        }
+
+        #popupMessage .bg-white {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            z-index: 50;
+
+        }
+
+        #popupMessage button:hover {
+            background-color: #1C86EE;
+            /* Slightly darker blue */
+        }
+
+        #dropdownMenu a {
+            display: block;
+            padding: 10px 20px;
+            color: #333;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        #dropdownMenu a:hover {
+            background-color: #f0f8ff;
+            /* Light blue */
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .fixed {
+            position: fixed;
+        }
+
+        .flex {
+            display: flex;
+        }
+
+        .items-center {
+            align-items: center;
+        }
+
+        .justify-center {
+            justify-content: center;
+        }
+
+        .bg-black {
+            background-color: rgba(0, 0, 0, 0.75);
+            /* Increase opacity for better visibility */
+        }
+
+        .bg-opacity-50 {
+            opacity: 0.75;
+            /* Increase opacity for better visibility */
+        }
+
+        .p-4 {
+            padding: 1rem;
+        }
+
+        .rounded {
+            border-radius: 0.375rem;
+        }
+
+        .shadow-lg {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .mr-2 {
+            margin-right: 0.5rem;
+        }
+
+        #popupMessage {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .blue-button {
+            background-color: #007bff;
+            /* Blue color */
+            color: white;
+            /* White text color */
+            font-weight: bold;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .blue-button:hover {
+            background-color: #0056b3;
+
+        }
+
+        /* Updated CSS */
+        #popupMessage .bg-white {
+            background-color: rgb(152, 187, 219);
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 24rem;
+            /* 96 TailwindCSS value */
+            height: 20rem;
+            /* 80 TailwindCSS value */
+        }
+
+        #popupMessage button {
+            background-color: #1E90FF;
+            /* DodgerBlue */
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 50px;
+
+        }
+
+        #popupMessage button:hover {
+            background-color: #1C86EE;
+
+        }
+
+        .fas.fa-user-circle {
+            font-size: 2.5rem;
+            /* Adjust the size as needed */
+            color: #fbfdff;
+        }
+
+        .carousel-item {
+            display: none;
+        }
+
+        .carousel-item.active {
+            display: block;
+        }
+
+        .error-message {
+            font-size: 0.875rem;
+            color: #25c985;
+            /* Tailwind's red-600 */
+            margin-top: 0.25rem;
+        }
+
+
+        .fixed {
+            position: fixed;
+        }
+
+        .inset-0 {
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        #popupMessage.active {
+            display: flex;
+        }
+    </style>
+</head>
+<!-- ...your previous HTML head code... -->
+
+<body>
+    <div class="container">
+        <div class="form-container">
+            <div class="left-image">
+                <img src="{% static 'images/ss3.png' %}" alt="Registration">
+            </div>
+            <div class="carousel">
+                <h1>Create an Account</h1>
+                <form id="registrationForm" method="post" action="{% url 'register' %}">
+                    {% csrf_token %}
+                    {% if messages %}
+                    <div id="popup-message"
+                        class="fixed top-5 right-5 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded shadow-lg z-50"
+                        style="display: none;">
+                        {% for message in messages %}
+                        <span class="block sm:inline">{{ message }}</span>
+                        {% endfor %}
+                        <span onclick="document.getElementById('popup-message').style.display='none'"
+                            class="absolute top-0 right-0 px-3 py-1 cursor-pointer">&times;</span>
+                    </div>
+                    {% endif %}
+
+
+                    <div class="carousel-content">
+
+                        <!-- Slide 1 -->
+                        <div class="carousel-item active">
+                            <h2>Personal Information</h2>
+                            <div class="personal-info-container">
+                                <input id="username" name="username" placeholder="Username" required>
+                                <input id="first_name" name="first_name" placeholder="First Name">
+                                <input id="last_name" name="last_name" placeholder="Last Name">
+                                <input id="date_of_birth" type="date" name="date_of_birth" required>
+                                <input id="mobile_number" name="mobile_number" placeholder="Mobile Number" required>
+                                <input id="email_id" name="email_id" placeholder="Email ID" required>
+                                <textarea id="address" name="address" placeholder="Address" rows="3"
+                                    required></textarea>
+
+                            </div>
+                            <div class="dropdown-container">
+                                <div class="dropdown">
+                                    <select id="state" name="state">
+                                        <option value="">Select State</option>
+                                        <option value="kerala">Kerala</option>
+                                        <option value="tamil_nadu">Tamil Nadu</option>
+                                        <option value="karnataka">Karnataka</option>
+                                        <option value="maharashtra">Maharashtra</option>
+                                        <option value="delhi">Delhi</option>
+                                    </select>
+                                </div>
+                                <div class="dropdown">
+                                    <select id="city" name="city" required>
+                                        <option value="">Select City</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <input id="pincode" name="pincode" placeholder="Pincode">
+                            <div class="button-container"
+                                style="display: flex; justify-content: space-between; gap: 10px; margin-top: 3rem; margin-left: 30rem;">
+                                <button type="button" id="nextButton"
+                                    class="bg-blue-500 text-white py-2 px-4 rounded">Next</button>
+                            </div>
+                        </div>
+
+                        <!-- Slide 2 -->
+                        <div class="carousel-item">
+                            <h2>Create Password</h2>
+                            <div class="password-container">
+                                <div><label for="password">Password</label>
+                                    <input type="password" id="password" name="password" placeholder="Enter password"
+                                        required>
+                                </div>
+                                <div><label for="confirm-password">Confirm Password</label>
+                                    <input type="password" id="confirm_password" name="confirm_password"
+                                        placeholder="Confirm password" required>
+                                </div>
+                            </div>
+                            <div class="terms-checkbox-container">
+                                <input type="checkbox" id="terms-checkbox" required>
+                                <span class="terms-text">
+                                    By clicking on 'Sign Up', you're agreeing to the
+                                    <a href="#" target="_blank">Job 365 Terms of Service</a> and
+                                    <a href="#" target="_blank">Privacy Policy</a> here.
+                                </span>
+                            </div>
+                            <div class="button-container"
+                                style="display: flex; justify-content: space-between; gap: 10px; margin-top: 1rem;">
+                                <button type="button" id="backButton3"
+                                    class="bg-gray-500 text-white py-2 px-4 rounded">Back</button>
+                                <button type="submit" id="createAccountButton"
+                                    class="bg-green-500 text-white py-2 px-4 rounded">Create Account</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-carousel-indicators">
+                        <span class="dot active"></span>
+                        <span class="dot"></span>
+                    </div>
+                    <input type="hidden" name="account_type" id="accountType" value="">
+                    <p style="text-align: center; margin-top: 10px;">
+                        Already registered?
+                        <a href="{% url 'login' %}" style="color: blue; text-decoration: underline;">Login here</a>
+                    </p>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Slide/Carousel logic
+            const dots = document.querySelectorAll(".dot");
+            const slides = document.querySelectorAll(".carousel-item");
+            let currentSlide = 0;
+
+            function showSlide(index) {
+                if (index < 0 || index >= slides.length) return;
+                slides.forEach(slide => slide.classList.remove("active"));
+                dots.forEach(dot => dot.classList.remove("active"));
+                slides[index].classList.add("active");
+                dots[index].classList.add("active");
+                currentSlide = index;
+            }
+
+            dots.forEach((dot, index) => {
+                dot.addEventListener("click", () => showSlide(index));
+            });
+
+            showSlide(currentSlide);
+            document.getElementById("nextButton")?.addEventListener("click", () => showSlide(1));
+            document.getElementById("backButton3")?.addEventListener("click", () => showSlide(0));
+
+            // State-city selection
+            const stateSelect = document.getElementById('state');
+            const citySelect = document.getElementById('city');
+            const stateCities = {
+                'kerala': ['Kochi', 'Kozhikode', 'Malappuram', 'Thrissur', 'Trivandrum'],
+                'tamil_nadu': ['Chennai', 'Coimbatore', 'Madurai', 'Salem', 'Tiruchirappalli'],
+                'karnataka': ['Bengaluru', 'Mysuru', 'Hubli', 'Mangalore', 'Belagavi'],
+                'maharashtra': ['Mumbai', 'Pune', 'Nagpur', 'Nashik', 'Aurangabad'],
+                'delhi': ['New Delhi', 'North Delhi', 'South Delhi', 'East Delhi', 'West Delhi']
+            };
+
+            stateSelect?.addEventListener('change', function () {
+                const cities = stateCities[this.value] || [];
+                citySelect.innerHTML = '<option value="">Select City</option>';
+                cities.forEach(city => {
+                    const opt = document.createElement('option');
+                    opt.value = city;
+                    opt.textContent = city;
+                    citySelect.appendChild(opt);
+                });
+            });
+
+            // Popup & form validation
+            const popup = document.getElementById("popupMessage");
+
+            // Mock existing usernames and emails (replace with AJAX in real-world)
+            const existingUsers = [
+                { username: "john123", email: "john@example.com" },
+                { username: "varsha22", email: "varsha@gmail.com" },
+            ];
+
+            document.getElementById("createAccountButton")?.addEventListener("click", function (e) {
+                e.preventDefault();
+                document.querySelectorAll('.error-message').forEach(el => el.remove());
+                document.querySelectorAll('input, select').forEach(el => el.classList.remove("border-red-500"));
+
+                const fieldIds = [
+                    "username", "first_name", "last_name", "date_of_birth",
+                    "mobile_number", "email_id", "address", "state", "city",
+                    "pincode", "password", "confirm_password"
+                ];
+
+                let valid = true;
+                fieldIds.forEach(id => {
+                    const input = document.getElementById(id);
+                    if (input && !input.value.trim()) {
+                        const error = document.createElement("div");
+                        error.className = "error-message text-red-500 text-sm mt-1";
+                        error.innerText = "This field is required";
+                        input.classList.add("border-red-500");
+                        input.insertAdjacentElement('afterend', error);
+                        valid = false;
+                    }
+                });
+
+                const password = document.getElementById("password")?.value;
+                const confirmPassword = document.getElementById("confirm_password")?.value;
+
+                if (password && confirmPassword && password !== confirmPassword) {
+                    const confirmInput = document.getElementById("confirm_password");
+                    const error = document.createElement("div");
+                    error.className = "error-message text-red-500 text-sm mt-1";
+                    error.innerText = "Passwords do not match";
+                    confirmInput.classList.add("border-red-500");
+                    confirmInput.insertAdjacentElement('afterend', error);
+                    valid = false;
+                }
+
+                const termsCheckbox = document.getElementById("terms-checkbox");
+                if (!termsCheckbox?.checked) {
+                    alert("Please agree to the Terms of Service and Privacy Policy.");
+                    valid = false;
+                }
+
+                const enteredUsername = document.getElementById("username")?.value.trim().toLowerCase();
+                const enteredEmail = document.getElementById("email_id")?.value.trim().toLowerCase();
+
+                const isDuplicateUser = existingUsers.some(user =>
+                    user.username.toLowerCase() === enteredUsername || user.email.toLowerCase() === enteredEmail
+                );
+
+                if (isDuplicateUser) {
+                    alert("Username or email already exists. Please choose another.");
+                    valid = false;
+                }
+
+                if (valid) {
+                    popup.classList.add("active");
+                    popup.classList.remove("hidden");
+                }
+            });
+
+            document.getElementById("companyButton")?.addEventListener("click", function () {
+                const accountInput = document.getElementById("accountType");
+                accountInput.value = "company";
+                document.getElementById("registrationForm").action = "/register/";
+                document.getElementById("registrationForm").submit();
+            });
+
+            document.getElementById("jobseekerButton").addEventListener("click", function () {
+                const accountInput = document.getElementById("accountType");
+                accountInput.value = "jobseeker";
+                document.getElementById("registrationForm").action = "/register/";
+                document.getElementById("registrationForm").submit();
+            });
+
+            document.getElementById("closePopup")?.addEventListener("click", () => {
+                popup.classList.remove("active");
+            });
+        });
+        window.addEventListener('DOMContentLoaded', () => {
+    const popup = document.getElementById('popup-message');
+    if (popup) {
+      popup.style.display = 'block';
+      setTimeout(() => {
+        popup.style.display = 'none';
+      }, 4000); // auto-hide after 4 seconds
+    }
+  });
+    </script>
+
+    <div id="popupMessage" class="hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+        <div class="bg-white p-6 rounded shadow-lg text-center w-96">
+            <h2 class="text-xl font-semibold mb-4">Choose Account Type</h2>
+            <button id="companyButton" class="bg-blue-500 text-white py-2 px-4 rounded mr-2">Company</button>
+            <button id="jobseekerButton" class="bg-green-500 text-white py-2 px-4 rounded">Jobseeker</button>
+            <div class="mt-4">
+                <button id="closePopup" class="text-sm text-gray-500 underline">Close</button>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

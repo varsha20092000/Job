@@ -1,0 +1,211 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Applications Dashboard</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f9fafb;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #1d4ed8;
+      margin-bottom: 20px;
+      font-size: 2rem;
+    }
+
+    .controls {
+      display: flex;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .search-box {
+      display: flex;
+      align-items: center;
+      background: white;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      padding: 8px 12px;
+    }
+
+    .search-box input {
+      border: none;
+      outline: none;
+      margin-left: 8px;
+      background: none;
+      width: 200px;
+    }
+
+    .filter-select {
+      border: none;
+      background: #3b82f6;
+      color: white;
+      padding: 10px 16px;
+      font-size: 1rem;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .search-btn {
+      background-color: #2563eb;
+      color: white;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .search-btn:hover, .filter-select:hover {
+      background-color: #1e40af;
+    }
+
+    table {
+      width: 100%;
+      background: white;
+      border-collapse: collapse;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    th, td {
+      padding: 12px 16px;
+      text-align: left;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    th {
+      background-color: #f3f4f6;
+      color: #374151;
+      font-weight: bold;
+    }
+
+    tr.highlight {
+      background-color: #dbeafe;
+    }
+
+    .not-found {
+      text-align: center;
+      margin-top: 20px;
+      font-weight: bold;
+      color: #ef4444;
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+
+<h1><i class="fas fa-file-alt"></i> Applications Received</h1>
+
+<div class="controls">
+  <label class="search-box" for="searchInput">
+    <i class="fas fa-search"></i>
+    <input type="text" id="searchInput" placeholder="Search Username..." aria-label="Search by username">
+  </label>
+  <button class="search-btn" id="searchBtn" type="button" aria-label="Search"><i class="fas fa-search"></i> Search</button>
+  <select id="filterSelect" class="filter-select" aria-label="Sort by date">
+    <option value="latest">Latest First</option>
+    <option value="oldest">Oldest First</option>
+  </select>
+</div>
+
+<table id="applicationsTable">
+  <thead>
+    <tr>
+      <th>Username</th>
+      <th>Job Name</th>
+      <th>Company Name</th>
+      <th>User Email</th>
+      <th>Applied Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% if applications %}
+      {% for app in applications %}
+      <tr>
+        <td>{{ app.full_name }}</td>
+        <td>{{ app.job.job_name }}</td>
+        <td>{{ app.job.company_name }}</td>
+        <td>{{ app.email }}</td> 
+        <td data-date="{{ app.applied_date|date:"c" }}">{{ app.applied_date|date:"d M Y H:i" }}</td>
+      </tr>
+      {% endfor %}
+    {% else %}
+      <tr>
+        <td colspan="4" style="text-align:center;">No applications yet.</td>
+      </tr>
+    {% endif %}
+  </tbody>
+</table>
+
+<div id="notFoundMessage" class="not-found">
+  ❌ No matching username found.
+</div>
+
+<script>
+  const searchInput = document.getElementById('searchInput');
+  const searchBtn = document.getElementById('searchBtn');
+  const filterSelect = document.getElementById('filterSelect');
+  const table = document.getElementById('applicationsTable');
+  const notFoundMessage = document.getElementById('notFoundMessage');
+
+  function performSearch() {
+    const value = searchInput.value.trim().toLowerCase();
+    const rows = table.querySelectorAll('tbody tr');
+    let found = false;
+
+    rows.forEach(row => {
+      const username = row.querySelector('td')?.textContent.toLowerCase();
+      if (username && username.includes(value)) {
+        row.classList.add('highlight');
+        found = true;
+      } else {
+        row.classList.remove('highlight');
+      }
+    });
+
+    notFoundMessage.style.display = (!found && value !== '') ? 'block' : 'none';
+  }
+
+  searchBtn.addEventListener('click', performSearch);
+  searchInput.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      performSearch();
+    }
+  });
+
+  filterSelect.addEventListener('change', function() {
+    const tbody = table.querySelector('tbody');
+    const rowsArray = Array.from(tbody.querySelectorAll('tr'));
+
+    const validRows = rowsArray.filter(row => row.querySelector('td') !== null);
+
+    const sortedRows = validRows.sort((a, b) => {
+      const dateA = new Date(a.children[3].dataset.date);
+      const dateB = new Date(b.children[3].dataset.date);
+
+      return filterSelect.value === 'latest' ? dateB - dateA : dateA - dateB;
+    });
+
+    tbody.innerHTML = '';
+    sortedRows.forEach(row => tbody.appendChild(row));
+  });
+</script>
+
+</body>
+</html>

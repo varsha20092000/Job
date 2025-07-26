@@ -1,0 +1,193 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>User Management</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <style>
+    /* ========== BASIC RESET & PAGE STYLING ========== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: #f5f7fa;
+    }
+    a {
+      text-decoration: none;
+      color: #333;
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background-color: #fff;
+      padding: 10px 20px;
+      border-bottom: 1px solid #ccc;
+    }
+    .header .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #333;
+    }
+    .header .top-links a {
+      margin-left: 20px;
+      font-size: 0.95rem;
+      color: #333;
+      font-weight: 500;
+    }
+
+    /* Page Container: holds the side image and main content */
+    .page-container {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 20px;
+      max-width: 1000px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    /* Side image container */
+    .side-image {
+      width: 690px;          /* Fixed width */
+      height: 500px;         /* Fixed height */
+      flex-shrink: 0;
+      overflow: hidden;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      margin-left: -300px;
+    }
+    .side-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Main container for the white box */
+    .um-container {
+      flex: 1; /* Takes remaining space */
+      background-color: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      padding: 40px;
+      text-align: center;
+      width: 200px;
+      margin-top: 100px;
+      height: 400px;
+    }
+    .um-container h2 {
+      font-size: 1.8rem;
+      margin-bottom: 30px;
+      color: #03498a;
+    }
+
+    /* Buttons row */
+    .um-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+      margin-top: 70px;
+    }
+
+    /* Card-like buttons */
+    .um-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 200px;
+      height: 100px;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+      transition: transform 0.2s ease;
+    }
+    .um-card:hover {
+      transform: translateY(-2px);
+    }
+    .um-icon {
+      font-size: 2rem;
+      margin-bottom: 8px;
+    }
+    .um-card p {
+      font-size: 1rem;
+      font-weight: 500;
+    }
+
+    /* Distinct gradient backgrounds for each card */
+    .um-card.company {
+      background: linear-gradient(135deg, #66b8ff, #3aa8ff);
+    }
+    .um-card.jobseeker {
+      background: linear-gradient(135deg, #79d1e0, #4cc7dd);
+    }
+
+    /* Responsive tweak for very small screens */
+    @media (max-width: 480px) {
+      .um-card {
+        width: 100%;
+      }
+      .um-container {
+        margin: 20px;
+        padding: 20px;
+      }
+      .page-container {
+        flex-direction: column;
+        align-items: center;
+      }
+      .side-image {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="logo">JOB 365</div>
+    <div class="top-links">
+      <a href="#">Home</a>
+      <a href="#">Logout</a>
+    </div>
+  </header>
+
+  <!-- Page Container: Contains side image (left) and main content -->
+  <div class="page-container">
+    <!-- Side image appears first, so it's on the left -->
+    <div class="side-image">
+      <img src="{% static 'images/2.jpg' %}" alt="Side Image">
+    </div>
+    <!-- Main content (User Management white box) -->
+    <div class="um-container">
+      <h2>USER MANAGEMENT</h2>
+      <div class="um-buttons">
+        <!-- Company Button -->
+        <a class="um-card company" href="{% url 'company_job_posts' %}">
+          <div class="um-icon">
+            <i class="fas fa-user"></i>
+          </div>
+          <p>COMPANY</p>
+        </a>
+        <!-- Job Seeker Button -->
+        <a class="um-card jobseeker" href="{% url 'jobseeker_applied_jobs' %}">
+          <div class="um-icon">
+            <i class="fas fa-users"></i>
+          </div>
+          <p>JOB SEEKER</p>
+        </a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+

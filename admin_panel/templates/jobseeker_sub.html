@@ -1,0 +1,289 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Job Seekers Subscription Details</title>
+  <!-- (Optional) Font Awesome for icons -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    integrity="sha512-..."
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+  <style>
+    /* ========== BASIC RESET & PAGE STYLING ========== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+      margin: 0;
+    }
+    /* ========== HEADER ========== */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #fff;
+      padding: 1rem 2rem;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    header .logo {
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+    header nav ul {
+      list-style: none;
+      display: flex;
+      gap: 1rem;
+    }
+    header nav ul li a {
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+    }
+    /* ========== PAGE TITLE ========== */
+    h1.page-title {
+      text-align: center;
+      margin: 2rem 0 1.5rem;
+      font-size: 1.4rem;
+      font-weight: 600;
+      clear: both;  /* clear any floats */
+      color: cornflowerblue;
+    }
+    /* ========== LEFT IMAGE SECTION ========== */
+    .left-image {
+      float: left;
+      width: 40%;         /* Adjust as needed */
+      height: 500px;      /* Set the desired height */
+      margin-right: 20px; /* Space between image and other content */
+      overflow: hidden;
+    }
+    .left-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    /* ========== 2×2 MATRIX CONTAINER ========== */
+    .matrix-container {
+      width: 55%;         /* Remaining width after the left image */
+      max-width: 1200px;
+      margin: 0 auto 3rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-gap: 1rem;
+      overflow: hidden;
+    }
+    /* ========== CARD STYLING ========== */
+    .card {
+      background: #fff;
+      border-radius: 8px;
+      padding: 1rem;
+      position: relative;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .card-status {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+      padding: 0.3rem 0.6rem;
+      border-radius: 4px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .card-status.active {
+      background-color: #4caf50;
+    }
+    .card-status.expired {
+      background-color: #f44336;
+    }
+    .card-content {
+      display: flex;
+      align-items: center;
+      margin-top: 2rem;
+    }
+    .card-image img {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-right: 1rem;
+    }
+    .company-name {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 0.2rem;
+    }
+    .company-location {
+      color: #777;
+      margin-bottom: 0.6rem;
+    }
+    .card p {
+      margin: 0.3rem 0;
+      font-size: 0.95rem;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="logo">JOB 365</div>
+    <nav>
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Logout</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- PAGE TITLE -->
+  <h1 class="page-title" >Job Seekers Subscription Details</h1>
+  
+  <!-- LEFT IMAGE SECTION -->
+  <div class="left-image">
+    <img src="{% static 'images/gr.jpg' %}" alt="Profile Image">
+  </div>
+
+  <!-- 2×2 MATRIX CONTAINER -->
+  <div class="matrix-container">
+    <!-- CARD 1 -->
+    <div class="card">
+      <div class="card-status active">
+        <i class="fas fa-user"></i>
+        Status : Active
+      </div>
+      <div class="card-content">
+        <div class="card-image">
+          <img src="{% static 'images/boy.png' %}" alt="Profile Image">
+        </div>
+        <div class="card-details">
+          <h2 class="company-name">Sravan</h2>
+          <p class="company-location">Calicut</p>
+          <p>Subscription Type : Free plan</p>
+          <p>Plan details : 6 month plan</p>
+          <p>Joined date : 3-3-2024</p>
+          <p>Expiry date : 8-10-2024</p>
+          <p>Payment method : paypal</p>
+        </div>
+      </div>
+    </div>
+    <!-- CARD 2 -->
+    <div class="card">
+      <div class="card-status active">
+        <i class="fas fa-user"></i>
+        Status : Active
+      </div>
+      <div class="card-content">
+        <div class="card-image">
+          <img src="{% static 'images/man.jpg' %}" alt="Profile Image">
+        </div>
+        <div class="card-details">
+          <h2 class="company-name">Sachin</h2>
+          <p class="company-location">Calicut</p>
+          <p>Subscription Type : Premium plan</p>
+          <p>Plan details : 1 month plan</p>
+          <p>Joined date : 3-3-2024</p>
+          <p>Expiry date : 8-10-2024</p>
+          <p>Payment method : paypal</p>
+        </div>
+      </div>
+    </div>
+    <!-- CARD 3 -->
+    <div class="card">
+      <div class="card-status active">
+        <i class="fas fa-user"></i>
+        Status : Active
+      </div>
+      <div class="card-content">
+        <div class="card-image">
+          <img src="{% static 'images/man (1).png' %}" alt="Profile Image">
+        </div>
+        <div class="card-details">
+          <h2 class="company-name">Sravan</h2>
+          <p class="company-location">Calicut</p>
+          <p>Subscription Type : Free plan</p>
+          <p>Plan details : 6 month plan</p>
+          <p>Joined date : 3-3-2024</p>
+          <p>Expiry date : 8-10-2024</p>
+          <p>Payment method : paypal</p>
+        </div>
+      </div>
+    </div>
+    <!-- CARD 4 -->
+    <div class="card">
+      <div class="card-status expired">
+        <i class="fas fa-user"></i>
+        Status : Expired
+      </div>
+      <div class="card-content">
+        <div class="card-image">
+          <img src="{% static 'images/boy (1).png' %}" alt="Profile Image">
+        </div>
+        <div class="card-details">
+          <h2 class="company-name">Sravan</h2>
+          <p class="company-location">Calicut</p>
+          <p>Subscription Type : Free plan</p>
+          <p>Plan details : 6 month plan</p>
+          <p>Joined date : 3-3-2024</p>
+          <p>Expiry date : 8-10-2024</p>
+          <p>Payment method : paypal</p>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-status active">
+        <i class="fas fa-user"></i>
+        Status : Active
+      </div>
+      <div class="card-content">
+        <div class="card-image">
+          <img src="{% static 'images/human.png' %}" alt="Profile Image">
+        </div>
+        <div class="card-details">
+          <h2 class="company-name">shalani</h2>
+          <p class="company-location">Calicut</p>
+          <p>Subscription Type : Free plan</p>
+          <p>Plan details : 6 month plan</p>
+          <p>Joined date : 3-3-2024</p>
+          <p>Expiry date : 8-10-2024</p>
+          <p>Payment method : paypal</p>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-status active">
+        <i class="fas fa-user"></i>
+        Status : Active
+      </div>
+      <div class="card-content">
+        <div class="card-image">
+          <img src="{% static 'images/woman.png' %}" alt="Profile Image">
+        </div>
+        <div class="card-details">
+          <h2 class="company-name">Sumathi</h2>
+          <p class="company-location">Kochi</p>
+          <p>Subscription Type : Free plan</p>
+          <p>Plan details : 6 month plan</p>
+          <p>Joined date : 3-3-2024</p>
+          <p>Expiry date : 8-10-2024</p>
+          <p>Payment method : paypal</p>
+        </div>
+      </div>
+    </div>
+  </div><!-- .matrix-container -->
+
+</body>
+</html>
+

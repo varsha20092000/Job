@@ -1,0 +1,134 @@
+<h2 class="page-heading">Jobseeker List</h2>
+
+<div class="controls">
+  <input type="text" id="searchInput" onkeyup="searchTable()" placeholder="Search by name...">
+  <select id="sortSelect" onchange="sortTable()">
+    <option value="latest">Latest</option>
+    <option value="oldest">Oldest</option>
+  </select>
+</div>
+
+<table id="jobseekerTable">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Phone Number</th>
+      <th>Date Applied</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for jobseeker in jobseekers %}
+    <tr>
+      <td>{{ jobseeker.user.username }}</td>
+      <td>{{ jobseeker.user.email }}</td>
+      <td>{{ jobseeker.phone }}</td>
+      <td>{{ jobseeker.user.date_joined|date:"d M Y" }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 40px;
+    background-color: #f9f9f9;
+    color: #333;
+  }
+
+  .page-heading {
+    text-align: center;
+    font-size: 28px;
+    margin-bottom: 30px;
+    color: #222;
+  }
+
+  .controls {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  #searchInput,
+  #sortSelect {
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    width: 200px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+  }
+
+  thead {
+    background-color: #007bff;
+    color: #fff;
+  }
+
+  th, td {
+    padding: 14px 16px;
+    text-align: left;
+    border-bottom: 1px solid #eaeaea;
+  }
+
+  tbody tr:hover {
+    background-color: #f1f9ff;
+  }
+
+  .highlight {
+    background-color: #81c0d5 !important;
+    transition: background-color 0.3s ease;
+  }
+
+  @media (max-width: 768px) {
+    .controls {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    #searchInput,
+    #sortSelect {
+      width: 100%;
+    }
+
+    table, th, td {
+      font-size: 14px;
+    }
+  }
+</style>
+
+<script>
+  function searchTable() {
+    const input = document.getElementById("searchInput").value.toLowerCase();
+    const rows = document.querySelectorAll("#jobseekerTable tbody tr");
+
+    rows.forEach(row => {
+      row.classList.remove("highlight");
+      const name = row.cells[0].innerText.toLowerCase();
+      const match = name.includes(input);
+      row.style.display = match ? "" : "none";
+      if (match) row.classList.add("highlight");
+    });
+  }
+
+  function sortTable() {
+    const sortType = document.getElementById("sortSelect").value;
+    const tbody = document.querySelector("#jobseekerTable tbody");
+    const rows = Array.from(tbody.rows);
+
+    rows.sort((a, b) => {
+      const dateA = new Date(a.cells[3].innerText);
+      const dateB = new Date(b.cells[3].innerText);
+      return sortType === "latest" ? dateB - dateA : dateA - dateB;
+    });
+
+    rows.forEach(row => tbody.appendChild(row));
+  }
+</script>
