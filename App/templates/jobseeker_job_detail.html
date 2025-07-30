@@ -6,6 +6,7 @@
   <title>Job Details</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  
   <style>
     * {
       box-sizing: border-box;
@@ -27,6 +28,7 @@
   max-width: 700px;
   margin: 60px auto;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08); /* soft elevation */
+  
 }
 
 
@@ -464,6 +466,39 @@ body {
   background-color: #f0f0f0;
 }
 
+  button i:hover {
+    color: #0056b3;
+    transform: scale(1.1);
+    transition: 0.2s ease;
+  }
+.save-icon {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 22px;
+    color: #3498db;
+    z-index: 2;
+    background: white;
+    border-radius: 50%;
+    padding: 6px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease;
+  }
+
+  .save-icon:hover {
+    transform: scale(1.2);
+    color: #1d6fa5;
+  }
+  .save-icon {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 26px;
+  z-index: 100;
+  color: #0e78da;
+  cursor: pointer;
+}
+
   </style>
 </head>
 <body>
@@ -501,7 +536,17 @@ body {
   </div>
 {% endif %}
 
-  <div class="job-card">
+  <div class="job-card" style="position: relative;">
+  <a href="{% url 'toggle_save_job' job.id %}" class="save-icon absolute top-4 right-4" title="Save Job">
+  {% if job.id in saved_job_ids %}
+    <i class="fas fa-bookmark text-blue-600 text-xl"></i>  <!-- filled icon -->
+  {% else %}
+    <i class="far fa-bookmark text-blue-600 text-xl"></i>  <!-- outline icon -->
+  {% endif %}
+</a>
+
+
+
   <div class="header-section">
     <h1><i class="fas fa-briefcase" style="color:#2980b9;"></i> {{ job.job_name }}</h1>
     <h2><i class="fas fa-building" style="color:#8e44ad;"></i> {{ job.company_name }}</h2>
@@ -865,6 +910,28 @@ body {
       });
     }
   };
+  document.getElementById("bookmark-icon").addEventListener("click", function () {
+  const icon = this.querySelector("i");
+  const jobId = this.getAttribute("data-job-id");
+
+  fetch(`/toggle-save-job/${jobId}/`, {
+    method: "POST",
+    headers: {
+      "X-CSRFToken": "{{ csrf_token }}",
+      "Accept": "application/json",
+    },
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.saved) {
+      icon.classList.remove("far");
+      icon.classList.add("fas");
+    } else {
+      icon.classList.remove("fas");
+      icon.classList.add("far");
+    }
+  });
+});
 </script>
 
 </body>

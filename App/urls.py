@@ -20,6 +20,7 @@ urlpatterns = [
     
     path('income/', views.income, name='income'),
     path('profile/', views.profile, name='profile'),
+      path('update-profile/', views.update_profile, name='update_profile'),
     path('jobs/', views.jobs_view, name='jobs'),
     path('certificate/',views.certificate,name='certificate'),
     path('notifications/', views.notifications, name='notifications'),
@@ -51,6 +52,10 @@ urlpatterns = [
     path('subscription/success/', views.subscription_success, name='subscription_success'),
     path('job/<int:job_id>/apply/', views.apply_for_job, name='apply_for_job'),
     path('jobseeker/job/<int:job_id>/', views.jobseeker_job_detail_view, name='jobseeker_job_detail'),
+    path('job/<int:job_id>/save/', views.save_job, name='save_job'),
+  path('toggle-save-job/<int:job_id>/', views.toggle_save_job, name='toggle_save_job'),
+path('jobseeker/job/<int:job_id>/recruit-action/', views.applied_jobs_with_recruiter_action, name='recruiter_action'),
+
     path('job/<int:job_id>/applicants/', views.view_applicants, name='view_applicants'),
     path('job/<int:job_id>/applicant/<int:user_id>/', views.view_applicant_detail, name='view_applicant_detail'),
     path('job/<int:job_id>/edit/', views.edit_job, name='edit_job'),
@@ -59,8 +64,8 @@ path('job/<int:job_id>/delete/', views.delete_job, name='delete_job'),
     path('support/call/', views.call_support, name='call_support'),
 
 path('filtered-jobs/', views.filtered_jobs, name='filtered_jobs'),
-
+ path('jobemail-support/', views.jobemail_support, name='jobemail_support'),
   path('filtered-jobs/', views.filtered_jobs, name='filtered_jobs'),
-
+path('jobcall-support/', views.jobcall_support_view, name='jobcall_support'),
 ]+static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

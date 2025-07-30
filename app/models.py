@@ -236,6 +236,8 @@ class SavedJob(models.Model):
     jobseeker = models.ForeignKey(JobSeeker, on_delete=models.CASCADE)
     job = models.ForeignKey(Job, on_delete=models.CASCADE)
     saved_at = models.DateTimeField(auto_now_add=True)
+    
+    
 
     def __str__(self):
         return f"{self.jobseeker.user.username} saved {self.job.title}"
@@ -281,6 +283,20 @@ class Profile(models.Model):
     resume = models.FileField(upload_to='resumes/', blank=True, null=True)
     location = models.CharField(max_length=100, blank=True, null=True)  # 🔴 Add this line
     profile_image = models.ImageField(upload_to='company_profiles/', blank=True, null=True)
+    upload_id_card = models.FileField(upload_to='documents/id_cards/', blank=True, null=True)
+    upload_proof_detail = models.FileField(upload_to='documents/licenses/', blank=True, null=True)
+    upload_pan_card = models.FileField(upload_to='documents/pan_cards/', blank=True, null=True)
+    upload_passbook = models.FileField(upload_to='documents/passbooks/', blank=True, null=True)
+    skills = models.TextField(blank=True, null=True)
+    bank_account = models.CharField(max_length=30, blank=True, null=True)
+    ifsc_code = models.CharField(max_length=20, blank=True, null=True)
+    pan_card = models.CharField(max_length=20, blank=True, null=True)
+    Highest_Qualification = models.CharField(max_length=255, blank=True, null=True)
+    work_experience = models.TextField(blank=True, null=True)
+    country = models.CharField(max_length=100, blank=True, null=True)
+    city = models.CharField(max_length=100, blank=True, null=True)
+    short_bio = models.TextField(blank=True, null=True)
+
     ACCOUNT_CHOICES = (
         ('jobseeker', 'Job Seeker'),
         ('company', 'Company'),
@@ -310,3 +326,4 @@ class Education(models.Model):
 
     def __str__(self):
         return f"{self.school} ({self.marks})"
+

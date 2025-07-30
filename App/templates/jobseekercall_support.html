@@ -1,0 +1,117 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Call Support - JOB365</title>
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    .scrollbar-hide::-webkit-scrollbar {
+      display: none;
+    }
+    .scrollbar-hide {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+</head>
+<body class="bg-blue-50 font-sans">
+
+  <!-- Header -->
+  <header class="bg-blue-800 text-white px-6 py-4 flex justify-between items-center shadow-md sticky top-0 z-50">
+    <div class="text-2xl font-bold">
+      <a href="{% url 'home' %}">JOB365</a>
+    </div>
+    <nav class="space-x-6">
+      <a href="{% url 'home' %}" class="hover:text-gray-300">Home</a>
+      <a href="{% url 'jobs' %}" class="hover:text-gray-300">Jobs</a>
+      <a href="{% url 'certificate' %}" class="hover:text-gray-300">Certificate</a>
+      <a href="{% url 'income' %}" class="hover:text-gray-300">Income</a>
+    </nav>
+  </header>
+
+  <!-- Main Section -->
+  <section class="flex justify-center items-center p-6 min-h-screen">
+    <div class="bg-white rounded-xl shadow-2xl w-full max-w-6xl flex flex-col md:flex-row overflow-hidden">
+
+      <!-- Left Side Image -->
+      <div class="md:w-1/2 bg-blue-100 flex items-center justify-center p-6">
+        <img src="{% static 'images/image2.webp' %}" alt="Support" class="w-full h-auto max-h-[480px] rounded-xl object-contain">
+      </div>
+
+      <!-- Right Side Chat -->
+      <div class="md:w-1/2 bg-blue-800 text-white flex flex-col justify-between min-h-[650px]">
+
+        <!-- Contact Info -->
+        <div class="p-4 border-b border-blue-700 bg-blue-800">
+          <p class="text-sm">📞 For urgent inquiries, call us at:</p>
+          <p class="text-red-400 font-semibold text-lg">+91-9876543210</p>
+        </div>
+
+        <!-- Chat Messages -->
+        <div id="chat-box" class="flex-1 overflow-y-auto p-4 space-y-3 scrollbar-hide bg-blue-300" style="max-height: 400px;">
+          <div class="flex items-start space-x-3">
+            <img src="https://cdn-icons-png.flaticon.com/512/4712/4712107.png" alt="Bot" class="w-8 h-8 rounded-full">
+            <div class="bg-white text-gray-800 p-3 rounded-lg shadow-sm text-sm max-w-xs">
+              Hello! 👋 How can we assist you today?
+            </div>
+          </div>
+        </div>
+
+        <!-- Input -->
+        <div class="p-3 bg-blue-400 border-t border-blue-700 flex items-center space-x-2">
+          <input id="user-input" type="text" placeholder="Type your message..." class="flex-1 border rounded-lg px-4 py-2 text-sm text-black focus:outline-none focus:ring-2 focus:ring-blue-400">
+          <button id="send-btn" class="bg-blue-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-600">
+            Send
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Chat Script -->
+  <script>
+    const sendBtn = document.getElementById("send-btn");
+    const userInput = document.getElementById("user-input");
+    const chatBox = document.getElementById("chat-box");
+
+    const botReplies = {
+      "hi": "Hi there! 👋 How can I help you?",
+      "job": "You can check your job application status under the Jobs section.",
+      "certificate": "You can download your certificates from the Certificate tab.",
+      "bye": "Thank you for contacting JOB365. Have a great day!",
+      "default": "Thanks for your message! We will get back to you shortly."
+    };
+
+    sendBtn.addEventListener("click", () => {
+      const msg = userInput.value.trim();
+      if (msg === "") return;
+
+      chatBox.innerHTML += `
+        <div class="flex items-end justify-end space-x-3">
+          <div class="bg-green-100 text-black p-3 rounded-lg shadow-sm text-sm max-w-xs">${msg}</div>
+          <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="User" class="w-8 h-8 rounded-full">
+        </div>`;
+      chatBox.scrollTop = chatBox.scrollHeight;
+      userInput.value = "";
+
+      setTimeout(() => {
+        const reply = botReplies[msg.toLowerCase()] || botReplies["default"];
+        chatBox.innerHTML += `
+          <div class="flex items-start space-x-3">
+            <img src="https://cdn-icons-png.flaticon.com/512/4712/4712107.png" alt="Bot" class="w-8 h-8 rounded-full">
+            <div class="bg-white text-gray-800 p-3 rounded-lg shadow-sm text-sm max-w-xs">${reply}</div>
+          </div>`;
+        chatBox.scrollTop = chatBox.scrollHeight;
+      }, 800);
+    });
+
+    userInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") sendBtn.click();
+    });
+  </script>
+
+</body>
+</html>

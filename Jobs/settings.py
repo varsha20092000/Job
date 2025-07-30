@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
-print("✅ Django settings.py is loading...")
+
 
 import logging
 from pathlib import Path
@@ -43,7 +43,7 @@ ALLOWED_HOSTS = ['job-fxld.onrender.com', 'localhost', '127.0.0.1']
 
 
 
-logger.warning("✅ ALLOWED_HOSTS in settings.py: %s", ALLOWED_HOSTS)
+
 
 # Login URL
 LOGIN_URL = reverse_lazy('login')
@@ -87,7 +87,7 @@ WSGI_APPLICATION = 'Jobs.wsgi.application'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'app/templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'App/templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

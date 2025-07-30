@@ -72,3 +72,28 @@ class CertificateUploadForm(forms.ModelForm):
     class Meta:
         model = Education
         fields = ['school', 'place', 'certificate']
+from django import forms
+from .models import Profile
+
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = [
+            'user', 'phone', 'gender', 'dob', 'address', 'education', 'age', 'resume', 'location',
+            'profile_image', 'upload_id_card', 'upload_proof_detail', 'upload_pan_card',
+            'upload_passbook', 'skills', 'bank_account', 'ifsc_code', 'pan_card',
+            'Highest_Qualification', 'work_experience', 'account_type',
+            'country', 'city', 'short_bio',  # ✅ Added new fields
+        ]
+
+        widgets = {
+            'phone': forms.TextInput(attrs={'class': 'w-full mt-1 px-3 py-2 border border-gray-300 rounded'}),
+            'date_of_birth': forms.DateInput(attrs={'type': 'date', 'class': 'w-full mt-1 px-3 py-2 border border-gray-300 rounded'}),
+            'gender': forms.Select(attrs={'class': 'w-full mt-1 px-3 py-2 border border-gray-300 rounded'}),
+            'country': forms.TextInput(attrs={'class': 'w-full mt-1 px-3 py-2 border border-gray-300 rounded'}),
+            'city': forms.TextInput(attrs={'class': 'w-full mt-1 px-3 py-2 border border-gray-300 rounded'}),
+            'bio': forms.Textarea(attrs={'rows': 3, 'class': 'w-full mt-1 px-3 py-2 border border-gray-300 rounded'}),
+            'education': forms.Textarea(attrs={'rows': 2, 'class': 'w-full mt-1 px-3 py-2 border border-gray-300 rounded'}),
+            'resume': forms.ClearableFileInput(attrs={'class': 'w-full mt-1 px-3 py-2'}),
+            'work_experience': forms.Textarea(attrs={'rows': 2, 'class': 'w-full mt-1 px-3 py-2 border border-gray-300 rounded'}),
+        }

@@ -11,107 +11,110 @@
 </head>
 
 <body>
+<!-- Header Section -->
+<header class="bg-blue-700 text-white p-4 flex justify-between items-center fixed top-0 left-0 w-full z-50 shadow-md">
+  <!-- Logo with link to homepage -->
+  <div class="text-2xl font-bold">
+    <a href="{% url 'home' %}" class="text-white hover:text-gray-200">
+      JOB365
+    </a>
+  </div>
 
-  <!-- Header Section -->
-  <header class="bg-gray-800 text-white p-4 flex justify-between items-center fixed top-0 left-0 w-full z-50 shadow-md">
-    <div class="text-2xl font-bold">
-      <span class="text-gray-400">Job</span><span class="text-gray-300">365</span>
-    </div>
+  <!-- Navigation -->
+  <div class="flex items-center gap-6">
+    <nav class="hidden md:flex space-x-6">
+      <a href="{% url 'home' %}" class="hover:text-gray-200">Home</a>
+      <a href="{% url 'jobs' %}" class="hover:text-gray-200">Jobs</a>
+      <a href="{% url 'certificate' %}" class="hover:text-gray-200">Certificate</a>
+      <a href="{% url 'income' %}" class="hover:text-gray-200">Income</a>
 
-    <div class="flex items-center gap-6">
-      <nav class="hidden md:flex space-x-6">
-        <a href="{% url 'home' %}" class="hover:text-gray-300">Home</a>
-        <a href="{% url 'jobs' %}" class="hover:text-gray-300">Jobs</a>
-        <a href="{% url 'certificate' %}" class="hover:text-gray-300">Certificate</a>
-        <a href="{% url 'income' %}" class="hover:text-gray-300">Income</a>
-        <div class="relative">
-          <a href="#" class="hover:text-gray-300" id="contactDropdown">Contact</a>
-          <div class="absolute right-0 mt-2 bg-white shadow-md rounded-lg w-48 hidden" id="contactMenu">
-            <a href="#" class="flex items-center px-4 py-2 text-gray-800 hover:bg-gray-100">
-              📧 Email Support
-            </a>
-            <a href="#" class="flex items-center px-4 py-2 text-gray-800 hover:bg-gray-100">
-              📞 Call Support
-            </a>
-            <a href="#" class="flex items-center px-4 py-2 text-gray-800 hover:bg-gray-100">
-              💬 Message Us
-            </a>
-          </div>
-        </div>
-        <a href="#" class="hover:text-gray-300">Notifications</a>
-      </nav>
+      <!-- Contact Dropdown -->
+      <div class="relative inline-block text-left">
+  <!-- Trigger Button -->
+  <a href="#" class=" hover:bg-gray-300 font-medium" id="contactDropdownToggle">Contact </a>
 
-      <div class="relative group">
-        <button class="flex items-center text-white">
-          <img src="https://www.w3schools.com/w3images/avatar2.png" alt="Profile Avatar"
-            class="w-12 h-12 rounded-full mr-2">
-          <span class="font-semibold">User</span>
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ml-2" fill="none" viewBox="0 0 24 24"
-            stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-          </svg>
-        </button>
+  <!-- Dropdown Menu -->
+  <div class="absolute right-0 mt-2 bg-white text-black shadow-md rounded-lg w-48 hidden z-50" id="contactDropdownMenu">
+    <a href="{% url 'jobemail_support' %}" class="flex items-center px-4 py-2 hover:bg-gray-100">📧 Email Support</a>
+    <a href="{% url 'jobcall_support' %}" class="flex items-center px-4 py-2 hover:bg-gray-100">📞 Call Support</a>
+  </div>
+</div>
 
-        <div class="absolute right-0 mt-2 bg-white shadow-md rounded-lg w-48 hidden group-hover:block">
-          <a href="{% url 'profile' %}" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Profile</a>
-          
-          <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Logout</a>
-        </div>
+      <a href="#" class="hover:text-gray-200">Notifications</a>
+    </nav>
+
+    <!-- Profile Dropdown -->
+    <div class="relative group">
+      <button class="flex items-center text-white">
+        <img src="https://www.w3schools.com/w3images/avatar2.png" alt="Profile Avatar"
+          class="w-10 h-10 rounded-full mr-2">
+        <span class="font-semibold">User</span>
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ml-2" fill="none" viewBox="0 0 24 24"
+          stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+
+      <!-- Hover Dropdown -->
+      <div class="absolute right-0 mt-2 bg-white shadow-md rounded-lg w-48 hidden group-hover:block">
+        <a href="{% url 'profile' %}" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Profile</a>
+        <a href="{% url 'login' %}" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Logout</a>
       </div>
     </div>
-  </header>
+  </div>
+</header>
 
   <!-- Main Content -->
   <main class="pt-20">
     <div class="container mx-auto flex gap-6">
       <!-- Left Profile Panel -->
       <div class="left-panel w-1/4 p-4 bg-blue-100 rounded-lg">
-        <div class="profile-box text-center">
-          <img src="https://www.w3schools.com/w3images/avatar2.png" alt="Profile Avatar" class="avatar mx-auto mb-4">
-          <h2 class="text-lg font-semibold">Soorya Gokul</h2>
-          <p>Calicut, Kerala</p>
-          <hr class="my-3">
-          <button class="edit-profile-btn">✏️ Edit Profile</button>
-        </div>
-      </div>
+  <div class="profile-box text-center">
+    <!-- Avatar -->
+    {% if profile.profile_picture %}
+      <img src="{{ profile.profile_picture.url }}" alt="Profile Avatar" class="avatar mx-auto mb-4 rounded-full w-24 h-24 object-cover">
+    {% else %}
+      <img src="https://www.w3schools.com/w3images/avatar2.png" alt="Default Avatar" class="avatar mx-auto mb-4 rounded-full w-24 h-24 object-cover">
+    {% endif %}
+
+    <!-- User Name -->
+    <h2 class="text-lg font-semibold">{{ user.first_name }} {{ user.last_name }}</h2>
+
+    <!-- User Email -->
+    <p class="text-sm text-gray-700 my-1">
+      <i class="fas fa-envelope text-blue-600 mr-1"></i>{{ user.email }}
+    </p>
+
+    <!-- User Phone -->
+    <p class="text-sm text-gray-700 my-1">
+      <i class="fas fa-phone text-green-600 mr-1"></i>{{ profile.phone }}
+    </p>
+
+    <!-- User Location -->
+    <p class="text-sm text-gray-700 my-1">
+      <i class="fas fa-map-marker-alt text-red-600 mr-1"></i>{{ profile.city }}, {{ profile.country }}
+    </p>
+
+    <hr class="my-3">
+
+    <!-- Edit Button -->
+    <a href="{% url 'profile' %}" class="inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+      ✏️ Edit Profile
+    </a>
+  </div>
+</div>
+
 
       <!-- Middle Job Listings -->
       <div class="middle-panel w-2/3 p-6 bg-white rounded-lg shadow-lg">
-        <div class="search-bar mb-6 flex gap-4">
-          <input type="text" class="p-3 rounded-md border w-full" placeholder="Search jobs by title, company, skill">
-          <button class="search-btn bg-blue-500 text-white px-6 py-3 rounded-md">🔍 Search</button>
-          <button class="filter-btn bg-blue-500 text-white px-6 py-3 rounded-md" onclick="openFilterPopup()">⚙️ Filter</button>
-  </div>
+       
 
-  <div class="filter-overlay" id="filterOverlay" onclick="closeFilterPopup()"></div>
-  <div class="filter-popup" id="filterPopup">
-    <div class="filter-heading">
-      <span>Filter</span>
-      <button class="close-btn" onclick="closeFilterPopup()">X</button>
-    </div>
-    <hr>
-    <div class="filter-content">
-      <div class="date-range">
-        <div>
-          <span>📅 From</span>
-          <div>20-05-2025</div>
-        </div>
-        <div class="vertical-line"></div>
-        <div>
-          <span>📅 To</span>
-          <div>20-05-2025</div>
-        </div>
-      </div>
-      <button class="go-btn">Go</button>
-    </div>
-  </div>
- 
-
+  
         <div class="nav-buttons mb-6 flex gap-4">
           <button class="nav-btn bg-blue-500 text-white px-6 py-3 rounded-md" data-target="your-work">Got Reply</button>
           <button class="nav-btn bg-blue-500 text-white px-6 py-3 rounded-md" data-target="applied-jobs">Rejected Jobs</button>
           <button class="nav-btn bg-blue-500 text-white px-6 py-3 rounded-md" data-target="saved-jobs">Accepted Jobs</button>
-          <button class="nav-btn bg-blue-500 text-white px-6 py-3 rounded-md" data-target="closed-jobs">Closed Jobs</button>
+          
         </div>
         <div id="your-work" class="job-listings grid grid-cols-2 gap-6">
             <!-- Job Card Example -->
@@ -455,100 +458,13 @@
           <span class="text-red-500 bg-red-100 px-2 py-1 rounded">❌ Application Rejected</span>
           </div>
         </div>
+        
       </div>
+      
     </div>
     
   </div>
-  <div id="closed-jobs" class="job-listings grid grid-cols-2 gap-6">
-    <!-- Job Card Example -->
-    <div class="job-card bg-blue-50 p-4 rounded-lg shadow-md">
-      <div class="job-icon text-4xl mb-2">🎨</div>
-      <h3 class="font-semibold">Junior Designer</h3>
-      <p class="text-gray-500">Wood Pecker</p>
-      <p class="text-gray-500">Calicut (On-site)</p>
-      <div class="job-footer mt-3 flex justify-between text-sm text-gray-600">
-        <span>📢 Recruiting Stopped </span>
-        <span>🗓️ Posted 1 week ago</span>
-      </div>
-    </div>
-
-    <div class="job-card bg-blue-50 p-4 rounded-lg shadow-md">
-      <div class="job-icon text-4xl mb-2">🎨</div>
-      <h3 class="font-semibold">Graphic Designer</h3>
-      <p class="text-gray-500">Abcd Technologies Pvt Ltd</p>
-      <p class="text-gray-500">Ernakulam</p>
-      <div class="job-footer mt-3 flex justify-between text-sm text-gray-600">
-        <span>🚫 No longer accepting applications</span>
-        <span>🗓️ Posted 1 week ago</span>
-      </div>
-    </div>
-    <div class="job-card bg-blue-50 p-4 rounded-lg shadow-md">
-      <div class="job-icon text-4xl mb-2">🪚</div>
-      <h3 class="font-semibold">Carpenter</h3>
-      <p class="text-gray-500">Wood Works Ltd</p>
-      <p class="text-gray-500">Thrissur, Kerala</p>
-      <div class="job-footer mt-3 flex justify-between text-sm text-gray-600">
-        <span>📢 Recruiting Stopped </span>
-        <span>🗓️ Posted 1 week ago</span>
-      </div>
-    </div>
-
-    <div class="job-card bg-blue-50 p-4 rounded-lg shadow-md">
-      <div class="job-icon text-4xl mb-2">🧹</div>
-      <h3 class="font-semibold">House Cleaner</h3>
-      <p class="text-gray-500">Clean House Services</p>
-      <p class="text-gray-500">Ernakulam, Kerala</p>
-      <div class="job-footer mt-3 flex justify-between text-sm text-gray-600">
-        <span>🚫 No longer accepting applications</span>
-        <span>🗓️ Posted 2 weeks ago</span>
-      </div>
-    </div>
-
-    <div class="job-card bg-blue-50 p-4 rounded-lg shadow-md">
-      <div class="job-icon text-4xl mb-2">🔧</div>
-      <h3 class="font-semibold">Plumber</h3>
-      <p class="text-gray-500">Pipe Masters</p>
-      <p class="text-gray-500">Kochi, Kerala</p>
-      <div class="job-footer mt-3 flex justify-between text-sm text-gray-600">
-        <span>📢 Recruiting Stopped </span>
-        <span>🗓️ Posted 3 days ago</span>
-      </div>
-    </div>
-
-    <div class="job-card bg-blue-50 p-4 rounded-lg shadow-md">
-      <div class="job-icon text-4xl mb-2">👷</div>
-      <h3 class="font-semibold">Construction Worker</h3>
-      <p class="text-gray-500">Build It</p>
-      <p class="text-gray-500">Thrissur, Kerala</p>
-      <div class="job-footer mt-3 flex justify-between text-sm text-gray-600">
-        <span>📢 Recruiting Stopped </span>
-        <span>🗓️ Posted 1 month ago</span>
-      </div>
-    </div>
-
-    <div class="job-card bg-blue-50 p-4 rounded-lg shadow-md">
-      <div class="job-icon text-4xl mb-2">🔨</div>
-      <h3 class="font-semibold">Handyman</h3>
-      <p class="text-gray-500">Fix It All</p>
-      <p class="text-gray-500">Kottayam, Kerala</p>
-      <div class="job-footer mt-3 flex justify-between text-sm text-gray-600">
-        <span>🚫 No longer accepting applications</span>
-        <span>🗓️ Posted 1 week ago</span>
-      </div>
-    </div>
-    <div class="job-card bg-blue-50 p-4 rounded-lg shadow-md">
-      <div class="job-icon text-4xl mb-2">👷</div>
-      <h3 class="font-semibold">Site Worker</h3>
-      <p class="text-gray-500">Build It</p>
-      <p class="text-gray-500">Kollam, Kerala</p>
-      <div class="job-footer mt-3 flex justify-between text-sm text-gray-600">
-        <span>📢 Recruiting Stopped </span>
-        <span>🗓️ Posted 1 month ago</span>
-      </div>
-    </div>
-  </div>
-   
-    
+  
     <!-- Blank Sections -->
     <div id="applied-jobs" class="job-listings grid grid-cols-2 gap-6 hidden"></div>
     <div id="saved-jobs" class="job-listings grid grid-cols-2 gap-6 hidden"></div>
@@ -579,17 +495,22 @@
     }
   });
 });
+document.addEventListener('DOMContentLoaded', function () {
+    const toggle = document.getElementById('contactDropdownToggle');
+    const menu = document.getElementById('contactDropdownMenu');
 
-function openFilterPopup() {
-  document.getElementById('filterPopup').style.display = 'block';
-  document.getElementById('filterOverlay').style.display = 'block';
-}
+    toggle.addEventListener('click', function (e) {
+      e.preventDefault();
+      menu.classList.toggle('hidden');
+    });
 
-function closeFilterPopup() {
-  document.getElementById('filterPopup').style.display = 'none';
-  document.getElementById('filterOverlay').style.display = 'none';
-}
-
+    // Optional: Close menu when clicking outside
+    document.addEventListener('click', function (event) {
+      if (!toggle.contains(event.target) && !menu.contains(event.target)) {
+        menu.classList.add('hidden');
+      }
+    });
+  });
   </script>
 </body>
 

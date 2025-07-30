@@ -2,250 +2,317 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile Form</title>
-    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
-    <style>
-        .profile-container {
-            max-width: 600px;
-            margin: auto;
-        }
-        .profile-info {
-            display: flex;
-            align-items: center;
-        }
-        .profile-info img {
-            border-radius: 50%;
-            border: 3px solid rgb(50, 154, 183);
-            width: 100px;
-            height: 100px;
-            margin-right: 20px; /* Adjust this value to move the image left or right */
-        }
-        .form-slide {
-            display: none;
-        }
-        .form-slide.active {
-            display: block;
-        }
-        .navigation-buttons {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-        }
-        .navigation-buttons button {
-            background-color: rgb(59, 156, 183);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .navigation-buttons button:hover {
-            background-color: rgb(51, 169, 193);
-        }
-        .submit-button {
-            text-align: center;
-            margin-top: 20px;
-        }
-        .submit-button button {
-            background-color: rgb(70, 173, 179);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .submit-button button:hover {
-            background-color: rgb(63, 174, 176);
-        }
-        .add-work-btn {
-            background-color: rgb(62, 177, 206);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .add-work-btn:hover {
-            background-color: rgb(18, 74, 85);
-        }
-        .add-work-btn, .update-resume-btn {
-            background-color: rgb(62, 177, 206);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .add-work-btn:hover, .update-resume-btn:hover {
-            background-color:  rgb(18, 74, 85);
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Profile</title>
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    .form-slide { display: none; }
+    .form-slide.active { display: block; }
+  </style>
 </head>
-<body>
-    <div class="profile-container">
-        <!-- Profile Header -->
-        <div class="profile-header">
-            <div class="profile-info">
-                <img src="https://www.w3schools.com/w3images/avatar2.png" alt="Profile Avatar">
-                <div class="profile-details">
-                    <h2 class="profile-name">Soorya .G</h2>
-                    <p class="profile-phone">Phone: 1234567891</p>
-                    <p class="profile-email">Email: sooryag@gmail.com</p>
-                    <p class="profile-location">From: Calicut, Kerala</p>
-                </div>
-                <button class="edit-profile-btn">
-                    Edit
-                </button>
-            </div>
+<body class="bg-gray-100">
+    <header class="bg-blue-700 text-white p-4 flex justify-between items-center">
+     <a href="{% url 'home' %}" class="text-xl font-semibold hover:underline">JOB365</a>
+    <nav class="space-x-4">
+      <a href="{% url 'home' %}" class="hover:underline">Home</a>
+      <a href="{% url 'profile' %}" class="hover:underline">Profile</a>
+      <div class="relative inline-block text-left">
+  <a href="#" id="contactDropdown" class="hover:text-gray-300 focus:outline-none">Contact</a>
+
+  <div id="contactMenu" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-50 hidden">
+    <a href="{% url 'jobemail_support' %}" class="flex items-center px-4 py-2 text-gray-800 hover:bg-gray-100">📧 Email Support</a>
+    <a href="{% url 'jobcall_support' %}" class="flex items-center px-4 py-2 text-gray-800 hover:bg-gray-100">📞 Call Support</a>
+  </div>
+</div>
+
+      <a href="{% url 'login' %}" class="hover:underline">Logout</a>
+    </nav>
+  </header>
+  <div class="max-w-4xl mx-auto bg-white mt-10 p-8 rounded-xl shadow-lg">
+<form action="{% url 'profile' %}" method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+  <h2 class="text-3xl font-bold text-center mb-8 text-blue-700">Profile Form</h2>
+
+  <!-- Slide 1 -->
+  <div class="form-slide active" id="slide1">
+    <h3 class="text-xl font-semibold mb-4 text-blue-700">Personal Information</h3>
+
+    <div class="flex justify-center mb-6 relative">
+      <label for="id_profile_image" class="relative w-32 h-32 cursor-pointer">
+        {% if profile.profile_image %}
+          <img src="{{ profile.profile_image.url }}" alt="Profile Image" class="rounded-full w-full h-full object-cover border-4 border-gray-300">
+        {% else %}
+          <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Default" class="rounded-full w-full h-full object-cover border-4 border-gray-300">
+        {% endif %}
+        <div class="absolute bottom-0 right-0 bg-blue-600 p-2 rounded-full text-white">
+          <i class="fas fa-camera"></i>
         </div>
-
-        <form>
-            <div class="form-slide active" id="slide1">
-                <!-- Basic Details Section -->
-                <div class="basic-details-section">
-                    <h3>Basic Details</h3>
-                    <label for="first-name">First Name</label>
-                    <input type="text" id="first-name" value="Soorya" class="input-field">
-                    
-                    <label for="last-name">Last Name</label>
-                    <input type="text" id="last-name" value="G" class="input-field">
-                    
-                    <label for="gender">Gender</label>
-                    <select id="gender" class="input-field">
-                        <option value="female">Female</option>
-                        <option value="male">Male</option>
-                    </select>
-                    <label for="dob">Date of Birth</label>
-<input type="date" id="dob" class="input-field">
-
-                    <label for="address">Address</label>
-                    <textarea id="address" class="input-field">Your address here...</textarea>
-
-                    
-                </div>
-            </div>
-
-            <div class="form-slide" id="slide2">
-                
-
-                <!-- Education Section -->
-                <div class="education-section">
-                    <h3>Education</h3>
-                    <label for="qualification">Select Educational Qualification</label>
-                <select id="qualification" class="input-field">
-                    <option value="" selected>Select Educational Qualification</option>
-                    <option value="B.tech">B.Tech</option>
-                    <option value="B.com">B.Com</option>
-                    <option value="B.Ed">B.Ed</option>
-                    <option value="Master in Computer Science">Master in Computer Science</option>
-                    <option value="Master in Arts">Master in Arts</option>
-                    <option value="Master in Engineering">Master in Engineering</option>
-                </select>
-
-                    <label for="upload-doc">Upload Document</label>
-                    <input type="file" id="upload-doc" class="input-field">
-
-                    <label for="other-courses">Have you done any other course?</label>
-                    <input type="text" id="other-courses" class="input-field">
-                </div>
-
-                <!-- Work Experience Section -->
-                <div class="work-experience-section">
-                    <h3>Work Experience</h3>
-                    <input type="text" placeholder="Add your experience proof" class="input-field">
-                    <button class="add-work-btn">Add Work</button>
-                </div>
-            </div>
-
-            <div class="form-slide" id="slide3">
-                <!-- Skills Section -->
-                <div class="skills-section">
-                    <h3>Skills</h3>
-                    <input type="text" placeholder="Enter your skills" class="input-field">
-
-                    <label for="preferred-location">Preferred Job Location</label>
-                    <input type="text" id="preferred-location" class="input-field">
-                </div>
-
-                <!-- Resume Section -->
-                <div class="resume-section">
-                    <h3>Resume</h3>
-                    <input type="file" class="input-field">
-                    <button class="update-resume-btn">Update Resume</button>
-                </div>
-
-                <!-- Account Details Section -->
-                <div class="account-details-section">
-                    <h3>Account Details</h3>
-                    <label for="bank-account">Bank Account Number</label>
-                    <input type="text" id="bank-account" class="input-field">
-
-                    <label for="ifsc-code">IFSC Code</label>
-                    <input type="text" id="ifsc-code" class="input-field">
-
-                    <label for="pan-card">Pan Card Number</label>
-                    <input type="text" id="pan-card" class="input-field">
-                </div>
-
-                
-            </div>
-            <!-- ✅ New Slide 4: Educational Details (Only what’s not already present) -->
-            
-            <div class="form-slide" id="slide4">
-                <h3>Upload Documents</h3>
-                <label for="upload-document">Upload Document (PDF Format)</label>
-                <input type="file" id="upload-document" class="input-field" accept="application/pdf">
-
-                <label for="upload-id-card">Upload ID Card</label>
-                <input type="file" id="upload-id-card" class="input-field">
-
-                <label for="upload-proof-detail">Upload Proof Details</label>
-                <input type="file" id="upload-proof-detail" class="input-field">
-
-                <label for="upload-pan-card">Upload PAN Card (50kb - 800kb)</label>
-                <input type="file" id="upload-pan-card" class="input-field">
-
-                <label for="upload-passbook">Upload Passbook</label>
-                <input type="file" id="upload-passbook" class="input-field">
-
-                <div class="submit-button">
-                    <button type="submit" class="save-btn">Submit</button>
-                </div>
-            </div>
-            <div class="navigation-buttons">
-                <button type="button" onclick="prevSlide()">Previous</button>
-                <button type="button" onclick="nextSlide()">Next</button>
-            </div>
-        </form>
+      </label>
+      <input type="file" name="profile_image" id="id_profile_image" class="hidden">
     </div>
 
-    <script>
-        let currentSlide = 1;
-        const totalSlides = 4;
+    <div class="grid grid-cols-2 gap-4">
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Full Name</label>
+        <input type="text" value="{{ user.first_name }} {{ user.last_name }}" disabled class="w-full mt-1 px-3 py-2 border rounded bg-gray-100">
+      </div>
 
-        function showSlide(slideIndex) {
-            document.querySelectorAll('.form-slide').forEach((slide, index) => {
-                slide.classList.toggle('active', index === slideIndex - 1);
-            });
-        }
+      <div>
+        <label class="block text-sm font-medium text-gray-800 mb-1">Email</label>
+        <input type="email" value="{{ user.email }}" disabled class="w-full mt-1 px-3 py-2 border rounded bg-gray-100">
+      </div>
 
-        function nextSlide() {
-            if (currentSlide < totalSlides) {
-                currentSlide++;
-                showSlide(currentSlide);
-            }
-        }
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Phone</label>
+        <input type="text" name="phone" value="{{ profile.phone }}" class="w-full mt-1 px-3 py-2 border rounded">
+      </div>
 
-        function prevSlide() {
-            if (currentSlide > 1) {
-                currentSlide--;
-                showSlide(currentSlide);
-            }
-        }
+<div class="form-group mb-4">
+  <label for="dob" class="block text-sm font-medium text-gray-700 mb-1">Date of Birth</label>
+  <input 
+    type="date" 
+    name="dob" 
+    id="dob" 
+    class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" 
+    value="{{ form.dob.value|default_if_none:'' }}"
+  >
+</div>
 
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Gender</label>
+        <select name="gender" class="w-full mt-1 px-3 py-2 border rounded">
+          <option value="Male" {% if profile.gender == "Male" %}selected{% endif %}>Male</option>
+          <option value="Female" {% if profile.gender == "Female" %}selected{% endif %}>Female</option>
+          <option value="Other" {% if profile.gender == "Other" %}selected{% endif %}>Other</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Country</label>
+        <input type="text" name="country" value="{{ profile.country}}" class="w-full mt-1 px-3 py-2 border rounded">
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700">City</label>
+        <input type="text" name="city" value="{{ profile.city|default_if_none:'' }}" class="w-full mt-1 px-3 py-2 border rounded">
+      </div>
+
+      <div class="col-span-2">
+        <label class="block text-sm font-medium text-gray-700">Short Bio</label>
+        <textarea name="short_bio" class="w-full mt-1 px-3 py-2 border rounded">{{ form.short_bio.value|default_if_none:'' }}</textarea> 
+      </div>
+    </div>
+  </div>
+
+
+      <!-- Slide 2 -->
+<div class="form-slide" id="slide2">
+  <!-- Education Section -->
+  <h3 class="text-xl font-semibold mb-4 text-purple-700">
+    <i class="fas fa-graduation-cap mr-2 text-purple-500"></i>Education
+  </h3>
+  <label>Educational Qualification</label>
+  <div class="mb-3">
+    {{ form.education }}
+  </div>
+
+  <!-- Resume Upload Section -->
+  <!-- Resume Upload Section -->
+<h3 class="text-xl font-semibold mt-6 mb-2 text-blue-700">
+  <i class="fas fa-file-upload mr-2 text-blue-500"></i>Resume
+</h3>
+
+<div class="mb-3">
+  <label for="{{ form.resume.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">Upload Resume</label>
+  <div class="border border-gray-300 rounded px-3 py-2 bg-white shadow-sm">
+    {{ form.resume }}
+  </div>
+</div>
+
+
+  <!-- Work Experience Section -->
+  <h3 class="mt-6 text-xl font-semibold text-blue-700">
+    <i class="fas fa-briefcase mr-2 text-blue-500"></i>Work Experience
+  </h3>
+  <div class="mb-3">
+    {{ form.work_experience }}
+  </div>
+  <button type="button" class="add-work-btn mt-2 text-sm text-blue-600">
+    + Add Work
+  </button>
+</div>
+
+      <!-- Slide 3 -->
+      <div class="form-slide" id="slide3">
+        <h3 class="text-xl font-semibold mb-4 text-yellow-600"><i class="fas fa-lightbulb mr-2 text-yellow-500"></i>Skills</h3>
+        <div class="flex gap-2 mb-4">
+          <input type="text" id="skillInput" class="flex-1 border border-gray-300 rounded px-3 py-2" placeholder="Add skill">
+          <button type="button" onclick="addSkill()" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+            <i class="fas fa-plus"></i>
+          </button>
+        </div>
+        <div id="skillsContainer" class="flex flex-wrap gap-2 mb-6">
+          {% if skill_list %}
+            {% for skill in skill_list %}
+              <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full flex items-center">
+                {{ skill }}
+                <button type="button" class="ml-2 text-red-500 hover:text-red-700" onclick="removeSkill(this)">×</button>
+              </span>
+            {% endfor %}
+          {% endif %}
+        </div>
+        <input type="hidden" name="skills" id="skillsInput" value="{{ profile.skills }}">
+
+        <h3 class="text-xl font-semibold mb-4 text-green-700"><i class="fas fa-bank mr-2 text-green-500"></i>Bank Details</h3>
+        <label>Account Number</label>
+        <input type="text" name="bank_account" value="{{ profile.bank_account }}" class="w-full mb-3 px-3 py-2 border border-gray-300 rounded">
+        <label>IFSC Code</label>
+        <input type="text" name="ifsc_code" value="{{ profile.ifsc_code }}" class="w-full mb-3 px-3 py-2 border border-gray-300 rounded">
+        <label>PAN Card</label>
+        <input type="text" name="pan_card" value="{{ profile.pan_card }}" class="w-full mb-3 px-3 py-2 border border-gray-300 rounded">
+      </div>
+
+      <!-- Slide 4 -->
+      <div class="form-slide" id="slide4">
+  <h3 class="text-xl font-semibold mb-6 text-indigo-700 flex items-center">
+    <i class="fas fa-file-upload mr-2 text-indigo-500"></i> Uploaded Documents
+  </h3>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <!-- ID Card -->
+    <div class="bg-white shadow rounded-xl p-4">
+      <label class="block text-sm font-medium text-gray-700 mb-2 flex items-center">
+        <i class="fas fa-id-card mr-2 text-indigo-500"></i><strong>ID Card</strong> 
+      </label>
+      <div class="border border-dashed border-gray-300 rounded-lg p-3">
+        {{ form.upload_id_card }}
+      </div>
+    </div>
+
+    <!-- Proof Detail -->
+    <div class="bg-white shadow rounded-xl p-4">
+      <label class="block text-sm font-medium text-gray-700 mb-2 flex items-center">
+        <i class="fas fa-file-alt mr-2 text-indigo-500"></i> <strong>Detail</strong> 
+      </label>
+      <div class="border border-dashed border-gray-300 rounded-lg p-3">
+        {{ form.upload_proof_detail }}
+      </div>
+    </div>
+
+    <!-- PAN Card -->
+    <div class="bg-white shadow rounded-xl p-4">
+      <label class="block text-sm font-medium text-gray-700 mb-2 flex items-center">
+        <i class="fas fa-id-badge mr-2 text-indigo-500"></i><strong>PAN Card</strong>
+      </label>
+      <div class="border border-dashed border-gray-300 rounded-lg p-3">
+        {{ form.upload_pan_card }}
+      </div>
+    </div>
+
+    <!-- Passbook -->
+    <div class="bg-white shadow rounded-xl p-4">
+      <label class="block text-sm font-medium text-gray-700 mb-2 flex items-center">
+        <i class="fas fa-book mr-2 text-indigo-500"></i><strong> Passbook</strong> 
+      </label>
+      <div class="border border-dashed border-gray-300 rounded-lg p-3">
+        {{ form.upload_passbook }}
+      </div>
+    </div>
+  </div>
+</div>
+
+
+      <!-- Buttons -->
+      <div class="mt-10 flex justify-between items-center">
+        <button type="button" onclick="prevSlide()" class="bg-gray-300 text-gray-800 px-5 py-2 rounded hover:bg-gray-400">
+          <i class="fas fa-arrow-left mr-2"></i>Previous
+        </button>
+        <button type="button" onclick="nextSlide()" class="bg-blue-600 text-white px-5 py-2 rounded hover:bg-blue-700">
+          Next<i class="fas fa-arrow-right ml-2"></i>
+        </button>
+      </div>
+
+      <div class="text-center mt-6">
+        <button type="submit" class="bg-green-600 text-white px-6 py-2 rounded shadow hover:bg-green-700">
+          <i class="fas fa-paper-plane mr-2"></i>Submit
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- JS -->
+  <script>
+    let currentSlide = 1;
+    const totalSlides = 4;
+
+    function showSlide(index) {
+      document.querySelectorAll('.form-slide').forEach((slide, i) => {
+        slide.classList.toggle('active', i === index - 1);
+      });
+    }
+
+    function nextSlide() {
+      if (currentSlide < totalSlides) {
+        currentSlide++;
         showSlide(currentSlide);
-    </script>
+      }
+    }
+
+    function prevSlide() {
+      if (currentSlide > 1) {
+        currentSlide--;
+        showSlide(currentSlide);
+      }
+    }
+
+    function addSkill() {
+      const input = document.getElementById("skillInput");
+      const skill = input.value.trim();
+      if (!skill) return;
+
+      const container = document.getElementById("skillsContainer");
+      const span = document.createElement("span");
+      span.className = "bg-blue-100 text-blue-800 px-3 py-1 rounded-full flex items-center";
+      span.innerHTML = `${skill}<button type="button" class="ml-2 text-red-500" onclick="removeSkill(this)">×</button>`;
+      container.appendChild(span);
+      input.value = "";
+      updateSkillsInput();
+    }
+
+    function removeSkill(btn) {
+      btn.parentElement.remove();
+      updateSkillsInput();
+    }
+
+    function updateSkillsInput() {
+      const skills = Array.from(document.getElementById("skillsContainer").children)
+        .map(el => el.childNodes[0].textContent.trim());
+      document.getElementById("skillsInput").value = skills.join(",");
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      showSlide(currentSlide);
+      updateSkillsInput();
+    });
+     document.addEventListener("DOMContentLoaded", function () {
+    const toggle = document.getElementById("contactDropdown");
+    const menu = document.getElementById("contactMenu");
+
+    toggle.addEventListener("click", function (e) {
+      e.preventDefault();
+      menu.classList.toggle("hidden");
+    });
+
+    // Optional: Hide dropdown when clicking outside
+    document.addEventListener("click", function (e) {
+      if (!toggle.contains(e.target) && !menu.contains(e.target)) {
+        menu.classList.add("hidden");
+      }
+    });
+  });
+  </script>
 </body>
 </html>

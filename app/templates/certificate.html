@@ -78,24 +78,25 @@
 </head>
 
 <body>
-  <header class="bg-gray-800 text-white p-4 flex justify-between items-center w-full fixed top-0 left-0 z-50">
-    <div class="text-2xl font-bold">
-      <span class="text-gray-400">Job</span><span class="text-gray-300">365</span>
+ <header class="bg-blue-600 text-white p-4 flex justify-between items-center fixed top-0 left-0 w-full z-50 shadow-md">
+  <a href="{% url 'home' %}" class="text-white text-2xl font-bold hover:underline">JOB365</a>
+  
     </div>
     <nav class="hidden md:flex space-x-6">
       <a href="{% url 'home' %}" class="hover:text-gray-300">Home</a>
       <a href="{% url 'jobs' %}" class="hover:text-gray-300">Jobs</a>
       <a href="{% url 'certificate' %}" class="hover:text-gray-300">Certificate</a>
       <a href="{% url 'income' %}" class="hover:text-gray-300">Income</a>
-      <div class="relative">
-        <a href="#" class="hover:text-gray-300" id="contactDropdown">Contact</a>
-        <div class="absolute right-0 mt-2 bg-white shadow-md rounded-lg w-48 hidden" id="contactMenu">
-          <a href="#" class="flex items-center px-4 py-2 text-gray-800 hover:bg-gray-100">📧 Email Support</a>
-          <a href="#" class="flex items-center px-4 py-2 text-gray-800 hover:bg-gray-100">📞 Call Support</a>
-          <a href="#" class="flex items-center px-4 py-2 text-gray-800 hover:bg-gray-100">💬 Message Us</a>
-        </div>
-      </div>
-      <a href="#" class="hover:text-gray-300">Notifications</a>
+      <div class="relative inline-block text-left">
+  <a href="#" id="contactDropdown" class="hover:text-gray-300 focus:outline-none">Contact</a>
+
+  <div id="contactMenu" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-50 hidden">
+    <a href="{% url 'jobemail_support' %}" class="flex items-center px-4 py-2 text-gray-800 hover:bg-gray-100">📧 Email Support</a>
+    <a href="{% url 'jobcall_support' %}" class="flex items-center px-4 py-2 text-gray-800 hover:bg-gray-100">📞 Call Support</a>
+  </div>
+</div>
+
+      <a href="{% url 'notifications' %}" class="hover:text-gray-300">Notifications</a>
     </nav>
     <div class="relative group">
       <button class="flex items-center text-white">
@@ -110,21 +111,32 @@
       <div class="absolute right-0 mt-2 bg-white shadow-md rounded-lg w-48 hidden group-hover:block">
         <a href="{% url 'profile' %}" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Profile</a>
         
-        <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Logout</a>
+        <a href="{% url 'login' %}" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Logout</a>
       </div>
     </div>
   </header>
 
   <div class="container mt-20 flex">
-    <div class="left-panel w-1/4 p-4 bg-blue-100 rounded-lg">
-      <div class="profile-box text-center">
-        <img src="https://www.w3schools.com/w3images/avatar2.png" alt="Profile Avatar" class="avatar mx-auto mb-4">
-        <h2 class="text-lg font-semibold">Soorya Gokul</h2>
-        <p>Calicut, Kerala</p>
-        <hr class="my-3">
-        <button class="edit-profile-btn">✏️ Edit Profile</button>
-      </div>
+    <div class="left-panel w-full sm:w-1/4 p-4 bg-blue-100 rounded-xl shadow-md">
+  <div class="profile-box text-center">
+    <img src="{% if profile.profile_picture %}{{ profile.profile_picture.url }}{% else %}https://www.w3schools.com/w3images/avatar2.png{% endif %}" alt="Profile Avatar" class="avatar w-24 h-24 rounded-full mx-auto mb-4 border-4 border-white shadow-lg">
+    
+    <h2 class="text-xl font-semibold text-gray-800">{{ user.first_name }} {{ user.last_name }}</h2>
+    <p class="text-gray-600"><i class="fas fa-map-marker-alt mr-1"></i>{{ profile.city }}, {{ profile.country }}</p>
+
+    <hr class="my-4 border-blue-300">
+
+    <div class="text-left space-y-2 text-sm text-gray-700">
+      <p><i class="fas fa-envelope mr-2 text-blue-500"></i>{{ user.email }}</p>
+      <p><i class="fas fa-phone-alt mr-2 text-green-500"></i>{{ profile.phone }}</p>
     </div>
+
+    <a href="{% url 'profile' %}" class="inline-block mt-4 px-4 py-2 bg-blue-600 text-white text-sm rounded-full hover:bg-blue-700 transition duration-300">
+      <i class="fas fa-edit mr-2"></i>Edit Profile
+    </a>
+  </div>
+</div>
+
 
     <div class="middle-panel w-3/4 p-4">
       <h1 class="text-2xl font-bold mb-2">Your Job Certificate Overview</h1>
@@ -189,7 +201,22 @@
     document.getElementById('downloadBtn').addEventListener('click', () => {
       window.print();
     });
+document.addEventListener("DOMContentLoaded", function () {
+    const toggle = document.getElementById("contactDropdown");
+    const menu = document.getElementById("contactMenu");
 
+    toggle.addEventListener("click", function (e) {
+      e.preventDefault();
+      menu.classList.toggle("hidden");
+    });
+
+    // Optional: Hide dropdown when clicking outside
+    document.addEventListener("click", function (e) {
+      if (!toggle.contains(e.target) && !menu.contains(e.target)) {
+        menu.classList.add("hidden");
+      }
+    });
+  });
     </script>
 </body>
 
