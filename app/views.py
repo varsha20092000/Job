@@ -189,6 +189,9 @@ from django.db.models import Count
 def companyhome(request):
     current_user = request.user
     other_jobs = Job.objects.exclude(user=current_user).order_by('-posted_date')[:10]
+    user = request.user
+    user_jobs = Job.objects.filter(user=user)
+
     if not Company.objects.filter(user=request.user).exists():
         return HttpResponseForbidden("❌ Not authorized as Company.")
 
@@ -204,7 +207,7 @@ def companyhome(request):
     return render(request, 'comphome.html', {
         'jobs': jobs,
         'page_obj': page_obj,
-        'other_jobs': other_jobs
+         'other_jobs': user_jobs
     })
 from datetime import timedelta
 from django.utils import timezone
@@ -426,8 +429,9 @@ def job_list(request):
 
 
 def compjob_details(request, job_id):
-    jobs = Job.objects.all()
-    selected_job = get_object_or_404(Job, id=job_id)
+    user = request.user
+    jobs = Job.objects.filter(user=user) 
+    selected_job = get_object_or_404(Job, id=job_id, user=user)
     return render(request, "job_detail.html", {
         "jobs": jobs,
         "selected_job": selected_job,
@@ -435,8 +439,9 @@ def compjob_details(request, job_id):
     
     
 def job_list_with_first_job(request):
-    jobs = Job.objects.all()
-    return render(request, "job_detail.html", {'jobs': jobs})
+    user = request.user
+    jobs = Job.objects.filter(user=user)
+    return render(request, "job_detail.html", {'jobs': jobs,'selected_job': None})
 # views.py
 
 from .models import JobApplication
@@ -1503,31 +1508,45 @@ def save_job(request, job_id):
     except JobSeeker.DoesNotExist:
         return redirect('jobseeker_job_detail', job_id=job.id)
 from .models import Job
+from django.contrib import messages
 from django.utils.crypto import get_random_string
+from django.shortcuts import render, redirect
+from .models import Job
 
 def post_job(request):
     if request.method == 'POST':
+        job_code = get_random_string(8).upper()
+
+        # Get multiple skills from form and join as comma-separated string
+        skills_list = request.POST.getlist('skills')  # from checkboxes or multiple input
+        skills = ", ".join(skill.strip() for skill in skills_list)
+
         job = Job.objects.create(
             user=request.user,
             job_name=request.POST['job_name'],
             company_name=request.POST['company_name'],
-            location=request.POST['posted_location'],  # mapped correctly to model
+            location=request.POST['posted_location'],
             job_time=request.POST['job_time'],
             experience=request.POST['experience'],
-            job_code=get_random_string(8).upper(),
+            job_code=job_code,
             work_hour=request.POST['work_hour'],
             short_description=request.POST['short_description'],
-            job_details=request.POST['short_description'],  # or use another textarea
+            job_details=request.POST['short_description'],  # Or use 'job_details' if separate field
             vacancies=request.POST['vacancy'],
             duration=request.POST['duration'],
             contact_number=request.POST['contact'],
             email=request.POST['email'],
             hourly_rates=request.POST['wage'],
-            salary=request.POST.get('salary'),  # if salary included
+            salary=request.POST.get('salary'),
+            skills=skills,  # ✅ Save skills here
         )
-        return redirect('companyhome')
 
-    return render(request, 'post_job.html', {'generated_code': get_random_string(8).upper()})
+        messages.success(request, "Job successfully posted. We will contact you soon.")
+        return redirect('post_job')  # redirect to clear form and show message
+
+    generated_code = get_random_string(8).upper()
+    return render(request, 'post_job.html', {'generated_code': generated_code})
+
 from .models import JobApplication, Profile
 
 def jobseeker_job_detail_view(request, job_id, application_id):

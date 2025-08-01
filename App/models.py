@@ -76,7 +76,7 @@ class Job(models.Model):
     hourly_rates = models.CharField(max_length=100)
     salary = models.DecimalField(max_digits=8, decimal_places=2)
     posted_date = models.DateTimeField(auto_now_add=True, null=True)
-
+    end_date = models.DateField(null=True, blank=True)
     created_at = models.DateTimeField(default=timezone.now)
     skills = models.CharField(max_length=255, blank=True)
 

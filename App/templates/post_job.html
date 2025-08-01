@@ -12,7 +12,7 @@
             background: #f8f8f8;
             margin: 0;
             padding: 0;
-            overflow: hidden;
+           
         }
 
         /* Header */
@@ -145,150 +145,266 @@
   font-size: 1.8rem;
   font-weight: bold;
 }
+.yellow-icon {
+  color: #FFC107; /* Bright yellow */
+}
+#successMessage {
+  display: flex;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: #D0E9FF;
+  color: #0B5ED7;
+  padding: 10px 16px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  z-index: 9999;
+  transition: opacity 0.3s ease;
+}
+.hidden {
+  display: none;
+}
+
     </style>
 </head>
 <body>
 
+    
+<body>
+
     <!-- Header -->
     <div class="header">
-       <a href="{% url 'companyhome' %}" class="brand-link">
-  <h1>JOB 365</h1>
-</a>
+        <a href="{% url 'companyhome' %}" class="brand-link">
+            <h1>JOB 365</h1>
+        </a>
         <div class="header-right">
-            <a href="{%url 'companyhome'%}">Home</a>
+            <a href="{% url 'companyhome' %}">Home</a>
             <a href="{% url 'job_details_blank' %}">Jobs</a>
             <a href="{% url 'employee_payment' %}">Payment</a>
-            
             <a href="{% url 'call_support' %}">Contact</a>
             <a href="{% url 'compnotifications' %}">Notifications</a>
             <a href="{% url 'login' %}"><i class="fa-solid fa-sign-out-alt"></i> Logout</a>
-
         </div>
     </div>
+
+    {% if messages %}
+    <div id="successMessageContainer">
+        {% for message in messages %}
+            {% if message.tags == "success" %}
+            <div class="fixed top-6 right-6 bg-white border border-green-400 text-green-700 px-6 py-4 rounded-md shadow-lg flex items-center space-x-3 z-50 transition-opacity duration-300">
+                <i class="fas fa-check-square text-green-500 text-xl"></i>
+                <span>{{ message }}</span>
+            </div>
+            <script>
+                setTimeout(() => {
+                    const el = document.getElementById('successMessageContainer');
+                    if (el) el.style.display = 'none';
+                }, 4000);
+            </script>
+            {% endif %}
+        {% endfor %}
+    </div>
+    {% endif %}
 
     <!-- Main Container -->
     <div class="container">
         <!-- Job Posting Form -->
-       
+        <form method="POST" class="job-form">
+            {% csrf_token %}
+            <h2><i class="fa-solid fa-briefcase" style="color: #FFC107;"></i> Post A Job</h2>
 
-            <form method="POST" class="job-form">
-                {% csrf_token %}
-                <h2><i class="fa-solid fa-briefcase"></i> Post A Job</h2>
-            
-                <!-- Basic Info -->
-                <div class="form-group two-column">
-                    <input type="text" name="job_name" placeholder="Job Title" required>
-                    <input type="text" name="company_name" placeholder="Company Name" required>
-                </div>
-            
-                <div class="form-group">
-                    <input type="text" name="location" placeholder="Location" required>
-                </div>
-            
-                <div class="form-group">
-                    <textarea name="short_description" placeholder="Short Description..." required></textarea>
-                </div>
-            
-                <!-- Job Meta -->
-               <!-- Job Meta -->
-<div class="form-group meta-row">
-    <div class="meta-item">
-        <i class="fa-solid fa-clock" style="color:#FF5722;"></i>
-        <select name="job_time" required>
-            <option value="">Select Time</option>
-            <option value="Full Time">Full Time</option>
-            <option value="Part Time">Part Time</option>
-        </select>
-    </div>
+            <!-- Basic Info -->
+            <div class="form-group two-column">
+                <input type="text" name="job_name" placeholder="Job Title" required>
+                <input type="text" name="company_name" placeholder="Company Name" required>
+            </div>
 
-    <div class="meta-item">
-        <i class="fa-solid fa-calendar" style="color:#2196F3;"></i>
-        <select name="experience" required>
-            <option value="1-2 Year">1-2 Year</option>
-            <option value="2-5 Year">2-5 Year</option>
-            <option value="5+ Year">5+ Year</option>
-        </select>
-    </div>
-
-    <div class="meta-item">
-        <i class="fa-solid fa-location-dot" style="color:#4CAF50;"></i>
-        <input type="text" name="posted_location" placeholder="City/Region" required>
-    </div>
-
-    <div class="meta-item">
-        <i class="fa-solid fa-calendar-days" style="color:#FFC107;"></i>
-        <input type="date" name="posted_date" required>
-    </div>
-</div>
-
-                <!-- Job Details -->
-                <div class="job-details-section">
-                    <div class="form-group">
-                        <div class="form-item">
-                            <label>Vacancy</label>
-                            <input type="number" name="vacancy" placeholder="Number of vacancies" min="1" required>
-                        </div>
-            
-                        <div class="form-item">
-                            <label>Job Code</label>
-                            <input type="text" name="job_code" value="{{ generated_code }}" readonly>
-                        </div>
-            
-                        <div class="form-item">
-                            <label>Contact</label>
-                            <input type="text" name="contact" placeholder="Enter phone number" required>
-                        </div>
-                    </div>
-            
-                    <div class="form-group">
-                        <div class="form-item">
-                            <label>Duration</label>
-                            <select name="duration" required>
-                                <option value="1 Week">1 Week</option>
-                                <option value="2 Weeks">2 Weeks</option>
-                                <option value="1 Month">1 Month</option>
-                                <option value="2 Months">2 Months</option>
-                            </select>
-                        </div>
-            
-                        <div class="form-item">
-                            <label>Work Hour</label>
-                            <input type="number" name="work_hour" value="2" min="1">
-                        </div>
-            
-                        <div class="form-item">
-                            <label>Email</label>
-                            <input type="email" name="email" placeholder="Enter your email">
-                        </div>
-                    </div>
-                </div>
-            
-                <!-- Wage Slider -->
-                <div class="wage-container">
-                    <label>Wage Details/Hour (₹)</label>
-                    <input type="range" min="200" max="1000" value="800" class="slider" id="wageRange" name="wage">
-                    <p><span id="wageValue">800</span> /hr</p>
-                </div>
             <div class="form-group">
-    <label for="salary">Monthly Salary (₹)</label>
-    <input type="number" name="salary" id="salary" placeholder="Enter monthly salary" step="0.01" required>
+                <input type="text" name="location" placeholder="Location" required>
+            </div>
+
+            <div class="form-group">
+                <textarea name="short_description" placeholder="Short Description..." required></textarea>
+            </div>
+            <!-- Skills Section -->
+           <!-- Skills Section -->
+<div class="form-group">
+  <label for="skillInput">Add Required Skills</label>
+  <div class="skill-input-wrapper" style="display: flex; gap: 10px;">
+    <input type="text" id="skillInput" placeholder="Add skills">
+    <button type="button" id="addSkillBtn" style="background-color: #2196F3; border: none; color: white; width: 36px; height: 36px; border-radius: 6px; font-size: 20px; cursor: pointer;">+</button>
+  </div>
+  <div id="skillsContainer" class="skills-list" style="margin-top: 10px; display: flex; flex-wrap: wrap; gap: 10px;"></div>
+  <input type="hidden" name="skills" id="skillsInput">
 </div>
+            <!-- Job Meta -->
+            <div class="form-group meta-row">
+                <div class="meta-item">
+                    <i class="fa-solid fa-clock" style="color:#FF5722;"></i>
+                    <select name="job_time" required>
+                        <option value="">Select Time</option>
+                        <option value="Full Time">Full Time</option>
+                        <option value="Part Time">Part Time</option>
+                    </select>
+                </div>
 
-                <!-- Submit Button -->
-                <button type="submit" class="post-job-btn">
-                    <i class="fa-solid fa-paper-plane"></i> Submit Job
-                </button>
-            </form>
-            
+                <div class="meta-item">
+                    <i class="fa-solid fa-calendar" style="color:#2196F3;"></i>
+                    <select name="experience" required>
+                        <option value="2 days">2 days</option>
+                        <option value="5 days">5 days</option>
+                        <option value="7 days">7 days</option>
+                        <option value="12 days">12 days</option>
+                        <option value="15 days">15 days</option>
+                        <option value="1 month">1 month</option>
+                    </select>
+                </div>
+
+                <div class="meta-item">
+                    <i class="fa-solid fa-location-dot" style="color:#4CAF50;"></i>
+                    <input type="text" name="posted_location" placeholder="City/Region" required>
+                </div>
+            </div>
+
+            <!-- Dates Row -->
+            <div class="meta-row flex gap-8 items-center">
+                <div class="meta-item">
+                    <label><i class="fa-solid fa-calendar-days" style="color:#FFC107;"></i></label>
+                    <input type="date" name="posted_date" required>
+                </div>
+
+                <div class="meta-item">
+                    <label><i class="fa-solid fa-calendar-xmark" style="color:#E91E63;"></i> End Date</label>
+                    <input type="date" name="end_date" required>
+                </div>
+            </div>
+
+            <!-- Job Details -->
+            <div class="job-details-section">
+                <div class="form-group">
+                    <div class="form-item">
+                        <label>Vacancy</label>
+                        <input type="number" name="vacancy" placeholder="Number of vacancies" min="1" required>
+                    </div>
+
+                    <div class="form-item">
+                        <label>Job Code</label>
+                        <input type="text" name="job_code" value="{{ generated_code }}" readonly>
+                    </div>
+
+                    <div class="form-item">
+                        <label>Contact</label>
+                        <input type="text" name="contact" placeholder="Enter phone number" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="form-item">
+                        <label>Duration</label>
+                        <select name="duration" required>
+                            <option value="1 Week">1 Week</option>
+                            <option value="2 Weeks">2 Weeks</option>
+                            <option value="1 Month">1 Month</option>
+                            <option value="2 Months">2 Months</option>
+                        </select>
+                    </div>
+
+                    <div class="form-item">
+                        <label>Work Hour</label>
+                        <input type="number" name="work_hour" value="2" min="1">
+                    </div>
+
+                    <div class="form-item">
+                        <label>Email</label>
+                        <input type="email" name="email" placeholder="Enter your email">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Wage Slider -->
+            <div class="wage-container">
+                <label>Wage Details/Hour (₹)</label>
+                <input type="range" min="200" max="1000" value="800" class="slider" id="wageRange" name="wage">
+                <p><span id="wageValue">800</span> /hr</p>
+            </div>
+
+            <div class="form-group">
+                <label for="salary"> Salary (₹)</label>
+                <input type="number" name="salary" id="salary" placeholder="Enter monthly salary" step="0.01" required>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="post-job-btn">
+                <i class="fa-solid fa-paper-plane"></i> Submit Job
+            </button>
+        </form>
+    </div>
+
+    <!-- Script to show live wage slider value -->
     <script>
-        // JavaScript for Salary Range Slider
-        const wageSlider = document.getElementById("wageRange");
-        const wageValue = document.getElementById("wageValue");
+        document.addEventListener('DOMContentLoaded', function () {
+            const wageSlider = document.getElementById("wageRange");
+            const wageValue = document.getElementById("wageValue");
 
-        wageSlider.oninput = function() {
-            wageValue.innerText = this.value;
-        };
+            if (wageSlider && wageValue) {
+                wageSlider.oninput = function () {
+                    wageValue.innerText = this.value;
+                };
+            }
+        });
+        document.addEventListener("DOMContentLoaded", function () {
+    const skillInput = document.getElementById("skillInput");
+    const addSkillBtn = document.getElementById("addSkillBtn");
+    const skillsContainer = document.getElementById("skillsContainer");
+    const skillsInput = document.getElementById("skillsInput");
+
+    let skills = [];
+
+    addSkillBtn.addEventListener("click", function () {
+      const skill = skillInput.value.trim();
+      if (skill && !skills.includes(skill)) {
+        skills.push(skill);
+        renderSkills();
+        skillInput.value = "";
+      }
+    });
+
+    function renderSkills() {
+      skillsContainer.innerHTML = "";
+      skills.forEach((skill, index) => {
+        const skillBox = document.createElement("div");
+        skillBox.style.background = "#e3f2fd";
+        skillBox.style.color = "#333";
+        skillBox.style.padding = "6px 10px";
+        skillBox.style.borderRadius = "20px";
+        skillBox.style.display = "flex";
+        skillBox.style.alignItems = "center";
+        skillBox.style.gap = "6px";
+
+        const skillText = document.createElement("span");
+        skillText.textContent = skill;
+
+        const removeBtn = document.createElement("span");
+        removeBtn.innerHTML = "&times;";
+        removeBtn.style.cursor = "pointer";
+        removeBtn.style.color = "#f44336";
+        removeBtn.style.fontSize = "18px";
+        removeBtn.addEventListener("click", () => {
+          skills.splice(index, 1);
+          renderSkills();
+        });
+
+        skillBox.appendChild(skillText);
+        skillBox.appendChild(removeBtn);
+        skillsContainer.appendChild(skillBox);
+      });
+
+      // Update hidden input
+      skillsInput.value = skills.join(",");
+    }
+  });
     </script>
 
 </body>
 </html>
+

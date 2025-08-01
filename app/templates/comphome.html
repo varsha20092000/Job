@@ -1435,25 +1435,28 @@
     <div id="jobContainer"></div>
 
     <!-- -------------------------- Suggested Jobs -------------------------- -->
-    <aside class="suggested-jobs">
-  <h2><i class="fa-solid fa-briefcase"></i> Other Company Job Posts</h2>
+<aside class="suggested-jobs">
+  <h2><i class="fa-solid fa-briefcase"></i> Company Job Posts</h2>
 
-  {% for job in other_jobs %}
-    <div class="job-posting">
-      <div class="job-header">
-        <i class="fa-solid fa-building"></i>
-        <h3>{{ job.company_name }}</h3>
+  {% if other_jobs %}
+    {% for job in other_jobs %}
+      <div class="job-posting">
+        <div class="job-header">
+          <i class="fa-solid fa-building"></i>
+          <h3>{{ job.company_name }}</h3>
+        </div>
+        <p><strong>Position:</strong> {{ job.job_name }}</p>
+        <p><strong>Rate:</strong> ₹{{ job.salary }}</p>
+        <a href="{% url 'job_details' job.id %}" class="view-details-btn">
+          <i class="fa-solid fa-circle-info"></i> View Details
+        </a>
       </div>
-      <p><strong>Position:</strong> {{ job.job_name }}</p>
-      <p><strong>Rate:</strong> ₹{{ job.salary }}</p>
-      <a href="{% url 'job_details' job.id %}" class="view-details-btn">
-        <i class="fa-solid fa-circle-info"></i> View Details
-      </a>
-    </div>
-  {% empty %}
-    <p style="color: #888; text-align: center;">No other job posts available.</p>
-  {% endfor %}
+    {% endfor %}
+  {% else %}
+    <p style="color: #888; text-align: center;">No jobs posted yet.</p>
+  {% endif %}
 </aside>
+
 
     </div>
 
