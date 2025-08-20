@@ -101,19 +101,20 @@ TEMPLATES = [
 ]
 
 # Database
+import dj_database_url
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'job_db_28g4',
-        'USER': 'job_db_28g4_user',
-        'PASSWORD': 'TwYglOrNm7iN8wjrUEhxBjuh2K4cbIu8',
-        'HOST': 'dpg-d1ntq0emcj7s73fls3h0-a.singapore-postgres.render.com',
-        'PORT': '5432',
-        'OPTIONS': {
-            'sslmode': 'require',
-        },
-    }
+    "default": dj_database_url.parse(
+        "postgresql://job365_newdb_user:b4Fx1MQd8qQ6bb82eirmzqfl16u8Wakb@dpg-d2heeu8dl3ps73884op0-a.singapore-postgres.render.com/job365_newdb",
+        conn_max_age=600,
+        ssl_require=True,
+    ),
+    "sqlite": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",  # make sure this path is correct
+    },
 }
+
 
 # Password validators
 AUTH_PASSWORD_VALIDATORS = [

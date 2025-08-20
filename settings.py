@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
-print("✅ Django settings.py is loading...")
+# print("✅ Django settings.py is loading...")
 
 import logging
 from pathlib import Path
@@ -102,19 +102,15 @@ TEMPLATES = [
         },
     },
 ]
-
-# Database
 DATABASES = {
-    'default': {
+    'default': {  # Your new database
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'job_db_28g4',
-        'USER': 'job_db_28g4_user',
-        'PASSWORD': 'TwYglOrNm7iN8wjrUEhxBjuh2K4cbIu8',
-        'HOST': 'dpg-d1ntq0emcj7s73fls3h0-a.singapore-postgres.render.com',
+        'NAME': 'job365_newdb',
+        'USER': 'job365_newdb_user',
+        'PASSWORD': 'b4Fx1MQd8qQ6bb82eirmzqf1i16u8Wakb',
+        'HOST': 'dpg-d2heeu8d13ps738840p0-a.singapore-postgres.render.com',
         'PORT': '5432',
-        'OPTIONS': {
-            'sslmode': 'require',
-        },
+        'OPTIONS': {'sslmode': 'require'},
     }
 }
 
