@@ -52,7 +52,7 @@ from App.models import JobApplication
 class JobApplicationForm(forms.ModelForm):
     class Meta:
         model = JobApplication
-        exclude = ['user', 'job', 'job_name', 'company_name','applied_date','salary']
+        exclude = ['user', 'job', 'job_name', 'company_name','applied_date','salary','end_date']
         unique_together = ('user', 'job') 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
