@@ -656,273 +656,222 @@
     </style>
 </head>
 <!-- ...your previous HTML head code... -->
-
 <body>
-    <div class="container">
-        <div class="form-container">
-            <div class="left-image">
-                <img src="{% static 'images/ss3.png' %}" alt="Registration">
-            </div>
-            <div class="carousel">
-                <h1>Create an Account</h1>
-                <form id="registrationForm" method="post" action="{% url 'register' %}">
-                    {% csrf_token %}
-                    {% if messages %}
-                    <div id="popup-message"
-                        class="fixed top-5 right-5 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded shadow-lg z-50"
-                        style="display: none;">
-                        {% for message in messages %}
-                        <span class="block sm:inline">{{ message }}</span>
-                        {% endfor %}
-                        <span onclick="document.getElementById('popup-message').style.display='none'"
-                            class="absolute top-0 right-0 px-3 py-1 cursor-pointer">&times;</span>
-                    </div>
-                    {% endif %}
+<div class="container">
+    <div class="form-container">
+        <div class="left-image">
+            <img src="{% static 'images/ss3.png' %}" alt="Registration">
+        </div>
+        <div class="carousel">
+            <h1>Create an Account</h1>
+            <form id="registrationForm" method="post" action="{% url 'register' %}">
+                {% csrf_token %}
+                {% if messages %}
+                <div id="popup-message"
+                    class="fixed top-5 right-5 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded shadow-lg z-50"
+                    style="display: none;">
+                    {% for message in messages %}
+                    <span class="block sm:inline">{{ message }}</span>
+                    {% endfor %}
+                    <span onclick="document.getElementById('popup-message').style.display='none'"
+                        class="absolute top-0 right-0 px-3 py-1 cursor-pointer">&times;</span>
+                </div>
+                {% endif %}
 
+                <div class="carousel-content">
 
-                    <div class="carousel-content">
-
-                        <!-- Slide 1 -->
-                        <div class="carousel-item active">
-                            <h2>Personal Information</h2>
-                            <div class="personal-info-container">
-                                <input id="username" name="username" placeholder="Username" required>
-                                <input id="first_name" name="first_name" placeholder="First Name">
-                                <input id="last_name" name="last_name" placeholder="Last Name">
-                                <input id="date_of_birth" type="date" name="date_of_birth" required>
-                                <input id="mobile_number" name="mobile_number" placeholder="Mobile Number" required>
-                                <input id="email_id" name="email_id" placeholder="Email ID" required>
-                                <textarea id="address" name="address" placeholder="Address" rows="3"
-                                    required></textarea>
-
+                    <!-- Slide 1 -->
+                    <div class="carousel-item active">
+                        <h2>Personal Information</h2>
+                        <div class="personal-info-container">
+                            <input id="username" name="username" placeholder="Username" required>
+                            <input id="first_name" name="first_name" placeholder="First Name">
+                            <input id="last_name" name="last_name" placeholder="Last Name">
+                            <input id="date_of_birth" type="date" name="date_of_birth" required>
+                            <input id="mobile_number" name="mobile_number" placeholder="Mobile Number" required>
+                            <input id="email_id" name="email_id" placeholder="Email ID" required>
+                            <textarea id="address" name="address" placeholder="Address" rows="3" required></textarea>
+                        </div>
+                        <div class="dropdown-container">
+                            <div class="dropdown">
+                                <select id="state" name="state">
+                                    <option value="">Select State</option>
+                                    <option value="kerala">Kerala</option>
+                                    <option value="tamil_nadu">Tamil Nadu</option>
+                                    <option value="karnataka">Karnataka</option>
+                                    <option value="maharashtra">Maharashtra</option>
+                                    <option value="delhi">Delhi</option>
+                                </select>
                             </div>
-                            <div class="dropdown-container">
-                                <div class="dropdown">
-                                    <select id="state" name="state">
-                                        <option value="">Select State</option>
-                                        <option value="kerala">Kerala</option>
-                                        <option value="tamil_nadu">Tamil Nadu</option>
-                                        <option value="karnataka">Karnataka</option>
-                                        <option value="maharashtra">Maharashtra</option>
-                                        <option value="delhi">Delhi</option>
-                                    </select>
-                                </div>
-                                <div class="dropdown">
-                                    <select id="city" name="city" required>
-                                        <option value="">Select City</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <input id="pincode" name="pincode" placeholder="Pincode">
-                            <div class="button-container"
-                                style="display: flex; justify-content: space-between; gap: 10px; margin-top: 3rem; margin-left: 30rem;">
-                                <button type="button" id="nextButton"
-                                    class="bg-blue-500 text-white py-2 px-4 rounded">Next</button>
+                            <div class="dropdown">
+                                <select id="city" name="city" required>
+                                    <option value="">Select City</option>
+                                </select>
                             </div>
                         </div>
-
-                        <!-- Slide 2 -->
-                        <div class="carousel-item">
-                            <h2>Create Password</h2>
-                            <div class="password-container">
-                                <div><label for="password">Password</label>
-                                    <input type="password" id="password" name="password" placeholder="Enter password"
-                                        required>
-                                </div>
-                                <div><label for="confirm-password">Confirm Password</label>
-                                    <input type="password" id="confirm_password" name="confirm_password"
-                                        placeholder="Confirm password" required>
-                                </div>
-                            </div>
-                            <div class="terms-checkbox-container">
-                                <input type="checkbox" id="terms-checkbox" required>
-                                <span class="terms-text">
-                                    By clicking on 'Sign Up', you're agreeing to the
-                                    <a href="#" target="_blank">Job 365 Terms of Service</a> and
-                                    <a href="#" target="_blank">Privacy Policy</a> here.
-                                </span>
-                            </div>
-                            <div class="button-container"
-                                style="display: flex; justify-content: space-between; gap: 10px; margin-top: 1rem;">
-                                <button type="button" id="backButton3"
-                                    class="bg-gray-500 text-white py-2 px-4 rounded">Back</button>
-                                <button type="submit" id="createAccountButton"
-                                    class="bg-green-500 text-white py-2 px-4 rounded">Create Account</button>
-                            </div>
+                        <input id="pincode" name="pincode" placeholder="Pincode">
+                        <div class="button-container" style="display:flex; justify-content:flex-end; gap:10px; margin-top:3rem;">
+                            <button type="button" id="nextButton" class="bg-blue-500 text-white py-2 px-4 rounded">Next</button>
                         </div>
                     </div>
 
-                    <div class="form-carousel-indicators">
-                        <span class="dot active"></span>
-                        <span class="dot"></span>
+                    <!-- Slide 2 -->
+                    <div class="carousel-item">
+                        <h2>Create Password</h2>
+                        <div class="password-container">
+                            <div>
+                                <label for="password">Password</label>
+                                <input type="password" id="password" name="password" placeholder="Enter password" required autocomplete="new-password">
+                            </div>
+                            <div>
+                                <label for="confirm-password">Confirm Password</label>
+                                <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm password" required autocomplete="new-password">
+                            </div>
+                        </div>
+                        <div class="terms-checkbox-container">
+                            <input type="checkbox" id="terms-checkbox" required>
+                            <span class="terms-text">
+                                By clicking on 'Sign Up', you're agreeing to the
+                                <a href="#" target="_blank">Job 365 Terms of Service</a> and
+                                <a href="#" target="_blank">Privacy Policy</a> here.
+                            </span>
+                        </div>
+                        <div class="button-container" style="display:flex; justify-content:space-between; gap:10px; margin-top:1rem;">
+                            <button type="button" id="backButton3" class="bg-gray-500 text-white py-2 px-4 rounded">Back</button>
+                            <button type="button" id="createAccountButton" class="bg-green-500 text-white py-2 px-4 rounded">Create Account</button>
+                        </div>
                     </div>
-                    <input type="hidden" name="account_type" id="accountType" value="">
-                    <p style="text-align: center; margin-top: 10px;">
-                        Already registered?
-                        <a href="{% url 'login' %}" style="color: blue; text-decoration: underline;">Login here</a>
-                    </p>
+                </div>
 
-                </form>
-            </div>
+                <div class="form-carousel-indicators">
+                    <span class="dot active"></span>
+                    <span class="dot"></span>
+                </div>
+                <input type="hidden" name="account_type" id="accountType" value="">
+                <p style="text-align:center; margin-top:10px;">
+                    Already registered?
+                    <a href="{% url 'login' %}" style="color: blue; text-decoration: underline;">Login here</a>
+                </p>
+            </form>
         </div>
     </div>
+</div>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            // Slide/Carousel logic
-            const dots = document.querySelectorAll(".dot");
-            const slides = document.querySelectorAll(".carousel-item");
-            let currentSlide = 0;
-
-            function showSlide(index) {
-                if (index < 0 || index >= slides.length) return;
-                slides.forEach(slide => slide.classList.remove("active"));
-                dots.forEach(dot => dot.classList.remove("active"));
-                slides[index].classList.add("active");
-                dots[index].classList.add("active");
-                currentSlide = index;
-            }
-
-            dots.forEach((dot, index) => {
-                dot.addEventListener("click", () => showSlide(index));
-            });
-
-            showSlide(currentSlide);
-            document.getElementById("nextButton")?.addEventListener("click", () => showSlide(1));
-            document.getElementById("backButton3")?.addEventListener("click", () => showSlide(0));
-
-            // State-city selection
-            const stateSelect = document.getElementById('state');
-            const citySelect = document.getElementById('city');
-            const stateCities = {
-                'kerala': ['Kochi', 'Kozhikode', 'Malappuram', 'Thrissur', 'Trivandrum'],
-                'tamil_nadu': ['Chennai', 'Coimbatore', 'Madurai', 'Salem', 'Tiruchirappalli'],
-                'karnataka': ['Bengaluru', 'Mysuru', 'Hubli', 'Mangalore', 'Belagavi'],
-                'maharashtra': ['Mumbai', 'Pune', 'Nagpur', 'Nashik', 'Aurangabad'],
-                'delhi': ['New Delhi', 'North Delhi', 'South Delhi', 'East Delhi', 'West Delhi']
-            };
-
-            stateSelect?.addEventListener('change', function () {
-                const cities = stateCities[this.value] || [];
-                citySelect.innerHTML = '<option value="">Select City</option>';
-                cities.forEach(city => {
-                    const opt = document.createElement('option');
-                    opt.value = city;
-                    opt.textContent = city;
-                    citySelect.appendChild(opt);
-                });
-            });
-
-            // Popup & form validation
-            const popup = document.getElementById("popupMessage");
-
-            // Mock existing usernames and emails (replace with AJAX in real-world)
-            const existingUsers = [
-                { username: "john123", email: "john@example.com" },
-                { username: "varsha22", email: "varsha@gmail.com" },
-            ];
-
-            document.getElementById("createAccountButton")?.addEventListener("click", function (e) {
-                e.preventDefault();
-                document.querySelectorAll('.error-message').forEach(el => el.remove());
-                document.querySelectorAll('input, select').forEach(el => el.classList.remove("border-red-500"));
-
-                const fieldIds = [
-                    "username", "first_name", "last_name", "date_of_birth",
-                    "mobile_number", "email_id", "address", "state", "city",
-                    "pincode", "password", "confirm_password"
-                ];
-
-                let valid = true;
-                fieldIds.forEach(id => {
-                    const input = document.getElementById(id);
-                    if (input && !input.value.trim()) {
-                        const error = document.createElement("div");
-                        error.className = "error-message text-red-500 text-sm mt-1";
-                        error.innerText = "This field is required";
-                        input.classList.add("border-red-500");
-                        input.insertAdjacentElement('afterend', error);
-                        valid = false;
-                    }
-                });
-
-                const password = document.getElementById("password")?.value;
-                const confirmPassword = document.getElementById("confirm_password")?.value;
-
-                if (password && confirmPassword && password !== confirmPassword) {
-                    const confirmInput = document.getElementById("confirm_password");
-                    const error = document.createElement("div");
-                    error.className = "error-message text-red-500 text-sm mt-1";
-                    error.innerText = "Passwords do not match";
-                    confirmInput.classList.add("border-red-500");
-                    confirmInput.insertAdjacentElement('afterend', error);
-                    valid = false;
-                }
-
-                const termsCheckbox = document.getElementById("terms-checkbox");
-                if (!termsCheckbox?.checked) {
-                    alert("Please agree to the Terms of Service and Privacy Policy.");
-                    valid = false;
-                }
-
-                const enteredUsername = document.getElementById("username")?.value.trim().toLowerCase();
-                const enteredEmail = document.getElementById("email_id")?.value.trim().toLowerCase();
-
-                const isDuplicateUser = existingUsers.some(user =>
-                    user.username.toLowerCase() === enteredUsername || user.email.toLowerCase() === enteredEmail
-                );
-
-                if (isDuplicateUser) {
-                    alert("Username or email already exists. Please choose another.");
-                    valid = false;
-                }
-
-                if (valid) {
-                    popup.classList.add("active");
-                    popup.classList.remove("hidden");
-                }
-            });
-
-            document.getElementById("companyButton")?.addEventListener("click", function () {
-                const accountInput = document.getElementById("accountType");
-                accountInput.value = "company";
-                document.getElementById("registrationForm").action = "/register/";
-                document.getElementById("registrationForm").submit();
-            });
-
-            document.getElementById("jobseekerButton").addEventListener("click", function () {
-                const accountInput = document.getElementById("accountType");
-                accountInput.value = "jobseeker";
-                document.getElementById("registrationForm").action = "/register/";
-                document.getElementById("registrationForm").submit();
-            });
-
-            document.getElementById("closePopup")?.addEventListener("click", () => {
-                popup.classList.remove("active");
-            });
-        });
-        window.addEventListener('DOMContentLoaded', () => {
-    const popup = document.getElementById('popup-message');
-    if (popup) {
-      popup.style.display = 'flex';
-      setTimeout(() => {
-        popup.style.display = 'none';
-      }, 4000); // auto-hide after 4 seconds
-    }
-  });
-    </script>
-
-   <div id="popupMessage" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50" style="display: none;">
-
+<!-- Account type popup -->
+<div id="popupMessage" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 hidden">
   <div class="bg-white p-6 rounded shadow-lg text-center w-96">
     <h2 class="text-xl font-semibold mb-4">Choose Account Type</h2>
     <button id="companyButton" class="bg-blue-500 text-white py-2 px-4 rounded mr-2">Company</button>
     <button id="jobseekerButton" class="bg-green-500 text-white py-2 px-4 rounded">Jobseeker</button>
     <div class="mt-4">
-      <button id="closePopup" class="text-sm text-gray-500 underline">close</button>
+      <button id="closePopup" class="text-sm text-gray-500 underline">Close</button>
     </div>
   </div>
 </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const dots = document.querySelectorAll(".dot");
+    const slides = document.querySelectorAll(".carousel-item");
+    let currentSlide = 0;
+
+    function showSlide(index) {
+        slides.forEach(slide => slide.classList.remove("active"));
+        dots.forEach(dot => dot.classList.remove("active"));
+        slides[index].classList.add("active");
+        dots[index].classList.add("active");
+        currentSlide = index;
+    }
+
+    dots.forEach((dot, index) => dot.addEventListener("click", () => showSlide(index)));
+    showSlide(currentSlide);
+
+    document.getElementById("nextButton").addEventListener("click", () => showSlide(1));
+    document.getElementById("backButton3").addEventListener("click", () => showSlide(0));
+
+    // State-city dropdown
+    const stateSelect = document.getElementById('state');
+    const citySelect = document.getElementById('city');
+    const stateCities = {
+        'kerala': ['Kochi', 'Kozhikode', 'Malappuram', 'Thrissur', 'Trivandrum'],
+        'tamil_nadu': ['Chennai', 'Coimbatore', 'Madurai', 'Salem', 'Tiruchirappalli'],
+        'karnataka': ['Bengaluru', 'Mysuru', 'Hubli', 'Mangalore', 'Belagavi'],
+        'maharashtra': ['Mumbai', 'Pune', 'Nagpur', 'Nashik', 'Aurangabad'],
+        'delhi': ['New Delhi', 'North Delhi', 'South Delhi', 'East Delhi', 'West Delhi']
+    };
+
+    stateSelect.addEventListener('change', function () {
+        const cities = stateCities[this.value] || [];
+        citySelect.innerHTML = '<option value="">Select City</option>';
+        cities.forEach(city => {
+            const opt = document.createElement('option');
+            opt.value = city;
+            opt.textContent = city;
+            citySelect.appendChild(opt);
+        });
+    });
+
+    // Create Account button
+    const createButton = document.getElementById("createAccountButton");
+    const popup = document.getElementById("popupMessage");
+
+    createButton.addEventListener("click", function (e) {
+        e.preventDefault();
+
+        let valid = true;
+        const requiredFields = ["username","date_of_birth","mobile_number","email_id","address","state","city","password","confirm_password"];
+        requiredFields.forEach(id => {
+            const input = document.getElementById(id);
+            if (!input.value.trim()) {
+                console.log("❌ Missing field:", id);
+                valid = false;
+            }
+        });
+
+        const password = document.getElementById("password").value;
+        const confirmPassword = document.getElementById("confirm_password").value;
+        if (password !== confirmPassword) {
+            alert("Passwords do not match");
+            valid = false;
+        }
+
+        const termsChecked = document.getElementById("terms-checkbox").checked;
+        if (!termsChecked) {
+            alert("Please agree to Terms & Privacy Policy");
+            valid = false;
+        }
+
+        if (valid) {
+            console.log("✅ All validation passed, opening popup...");
+            popup.classList.remove("hidden");
+            popup.style.display = "flex";  // 🔥 force it visible
+        }
+    });
+
+    document.getElementById("companyButton").addEventListener("click", function () {
+        document.getElementById("accountType").value = "company";
+        document.getElementById("registrationForm").submit();
+    });
+
+    document.getElementById("jobseekerButton").addEventListener("click", function () {
+        document.getElementById("accountType").value = "jobseeker";
+        document.getElementById("registrationForm").submit();
+    });
+
+    document.getElementById("closePopup").addEventListener("click", function () {
+        popup.classList.add("hidden");
+        popup.style.display = "none";  // 🔥 ensure hide again
+    });
+
+    // Auto hide messages
+    const messagePopup = document.getElementById('popup-message');
+    if(messagePopup){
+        messagePopup.style.display='flex';
+        setTimeout(()=>{ messagePopup.style.display='none'; },4000);
+    }
+
+});
+</script>
 
 </body>
 

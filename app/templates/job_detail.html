@@ -14,7 +14,6 @@
             flex-direction: column;
             height: 100vh;
         }
-
         header {
             background-color: #1e3a8a;
             color: white;
@@ -24,12 +23,10 @@
             justify-content: space-between;
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
         }
-
         header h1 {
             margin: 0;
             font-size: 24px;
         }
-
         header nav a {
             color: #fff;
             margin-left: 20px;
@@ -37,17 +34,14 @@
             font-weight: 500;
             transition: color 0.3s;
         }
-
         header nav a:hover {
             color: #cbd5e0;
         }
-
         .content-wrapper {
             display: flex;
             flex: 1;
             overflow: hidden;
         }
-
         .left-panel {
             width: 30%;
             background: #ffffff;
@@ -55,14 +49,12 @@
             padding: 20px;
             border-right: 2px solid #e0e0e0;
         }
-
         .right-panel {
             flex-grow: 1;
             padding: 30px;
             overflow-y: auto;
             background-color: #f9fbfd;
         }
-
         .job-card-preview {
             background: white;
             padding: 15px;
@@ -72,36 +64,30 @@
             cursor: pointer;
             transition: all 0.3s ease;
         }
-
         .job-card-preview:hover {
             background-color: #eaf4ff;
             transform: translateY(-4px);
             box-shadow: 0 6px 12px rgba(0, 123, 255, 0.2);
         }
-
         .header-section h1 {
             margin: 0;
             font-size: 24px;
             color: #2c3e50;
         }
-
         .header-section h2 {
             margin: 10px 0 20px;
             font-size: 18px;
             color: #555;
         }
-
         .info-item {
             margin-bottom: 12px;
             font-size: 15px;
             color: #333;
         }
-
         .info-item i {
             margin-right: 8px;
             color: #3490dc;
         }
-
         .apply-btn,
         .back-btn {
             background: #3490dc;
@@ -115,12 +101,10 @@
             display: inline-block;
             transition: background 0.3s;
         }
-
         .apply-btn:hover,
         .back-btn:hover {
             background: #2779bd;
         }
-
         .left-panel a {
             text-decoration: none;
             display: block;
@@ -128,17 +112,14 @@
             font-weight: 600;
             color: #2c3e50;
         }
-
         .left-panel a i {
             color: #10b981;
             margin-right: 8px;
         }
-
         .job-card-preview h4 i,
         .job-card-preview p i {
             color: #6366f1;
         }
-
         footer {
             background-color: #1e3a8a;
             color: white;
@@ -146,11 +127,9 @@
             padding: 15px;
             font-size: 14px;
         }
-
         .brand-link {
             text-decoration: none;
         }
-
         .brand-link h1 {
             color: white;
             font-size: 1.8rem;
@@ -160,7 +139,6 @@
             align-items: center;
             gap: 10px;
         }
-
         .brand-link h1 i {
             color: white;
             font-size: 1.5rem;
@@ -217,32 +195,23 @@
                 </div>
 
                 <h3><i class="fas fa-info-circle"></i> Job Information</h3>
-                <div class="info-item"><i class="fas fa-map-marker-alt"></i><strong> Location:</strong> {{
-                    selected_job.location }}</div>
-                <div class="info-item"><i class="fas fa-wallet"></i><strong> Salary:</strong> ₹{{ selected_job.salary }}
-                </div>
-                <div class="info-item"><i class="fas fa-clock"></i><strong> Hourly Rate:</strong> ₹{{
-                    selected_job.hourly_rates }}</div>
-                <div class="info-item"><i class="fas fa-lightbulb"></i><strong> Skills:</strong> {{ selected_job.skills
-                    }}</div>
-                <div class="info-item"><i class="fas fa-users"></i><strong> Vacancies:</strong> {{
-                    selected_job.vacancies }}</div>
-                <div class="info-item"><i class="fas fa-hourglass-half"></i><strong> Duration:</strong> {{
-                    selected_job.duration }}</div>
-                <div class="info-item">
-                    <i class="fa-solid fa-calendar-xmark" style="color:#E91E63;"></i>
+                <div class="info-item"><i class="fas fa-map-marker-alt"></i><strong> Location:</strong> {{ selected_job.location }}</div>
+                <div class="info-item"><i class="fas fa-wallet"></i><strong> Salary:</strong> ₹{{ selected_job.salary }}</div>
+                <div class="info-item"><i class="fas fa-clock"></i><strong> Hourly Rate:</strong> ₹{{ selected_job.hourly_rates }}</div>
+                <div class="info-item"><i class="fas fa-lightbulb"></i><strong> Skills:</strong> {{ selected_job.skills }}</div>
+                <div class="info-item"><i class="fas fa-users"></i><strong> Vacancies:</strong> {{ selected_job.vacancies }}</div>
+                <div class="info-item"><i class="fas fa-hourglass-half"></i><strong> Duration:</strong> {{ selected_job.duration }}</div>
+                <div class="info-item"><i class="fa-solid fa-calendar-xmark" style="color:#E91E63;"></i>
                     <strong> End Date:</strong> {{ selected_job.end_date }}
                 </div>
+
                 <h3><i class="fas fa-align-left"></i> Job Details</h3>
                 <div class="info-item"><i class="fas fa-file-alt"></i> {{ selected_job.job_details }}</div>
 
                 <h3><i class="fas fa-address-book"></i> Contact Info</h3>
-                <div class="info-item"><i class="fas fa-phone"></i><strong> Phone:</strong> {{
-                    selected_job.contact_number }}</div>
-                <div class="info-item"><i class="fas fa-envelope"></i><strong> Email:</strong> {{ selected_job.email }}
-                </div>
-                <div class="info-item"><i class="fas fa-check-circle"></i><strong> Status:</strong> {{
-                    selected_job.status }}</div>
+                <div class="info-item"><i class="fas fa-phone"></i><strong> Phone:</strong> {{ selected_job.contact_number }}</div>
+                <div class="info-item"><i class="fas fa-envelope"></i><strong> Email:</strong> {{ selected_job.email }}</div>
+                <div class="info-item"><i class="fas fa-check-circle"></i><strong> Status:</strong> {{ selected_job.status }}</div>
 
                 <a href="{% url 'companyhome' %}" class="back-btn">
                     <i class="fas fa-arrow-left"></i> Back to Company Home
@@ -260,5 +229,4 @@
     </footer>
 
 </body>
-
 </html>

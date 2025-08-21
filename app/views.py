@@ -1538,7 +1538,8 @@ def post_job(request):
             email=request.POST['email'],
             hourly_rates=request.POST['wage'],
             salary=request.POST.get('salary'),
-            skills=skills,  # ✅ Save skills here
+            skills=skills,
+            end_date=request.POST.get("end_date"),   # ✅ Save skills here
         )
 
         messages.success(request, "Job successfully posted. We will contact you soon.")
@@ -1736,6 +1737,7 @@ def filtered_jobs(request):
     location = request.GET.get('location')
     work_days = request.GET.get('work_days')
     work_hours = request.GET.get('work_hours')
+    sort_option = request.GET.get('sort')  # <-- New
 
     if job_date == 'today':
         jobs = jobs.filter(posted_date=date.today())
@@ -1755,6 +1757,11 @@ def filtered_jobs(request):
 
     if work_hours:
         jobs = jobs.filter(work_hour=work_hours)
+
+    if sort_option == 'newest':
+        jobs = jobs.order_by('-posted_date')
+    elif sort_option == 'oldest':
+        jobs = jobs.order_by('posted_date')
 
     return render(request, 'filtered_jobs.html', {'jobs': jobs})
 

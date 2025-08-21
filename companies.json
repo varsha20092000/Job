@@ -1,1 +1,27 @@
-[]
+[
+{
+  "model": "App.company",
+  "pk": 1,
+  "fields": {
+    "user": 63,
+    "name": "",
+    "website": "",
+    "description": "Our company is best for your choice",
+    "location": "",
+    "logo": "",
+    "is_complete": true,
+    "company_name": "Wires and limited",
+    "phone": "",
+    "profile_image": "",
+    "pancard": "",
+    "adhaar": "",
+    "personal_id": "",
+    "google_map": "wirescompany@gmail.com",
+    "company_type": null,
+    "employee_size": 50,
+    "company_industry": "gardeners",
+    "company_number": "None",
+    "company_hr_number": "None"
+  }
+}
+]
