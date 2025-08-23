@@ -16,6 +16,9 @@ from django.shortcuts import render, redirect
 from .forms import LoginForm
 from django.contrib.auth.models import User
 def login_view(request):
+    show_otp_modal = request.session.pop('show_otp_modal', False)
+    open_forgot_modal = request.session.pop('open_forgot_modal', False)
+
     if request.method == 'POST':
         identifier = request.POST.get('username')
         password = request.POST.get('password')
@@ -62,8 +65,10 @@ def login_view(request):
         messages.error(request, "❌ Invalid account type.")
         return redirect('login')
 
-    return render(request, 'login.html')
-
+    return render(request, 'login.html', {
+        'show_otp_modal': show_otp_modal,
+        'open_forgot_modal': open_forgot_modal,
+    })
 
 from .forms import RegistrationForm
 from django.contrib.auth.hashers import make_password
@@ -1821,3 +1826,139 @@ def jobemail_support(request):
         return redirect('jobemail_support')
 
     return render(request, 'jobemail_support.html')
+import random
+from django.core.mail import send_mail
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.contrib.auth import get_user_model, authenticate, login
+from django.conf import settings
+
+User = get_user_model()
+
+
+# -------------------- Step 1: Forgot Password --------------------
+def forgot_password(request):
+    if request.method == "POST":
+        identifier = (request.POST.get("email") or "").strip()
+        username_input = (request.POST.get("username") or "").strip()
+
+        # Debug: log what is received
+        print("Identifier:", repr(identifier))
+        print("Username input:", repr(username_input))
+
+        # Match by username if provided
+        users = User.objects.filter(username=username_input) if username_input else User.objects.none()
+
+        # If no match, try email
+        if not users.exists() and identifier:
+            users = User.objects.filter(email=identifier)
+
+        # Debug: matched users
+        print("Matched users:", users)
+
+        if not users.exists():
+            messages.error(request, "❌ No account found with this email/username.")
+            request.session['open_forgot_modal'] = True
+            return redirect("login")
+
+        # Multiple users? Ask to select
+        if users.count() > 1:
+            request.session['matched_user_ids'] = list(users.values_list('id', flat=True))
+            request.session['open_select_user_modal'] = True
+            return redirect("login")  # your modal will show selection
+        else:
+            user = users.first()
+            return send_otp_for_user(request, user)
+
+    request.session['open_forgot_modal'] = True
+    return redirect("login")
+
+
+# -------------------- Helper: Send OTP --------------------
+def send_otp_for_user(request, user):
+    otp = str(random.randint(100000, 999999))
+    request.session['reset_user_id'] = user.id
+    request.session['reset_otp'] = otp
+    request.session['show_otp_modal'] = True
+
+    send_mail(
+        subject="Your Password Reset OTP - JOB365",
+        message=f"Hello {user.username},\n\nYour OTP is: {otp}",
+        from_email=settings.DEFAULT_FROM_EMAIL,
+        recipient_list=[user.email],
+        fail_silently=False,
+    )
+
+    messages.success(request, f"✅ OTP sent to {user.username}. Please check your email.")
+    return redirect("login")
+
+
+# -------------------- Step 1b: Select User if multiple --------------------
+def select_user_for_otp(request):
+    if request.method == "POST":
+        user_id = request.POST.get("selected_user_id")
+        if not user_id:
+            messages.error(request, "❌ Please select a user.")
+            return redirect("login")
+
+        try:
+            user = User.objects.get(id=user_id)
+        except User.DoesNotExist:
+            messages.error(request, "❌ User not found.")
+            return redirect("login")
+
+        return send_otp_for_user(request, user)
+
+    return redirect("login")
+
+
+# -------------------- Step 2: Verify OTP and Reset Password --------------------
+from django.core.mail import send_mail
+from django.conf import settings
+
+def verify_otp(request):
+    if request.method == "POST":
+        otp_input = (request.POST.get("otp") or "").strip()
+        new_password = (request.POST.get("new_password") or "").strip()
+        confirm_password = (request.POST.get("confirm_password") or "").strip()
+
+        user_id = request.session.get("reset_user_id")
+        otp_session = request.session.get("reset_otp")
+
+        if not user_id or otp_input != otp_session:
+            messages.error(request, "❌ Invalid OTP or session expired.")
+            return redirect("login")
+
+        if new_password != confirm_password:
+            messages.error(request, "❌ Passwords do not match.")
+            return redirect("login")
+
+        try:
+            user = User.objects.get(id=user_id)
+        except User.DoesNotExist:
+            messages.error(request, "❌ User not found.")
+            return redirect("login")
+
+        # Reset password
+        user.set_password(new_password)
+        user.save()
+
+        # ✅ Send confirmation email
+        send_mail(
+            subject="Your JOB365 Password Was Changed",
+            message=f"Hello {user.username},\n\nYour password on JOB365 was successfully changed.\n"
+                    f"If you did not perform this action, please contact support immediately.",
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            recipient_list=[user.email],
+            fail_silently=False,
+        )
+
+        # Clear session
+        request.session.pop("reset_user_id", None)
+        request.session.pop("reset_otp", None)
+        request.session['show_otp_modal'] = False
+
+        messages.success(request, "✅ Password reset successful! Please login. A confirmation email has been sent.")
+        return redirect("login")
+
+    return redirect("login")

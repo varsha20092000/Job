@@ -67,5 +67,7 @@ path('filtered-jobs/', views.filtered_jobs, name='filtered_jobs'),
  path('jobemail-support/', views.jobemail_support, name='jobemail_support'),
   path('filtered-jobs/', views.filtered_jobs, name='filtered_jobs'),
 path('jobcall-support/', views.jobcall_support_view, name='jobcall_support'),
+ path("forgot-password/", views.forgot_password, name="forgot_password"),
+    path("verify-otp/", views.verify_otp, name="verify_otp"),
 ]+static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
