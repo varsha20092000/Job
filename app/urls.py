@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
 from django.conf import settings
 from django.conf.urls.static import static
@@ -69,5 +69,9 @@ path('filtered-jobs/', views.filtered_jobs, name='filtered_jobs'),
 path('jobcall-support/', views.jobcall_support_view, name='jobcall_support'),
  path("forgot-password/", views.forgot_password, name="forgot_password"),
     path("verify-otp/", views.verify_otp, name="verify_otp"),
+     path('accounts/', include('allauth.urls')), 
+      path('about-us/', views.about_us, name='about_us'),
+        path('terms-of-use/', views.terms_of_use, name='terms_of_use'),
+    path('privacy-policy/', views.privacy_policy, name='privacy_policy'),
 ]+static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

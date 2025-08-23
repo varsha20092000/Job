@@ -1962,3 +1962,41 @@ def verify_otp(request):
         return redirect("login")
 
     return redirect("login")
+from django.contrib.auth import authenticate, login
+from django.shortcuts import render, redirect
+from django.contrib import messages
+
+def user_login(request):
+    if request.method == "POST":
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        remember_me = request.POST.get('remember_me')
+
+        user = authenticate(request, username=email, password=password)
+        if user is not None:
+            login(request, user)
+
+            # If "Remember Me" is not checked, expire the session when browser closes
+            if not remember_me:
+                request.session.set_expiry(0)  # Session expires on browser close
+            else:
+                request.session.set_expiry(60 * 60 * 24 * 30)  # 30 days
+
+            return redirect('home')
+        else:
+            messages.error(request, "Invalid credentials")
+    return render(request, 'login.html')
+from django.shortcuts import render
+
+def about_us(request):
+    return render(request, 'about_us.html')
+
+from django.shortcuts import render
+
+def terms_of_use(request):
+    return render(request, 'terms_of_use.html')
+
+def privacy_policy(request):
+    return render(request, 'privacy_policy.html')
+
+

@@ -1,0 +1,129 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy | JOB365</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-50 font-sans">
+
+    <!-- Header -->
+    <header class="bg-blue-600 text-white">
+        <div class="container mx-auto flex justify-between items-center py-4 px-6">
+            <div class="text-2xl font-bold">JOB<span class="text-white">365</span></div>
+            <nav class="space-x-6">
+                <a href="{% url 'register' %}" class="hover:underline">Register</a>
+                <a href="{% url 'login' %}" class="hover:underline">Login</a>
+                <a href="{% url 'terms_of_use' %}" class="hover:underline">Terms of Use</a>
+                <a href="{% url 'privacy_policy' %}" class="hover:underline">Privacy Policy</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Banner -->
+    <section class="bg-blue-100 py-16">
+        <div class="container mx-auto px-6 text-center">
+            <h1 class="text-5xl font-bold text-blue-900 mb-4">Privacy Policy</h1>
+            <p class="text-gray-700 text-lg max-w-3xl mx-auto">
+                At JOB365, protecting your personal information is our top priority. This Privacy Policy outlines how we handle your data and ensure a secure and trustworthy experience.
+            </p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <section class="container mx-auto px-6 py-16 space-y-12">
+        
+        <!-- Information We Collect -->
+        <div>
+            <h2 class="text-3xl font-bold text-blue-900 mb-4">Information We Collect</h2>
+            <p class="text-gray-700 text-lg mb-4">
+                We collect information to provide and improve our services. This includes:
+            </p>
+            <ul class="list-disc list-inside text-gray-700 text-lg space-y-2">
+                <li><strong>Account Information:</strong> Name, email, phone, and professional details you provide during registration.</li>
+                <li><strong>Job Application Data:</strong> Resume, cover letters, job applications, and related professional data.</li>
+                <li><strong>Usage Data:</strong> Platform usage patterns, search queries, clicks, and engagement to improve our services.</li>
+                <li><strong>Device & Browser Information:</strong> IP address, device type, operating system, and browser data.</li>
+            </ul>
+        </div>
+
+        <!-- How We Use Your Information -->
+        <div>
+            <h2 class="text-3xl font-bold text-blue-900 mb-4">How We Use Your Information</h2>
+            <ul class="list-disc list-inside text-gray-700 text-lg space-y-2">
+                <li>Provide and personalize our services, including job recommendations.</li>
+                <li>Communicate updates, alerts, and promotional messages (with consent).</li>
+                <li>Enhance platform functionality and user experience through analytics.</li>
+                <li>Ensure compliance with legal obligations and protect our users.</li>
+                <li>Prevent fraudulent or unauthorized activities on the platform.</li>
+            </ul>
+        </div>
+
+        <!-- Data Sharing & Third Parties -->
+        <div>
+            <h2 class="text-3xl font-bold text-blue-900 mb-4">Data Sharing & Third Parties</h2>
+            <p class="text-gray-700 text-lg mb-4">
+                JOB365 does not sell your personal information. We may share data with trusted third parties in the following scenarios:
+            </p>
+            <ul class="list-disc list-inside text-gray-700 text-lg space-y-2">
+                <li>With employers or recruiters to facilitate job applications.</li>
+                <li>With service providers who support platform operations.</li>
+                <li>When required by law or legal proceedings.</li>
+                <li>During mergers, acquisitions, or corporate restructuring.</li>
+            </ul>
+        </div>
+
+        <!-- Cookies & Tracking Technologies -->
+        <div>
+            <h2 class="text-3xl font-bold text-blue-900 mb-4">Cookies & Tracking Technologies</h2>
+            <p class="text-gray-700 text-lg">
+                We use cookies and similar technologies to improve user experience, track engagement, and deliver personalized content. You can manage cookie preferences through your browser settings.
+            </p>
+        </div>
+
+        <!-- Security of Your Information -->
+        <div>
+            <h2 class="text-3xl font-bold text-blue-900 mb-4">Security of Your Information</h2>
+            <p class="text-gray-700 text-lg">
+                We implement industry-standard security measures including encryption, access controls, and regular monitoring to protect your data. While we strive to protect your information, no system is completely secure.
+            </p>
+        </div>
+
+        <!-- User Rights -->
+        <div>
+            <h2 class="text-3xl font-bold text-blue-900 mb-4">Your Rights</h2>
+            <ul class="list-disc list-inside text-gray-700 text-lg space-y-2">
+                <li>Access and review your personal data stored on JOB365.</li>
+                <li>Request corrections to inaccurate or incomplete information.</li>
+                <li>Request deletion of your account and associated data.</li>
+                <li>Opt-out of marketing communications at any time.</li>
+            </ul>
+        </div>
+
+        <!-- Children & Compliance -->
+        <div>
+            <h2 class="text-3xl font-bold text-blue-900 mb-4">Children & Compliance</h2>
+            <p class="text-gray-700 text-lg">
+                JOB365 does not knowingly collect information from individuals under 18. We comply with applicable data protection laws and may update this Privacy Policy to ensure ongoing compliance.
+            </p>
+        </div>
+
+        <!-- Consent -->
+        <div>
+            <h2 class="text-3xl font-bold text-blue-900 mb-4">Consent</h2>
+            <p class="text-gray-700 text-lg">
+                By using JOB365, you acknowledge that you have read and understood this Privacy Policy and consent to the collection and use of your information as described herein.
+            </p>
+        </div>
+
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-blue-600 text-white py-6 text-center">
+        ©2024 All rights reserved | Job365 Team
+    </footer>
+
+</body>
+</html>

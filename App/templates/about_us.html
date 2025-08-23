@@ -1,0 +1,96 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | JOB365</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-50 font-sans">
+
+    <!-- Header -->
+    <header class="bg-blue-600 text-white">
+        <div class="container mx-auto flex justify-between items-center py-4 px-6">
+            <div class="text-2xl font-bold">JOB<span class="text-white">365</span></div>
+            <nav class="space-x-6">
+                <a href="{% url 'register' %}" class="hover:underline">Register</a>
+                <a href="{% url 'login' %}" class="hover:underline">Login</a>
+                <a href="#" class="hover:underline">Terms of Use</a>
+                <a href="#" class="hover:underline">Privacy Policy</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Banner -->
+    <section class="bg-blue-100 py-16">
+        <div class="container mx-auto flex flex-col md:flex-row items-center px-6">
+            <div class="md:w-1/2 mb-8 md:mb-0">
+                <h1 class="text-4xl md:text-5xl font-bold mb-4 text-blue-900">About JOB365</h1>
+                <p class="text-gray-700 text-lg mb-6">
+                    JOB365 is a professional platform connecting job seekers with top companies, 
+                    just like Indeed, LinkedIn, and Naukri. We empower individuals to find 
+                    meaningful careers and help companies find the right talent efficiently.
+                </p>
+                <p class="text-gray-700 text-lg">
+                    Our mission is to simplify the job search process, provide career resources, 
+                    and make hiring smarter and faster for businesses of all sizes.
+                </p>
+            </div>
+            <div class="md:w-1/2">
+                <img src="https://images.unsplash.com/photo-1556761175-4b46a572b786?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxMTI4NDB8MHwxfHNlYXJjaHwxfHxqYWJ8ZW58MHx8fHwxNjkxMDEwMTAw&ixlib=rb-4.0.3&q=80&w=600" 
+                     alt="About JOB365" class="rounded-lg shadow-lg">
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <!-- Features Section -->
+<section class="py-20 bg-blue-50">
+    <div class="container mx-auto px-6">
+        <h2 class="text-4xl md:text-5xl font-bold text-center text-blue-900 mb-16">What We Offer</h2>
+        <div class="grid md:grid-cols-3 gap-12">
+            <div class="bg-white p-10 rounded-xl shadow-lg hover:shadow-2xl transition transform hover:scale-105">
+                <img src="https://www.bing.com/th/id/OIP.HJ8O_hMQebjaHEHvJ4omjwHaE8?w=247&h=211&c=8&rs=1&qlt=90&o=6&dpr=1.6&pid=3.1&rm=2" 
+                     alt="Job Search" class="h-32 md:h-40 mx-auto mb-6">
+                <h3 class="font-bold text-2xl mb-4 text-center">Job Search</h3>
+                <p class="text-gray-700 text-center text-lg">Find jobs that match your skills and interests with advanced search and filters.</p>
+            </div>
+            <div class="bg-white p-10 rounded-xl shadow-lg hover:shadow-2xl transition transform hover:scale-105">
+                <img src="https://tse4.mm.bing.net/th/id/OIP.zWeg1Cr_QRI0ExOWM7bOrwHaE8?rs=1&pid=ImgDetMain&o=7&rm=3" 
+                     alt="Resume Builder" class="h-32 md:h-40 mx-auto mb-6">
+                <h3 class="font-bold text-2xl mb-4 text-center">Resume Builder</h3>
+                <p class="text-gray-700 text-center text-lg">Create a professional resume that stands out to recruiters and companies.</p>
+            </div>
+            <div class="bg-white p-10 rounded-xl shadow-lg hover:shadow-2xl transition transform hover:scale-105">
+                <img src="https://tse2.mm.bing.net/th/id/OIP.yaRWQfde7cp4voX-okBt5wHaE8?rs=1&pid=ImgDetMain&o=7&rm=3" 
+                     alt="Company Connect" class="h-32 md:h-40 mx-auto mb-6">
+                <h3 class="font-bold text-2xl mb-4 text-center">Company Connect</h3>
+                <p class="text-gray-700 text-center text-lg">Connect with top companies, apply for jobs, and track your applications easily.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+    <!-- Mission Section -->
+    <section class="bg-blue-50 py-16">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-3xl font-bold text-blue-900 mb-6">Our Mission & Vision</h2>
+            <p class="text-gray-700 text-lg mb-4">
+                Our mission is to create a seamless job search and recruitment experience for everyone.
+            </p>
+            <p class="text-gray-700 text-lg mb-4">
+                Our vision is to become the most trusted job platform for career growth and talent acquisition.
+            </p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-blue-600 text-white py-6 text-center">
+        ©2024 All rights reserved | Job365 Team
+    </footer>
+
+</body>
+</html>
+

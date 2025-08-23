@@ -59,7 +59,24 @@ INSTALLED_APPS = [
     'App',
     'admin_panel',
     'whitenoise.runserver_nostatic',
+
+      
+    # Allauth
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    
+    # Providers
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.facebook',
+    'allauth.socialaccount.providers.linkedin_oauth2',
 ]
+SITE_ID = 1
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
 
 # Middleware
 MIDDLEWARE = [
@@ -71,6 +88,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
+      "allauth.account.middleware.AccountMiddleware",
 ]
 
 # Static files config
@@ -142,3 +160,21 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'varshakvinod680@gmail.com'
 EMAIL_HOST_PASSWORD = 'oufr gobi mlmu iitn'
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'APP': {
+            'client_id': 'YOUR_GOOGLE_CLIENT_ID',
+            'secret': 'YOUR_GOOGLE_CLIENT_SECRET',
+            'key': ''
+        }
+    },
+    'facebook': {
+        'APP': {
+            'client_id': 'YOUR_FACEBOOK_APP_ID',
+            'secret': 'YOUR_FACEBOOK_APP_SECRET',
+            'key': ''
+        }
+    },
+    
+}

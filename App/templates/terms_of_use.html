@@ -1,0 +1,144 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms of Use | JOB365</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-50 font-sans">
+
+    <!-- Header -->
+    <header class="bg-blue-600 text-white">
+        <div class="container mx-auto flex justify-between items-center py-4 px-6">
+            <div class="text-2xl font-bold">JOB<span class="text-white">365</span></div>
+            <nav class="space-x-6">
+                <a href="{% url 'register' %}" class="hover:underline">Register</a>
+                <a href="{% url 'login' %}" class="hover:underline">Login</a>
+                <a href="{% url 'terms_of_use' %}" class="hover:underline">Terms of Use</a>
+                <a href="{% url 'privacy_policy' %}" class="hover:underline">Privacy Policy</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Banner -->
+    <section class="bg-blue-100 py-16">
+        <div class="container mx-auto px-6 text-center">
+            <h1 class="text-5xl font-bold text-blue-900 mb-4">Terms of Use</h1>
+            <p class="text-gray-700 text-lg max-w-3xl mx-auto">
+                By using JOB365, you agree to follow these Terms of Use. Please read them carefully to understand your rights and responsibilities.
+            </p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <section class="container mx-auto px-6 py-16 space-y-12">
+
+        <!-- Acceptance of Terms -->
+        <div>
+            <h2 class="text-3xl font-bold text-blue-900 mb-4">Acceptance of Terms</h2>
+            <p class="text-gray-700 text-lg">
+                By accessing or using JOB365, you agree to be bound by these Terms of Use, our Privacy Policy, and any other legal notices published on the platform. If you do not agree, you must refrain from using our services.
+            </p>
+        </div>
+
+        <!-- Account Registration & Responsibility -->
+        <div>
+            <h2 class="text-3xl font-bold text-blue-900 mb-4">Account Registration & Responsibility</h2>
+            <ul class="list-disc list-inside text-gray-700 text-lg space-y-2">
+                <li>Users must provide accurate, complete, and up-to-date information during registration.</li>
+                <li>Maintain the confidentiality of your login credentials and be responsible for all activity on your account.</li>
+                <li>Notify JOB365 immediately of any unauthorized use of your account or security breaches.</li>
+            </ul>
+        </div>
+
+        <!-- Use of Platform -->
+        <div>
+            <h2 class="text-3xl font-bold text-blue-900 mb-4">Use of Platform</h2>
+            <p class="text-gray-700 text-lg mb-2">
+                JOB365 is a professional job platform designed to connect job seekers and employers. You agree to:
+            </p>
+            <ul class="list-disc list-inside text-gray-700 text-lg space-y-2">
+                <li>Use the platform lawfully, ethically, and in accordance with these Terms.</li>
+                <li>Not post false, misleading, or harmful content.</li>
+                <li>Respect intellectual property rights and privacy of other users.</li>
+                <li>Not use automated scripts or bots to scrape data or disrupt services.</li>
+            </ul>
+        </div>
+
+        <!-- Job Listings & Applications -->
+        <div>
+            <h2 class="text-3xl font-bold text-blue-900 mb-4">Job Listings & Applications</h2>
+            <ul class="list-disc list-inside text-gray-700 text-lg space-y-2">
+                <li>JOB365 does not guarantee the accuracy or completeness of job listings.</li>
+                <li>Job seekers must independently verify employer claims before applying.</li>
+                <li>Employers are responsible for providing truthful job descriptions and complying with applicable labor laws.</li>
+            </ul>
+        </div>
+
+        <!-- Prohibited Activities -->
+        <div>
+            <h2 class="text-3xl font-bold text-blue-900 mb-4">Prohibited Activities</h2>
+            <p class="text-gray-700 text-lg mb-2">
+                The following actions are strictly prohibited:
+            </p>
+            <ul class="list-disc list-inside text-gray-700 text-lg space-y-2">
+                <li>Fraudulent or deceptive behavior, including impersonation.</li>
+                <li>Harassment, threats, or abusive communication.</li>
+                <li>Unauthorized access to other users' accounts or data.</li>
+                <li>Distribution of malware, viruses, or harmful content.</li>
+            </ul>
+        </div>
+
+        <!-- Termination & Suspension -->
+        <div>
+            <h2 class="text-3xl font-bold text-blue-900 mb-4">Termination & Suspension</h2>
+            <p class="text-gray-700 text-lg">
+                JOB365 reserves the right to suspend or terminate accounts that violate these Terms or engage in prohibited activities. We may also restrict access to content or features at our discretion.
+            </p>
+        </div>
+
+        <!-- Intellectual Property -->
+        <div>
+            <h2 class="text-3xl font-bold text-blue-900 mb-4">Intellectual Property</h2>
+            <p class="text-gray-700 text-lg">
+                All content, logos, trademarks, and materials on JOB365 are the property of JOB365 or its licensors. Unauthorized use of these materials is strictly prohibited.
+            </p>
+        </div>
+
+        <!-- Disclaimers & Limitation of Liability -->
+        <div>
+            <h2 class="text-3xl font-bold text-blue-900 mb-4">Disclaimers & Limitation of Liability</h2>
+            <p class="text-gray-700 text-lg">
+                JOB365 provides services on an “as-is” basis. We do not guarantee uninterrupted or error-free access. JOB365 is not liable for any direct, indirect, or consequential damages arising from use of the platform.
+            </p>
+        </div>
+
+        <!-- Governing Law & Changes -->
+        <div>
+            <h2 class="text-3xl font-bold text-blue-900 mb-4">Governing Law & Changes to Terms</h2>
+            <ul class="list-disc list-inside text-gray-700 text-lg space-y-2">
+                <li>These Terms are governed by the applicable laws of your jurisdiction.</li>
+                <li>JOB365 may update these Terms periodically. Users will be notified of significant changes, and continued use constitutes acceptance of updated terms.</li>
+            </ul>
+        </div>
+
+        <!-- Acknowledgment -->
+        <div>
+            <h2 class="text-3xl font-bold text-blue-900 mb-4">Acknowledgment</h2>
+            <p class="text-gray-700 text-lg">
+                By using JOB365, you acknowledge that you have read, understood, and agree to abide by these Terms of Use.
+            </p>
+        </div>
+
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-blue-600 text-white py-6 text-center">
+        ©2024 All rights reserved | Job365 Team
+    </footer>
+
+</body>
+</html>
+
