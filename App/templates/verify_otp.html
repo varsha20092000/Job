@@ -1,0 +1,7 @@
+<h2>Verify OTP & Reset Password</h2>
+<form method="POST">
+  {% csrf_token %}
+  <input type="text" name="otp" placeholder="Enter OTP" required>
+  <input type="password" name="new_password" placeholder="Enter new password" required>
+  <button type="submit">Reset Password</button>
+</form>

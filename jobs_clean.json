@@ -1,0 +1,83 @@
+[
+{
+  "model": "App.job",
+  "pk": 1,
+  "fields": {
+    "user": 63,
+    "job_name": "Painter",
+    "company_name": "Wires and limited",
+    "location": "Ernakulam",
+    "job_time": "Part Time",
+    "experience": "5 days",
+    "job_code": "WT4L7G09",
+    "work_hour": 8,
+    "short_description": "A painter is responsible for preparing and applying paint, varnish, and other finishes to various surfaces, ensuring high-quality results in both residential and commercial settings.\r\nKey Responsibilities\r\nSurface Preparation: Prepare surfaces for painting by cleaning, scraping, sanding, and filling holes or cracks. This may involve removing old paint and ensuring surfaces are smooth and ready for application.\r\nMixing and Applying Paint: Mix paints and other materials to achieve desired colors and textures. Apply paint using brushes, rollers, or spray equipment, ensuring even coverage and a professional finish.\r\nQuality Control: Inspect completed work to ensure it meets quality standards and client specifications. Touch up areas as needed to achieve a flawless appearance.",
+    "job_details": "A painter is responsible for preparing and applying paint, varnish, and other finishes to various surfaces, ensuring high-quality results in both residential and commercial settings.\r\nKey Responsibilities\r\nSurface Preparation: Prepare surfaces for painting by cleaning, scraping, sanding, and filling holes or cracks. This may involve removing old paint and ensuring surfaces are smooth and ready for application.\r\nMixing and Applying Paint: Mix paints and other materials to achieve desired colors and textures. Apply paint using brushes, rollers, or spray equipment, ensuring even coverage and a professional finish.\r\nQuality Control: Inspect completed work to ensure it meets quality standards and client specifications. Touch up areas as needed to achieve a flawless appearance.",
+    "vacancies": 4,
+    "duration": "1 Week",
+    "contact_number": "943323432",
+    "email": "wireslimited@gmail.com",
+    "status": "Active",
+    "hourly_rates": "800",
+    "salary": "15000.00",
+    "posted_date": "2025-08-21T05:20:43.191Z",
+    "end_date": null,
+    "created_at": "2025-08-21T05:20:43.190Z",
+    "skills": "painting,drawing,other painting skills"
+  }
+},
+{
+  "model": "App.job",
+  "pk": 2,
+  "fields": {
+    "user": 63,
+    "job_name": "Electrician ",
+    "company_name": "XYZ technologies",
+    "location": "Ernakulam",
+    "job_time": "Part Time",
+    "experience": "5 days",
+    "job_code": "HQWH5UXC",
+    "work_hour": 8,
+    "short_description": "An electrician is a skilled professional responsible for installing, maintaining, and repairing electrical systems in residential, commercial, and industrial settings.\r\nKey Responsibilities\r\nInstallation: Electricians install wiring, outlets, circuit breakers, and other electrical components according to blueprints and technical diagrams. They ensure that all installations comply with local and national electrical codes. \r\n2\r\nMaintenance and Repair: They conduct routine maintenance and repairs on electrical systems to ensure they operate efficiently and safely. This includes troubleshooting issues, replacing faulty components, and performing regular inspections to prevent future problems. \r\n2\r\nSafety Compliance: Electricians must adhere to all safety regulations and standards. They use personal protective equipment (PPE) and ensure that all work is completed safely to protect themselves and others. \r\n2\r\nTesting and Troubleshooting: They use specialized tools to test electrical systems for functionality and safety, measuring voltage, current.",
+    "job_details": "An electrician is a skilled professional responsible for installing, maintaining, and repairing electrical systems in residential, commercial, and industrial settings.\r\nKey Responsibilities\r\nInstallation: Electricians install wiring, outlets, circuit breakers, and other electrical components according to blueprints and technical diagrams. They ensure that all installations comply with local and national electrical codes. \r\n2\r\nMaintenance and Repair: They conduct routine maintenance and repairs on electrical systems to ensure they operate efficiently and safely. This includes troubleshooting issues, replacing faulty components, and performing regular inspections to prevent future problems. \r\n2\r\nSafety Compliance: Electricians must adhere to all safety regulations and standards. They use personal protective equipment (PPE) and ensure that all work is completed safely to protect themselves and others. \r\n2\r\nTesting and Troubleshooting: They use specialized tools to test electrical systems for functionality and safety, measuring voltage, current.",
+    "vacancies": 5,
+    "duration": "1 Week",
+    "contact_number": "943323432",
+    "email": "varshakvinod680@gmail.com",
+    "status": "Active",
+    "hourly_rates": "205",
+    "salary": "15000.00",
+    "posted_date": "2025-08-21T05:24:08.390Z",
+    "end_date": null,
+    "created_at": "2025-08-21T05:24:08.389Z",
+    "skills": "electrical,know resitors,conductors"
+  }
+},
+{
+  "model": "App.job",
+  "pk": 3,
+  "fields": {
+    "user": 63,
+    "job_name": "Cleaner",
+    "company_name": "XYZ technologies",
+    "location": "Ernakulam",
+    "job_time": "Part Time",
+    "experience": "5 days",
+    "job_code": "JLWPID4I",
+    "work_hour": 2,
+    "short_description": "\r\n\r\nA cleaner is a service industry worker who performs general cleaning tasks in various settings. Their duties include: \r\nWorkable\r\n+4\r\nSweeping and mopping floors\r\nDusting work surfaces\r\nRemoving cobwebs\r\nReplacing empty supplies\r\nEmptying bins\r\nKeeping the environment tidy",
+    "job_details": "\r\n\r\nA cleaner is a service industry worker who performs general cleaning tasks in various settings. Their duties include: \r\nWorkable\r\n+4\r\nSweeping and mopping floors\r\nDusting work surfaces\r\nRemoving cobwebs\r\nReplacing empty supplies\r\nEmptying bins\r\nKeeping the environment tidy",
+    "vacancies": 5,
+    "duration": "1 Week",
+    "contact_number": "943323432",
+    "email": "varshakvinod680@gmail.com",
+    "status": "Active",
+    "hourly_rates": "800",
+    "salary": "15000.00",
+    "posted_date": "2025-08-21T07:32:47.953Z",
+    "end_date": "2025-09-18",
+    "created_at": "2025-08-21T07:32:47.952Z",
+    "skills": "cleaning,painting,washing"
+  }
+}
+]
