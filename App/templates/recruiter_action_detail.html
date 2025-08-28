@@ -27,15 +27,13 @@
                     <div class="relative">
                         <a href="#" class="hover:text-gray-300" id="contactDropdown">Contact</a>
                         <div class="absolute right-0 mt-2 bg-white shadow-md rounded-lg w-48 hidden" id="contactMenu">
-                            <a href="#" class="flex items-center px-4 py-2 text-gray-800 hover:bg-gray-100">
+                            <a href="{% url 'jobemail_support' %}" class="flex items-center px-4 py-2 text-gray-800 hover:bg-gray-100">
                                 📧 Email Support
                             </a>
-                            <a href="#" class="flex items-center px-4 py-2 text-gray-800 hover:bg-gray-100">
+                            <a href="{% url 'jobcall_support' %}" class="flex items-center px-4 py-2 text-gray-800 hover:bg-gray-100">
                                 📞 Call Support
                             </a>
-                            <a href="#" class="flex items-center px-4 py-2 text-gray-800 hover:bg-gray-100">
-                                💬 Message Us
-                            </a>
+                            
                         </div>
                     </div>
                     <a href="#" class="hover:text-gray-300">Notifications</a>

@@ -448,18 +448,38 @@ def job_list_with_first_job(request):
     jobs = Job.objects.filter(user=user)
     return render(request, "job_detail.html", {'jobs': jobs,'selected_job': None})
 # views.py
+from django.shortcuts import render, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from .models import JobApplication, Job, Company
 
-from .models import JobApplication
-
+# ✅ List of applicants for jobs posted by this company
+@login_required
 def employee_details(request):
-    applications = JobApplication.objects.select_related("user", "job").all()
+    # Ensure this user has a company profile
+    company = get_object_or_404(Company, user=request.user)
+
+    # Get only applications for jobs posted by this company
+    applications = JobApplication.objects.select_related("user", "job") \
+                                         .filter(job__user=request.user)
+
     return render(request, "employee_details.html", {"employees": applications})
 
-from django.shortcuts import get_object_or_404
 
+# ✅ Detail view for a single applicant (restricted by company)
+@login_required
 def employee_detail(request, employee_id):
-    application = get_object_or_404(JobApplication, id=employee_id)
+    # Ensure this user has a company profile
+    company = get_object_or_404(Company, user=request.user)
+
+    # Restrict applications to jobs posted by this company
+    application = get_object_or_404(
+        JobApplication.objects.select_related("user", "job"),
+        id=employee_id,
+        job__user=request.user  # restrict to jobs this company posted
+    )
+
     return render(request, "employee_detail.html", {"employee": application})
+
 
 
 from django.shortcuts import render
