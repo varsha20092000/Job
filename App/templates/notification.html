@@ -23,26 +23,34 @@
   <!-- Navigation -->
   <div class="flex items-center gap-6">
     <nav class="hidden md:flex space-x-6">
-      <a href="{% url 'home' %}" class="hover:text-gray-200">Home</a>
-      <a href="{% url 'jobs' %}" class="hover:text-gray-200">Jobs</a>
-      <a href="{% url 'certificate' %}" class="hover:text-gray-200">Certificate</a>
-      <a href="{% url 'income' %}" class="hover:text-gray-200">Income</a>
+  <a href="{% url 'home' %}" class="hover:text-gray-200">Home</a>
+  <a href="{% url 'jobs' %}" class="hover:text-gray-200">Jobs</a>
+  <a href="{% url 'certificate' %}" class="hover:text-gray-200">Certificate</a>
+  <a href="{% url 'income' %}" class="hover:text-gray-200">Income</a>
 
-      <!-- Contact Dropdown -->
-      <div class="relative inline-block text-left">
-  <!-- Trigger Button -->
-  <a href="#" class=" hover:bg-gray-300 font-medium" id="contactDropdownToggle">Contact </a>
+  <!-- Contact Dropdown -->
+  <div class="relative inline-block text-left">
+    <!-- Trigger Button -->
+    <a href="#" class="hover:bg-gray-300 font-medium" id="contactDropdownToggle">
+      Contact
+    </a>
 
-  <!-- Dropdown Menu -->
-  <div class="absolute right-0 mt-2 bg-white text-black shadow-md rounded-lg w-48 hidden z-50" id="contactDropdownMenu">
-    <a href="{% url 'jobemail_support' %}" class="flex items-center px-4 py-2 hover:bg-gray-100">📧 Email Support</a>
-    <a href="{% url 'jobcall_support' %}" class="flex items-center px-4 py-2 hover:bg-gray-100">📞 Call Support</a>
+    <!-- Dropdown Menu -->
+    <div
+      class="absolute right-0 mt-2 bg-white text-black shadow-md rounded-lg w-48 hidden z-50"
+      id="contactDropdownMenu"
+    >
+      <a href="{% url 'jobemail_support' %}" class="flex items-center px-4 py-2 hover:bg-gray-100">
+        📧 Email Support
+      </a>
+      <a href="{% url 'jobcall_support' %}" class="flex items-center px-4 py-2 hover:bg-gray-100">
+        📞 Call Support
+      </a>
+    </div>
   </div>
-</div>
 
-      <a href="#" class="hover:text-gray-200">Notifications</a>
-    </nav>
-
+  <a href="#" class="hover:text-gray-200">Notifications</a>
+</nav>
     <!-- Profile Dropdown -->
     <div class="relative group">
       <button class="flex items-center text-white">
@@ -184,6 +192,23 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
+const contactToggle = document.getElementById("contactDropdownToggle");
+  const contactMenu = document.getElementById("contactDropdownMenu");
+
+  contactToggle.addEventListener("click", function (e) {
+    e.preventDefault();
+    contactMenu.classList.toggle("hidden");
+  });
+
+  // Close dropdown if clicking outside
+  document.addEventListener("click", function (e) {
+    if (
+      !contactToggle.contains(e.target) &&
+      !contactMenu.contains(e.target)
+    ) {
+      contactMenu.classList.add("hidden");
+    }
+  });
 </script>
 
 </body>
