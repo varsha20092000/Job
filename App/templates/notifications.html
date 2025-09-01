@@ -1,496 +1,243 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
-  <title>Notifications</title>
-  <!-- Font Awesome for icons -->
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-  />
-  <style>
-    /* RESET */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f9f9f9;
-      color: #333;
-      overflow: hidden;
-    }
-
-    /* MAIN WRAPPER */
-    .page-wrapper {
-      display: flex;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 20px;
-      gap: 20px;
-    }
-
-    /* LEFT SIDEBAR: PROFILE BOX */
-    .profile-box {
-      width: 250px;
-      background-color: #fff;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      padding: 20px;
-      text-align: center;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      flex-shrink: 0;
-      height:max-content;
-    }
-    /* Avatar in a Blue Circle */
-    .avatar-circle {
-      width: 100px;
-      height: 100px;
-      background-color: #007bff; /* Blue circle */
-      border-radius: 50%;
-      margin: 0 auto 10px auto;
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .avatar-circle img {
-      width: 90px;
-      height: 90px;
-      border-radius: 50%;
-      object-fit: cover;
-    }
-    .profile-name {
-      font-size: 1.1rem;
-      font-weight: bold;
-      margin-bottom: 6px;
-      color: #333;
-    }
-    .profile-location {
-      font-size: 0.9rem;
-      color: #555;
-      margin-bottom: 10px;
-    }
-    .profile-location i {
-      color: red;
-      margin-right: 5px;
-    }
-    .profile-box hr {
-      margin: 10px 0;
-      border: none;
-      border-top: 1px solid #ddd;
-    }
-    .edit-profile {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      color: #333;
-      text-decoration: none;
-      font-size: 0.9rem;
-      margin-top: 6px;
-    }
-    .edit-profile i {
-      color: #333;
-    }
-    .edit-profile:hover {
-      text-decoration: underline;
-    }
-
-    /* MAIN CONTENT (CENTER) + RIGHT ILLUSTRATION */
-    .main-content {
-      flex: 1; 
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-    .top-bar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .top-bar h2 {
-      font-size: 1.2rem;
-      font-weight: bold;
-      color: #333;
-    }
-    .filter-btn {
-      background-color: #007bff;
-      color: #fff;
-      border: none;
-      padding: 8px 12px;
-      border-radius: 4px;
-      font-size: 0.9rem;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .filter-btn i {
-      color: #fff;
-    }
-
-    .content-area {
-      display: flex;
-      gap: 20px;
-    }
-    /* NOTIFICATIONS LIST */
-    .notifications-list {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-    /* Single Notification Card */
-    .notification-card {
-      background-color: #fff;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      padding: 16px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-      transition: box-shadow 0.2s;
-    }
-    .notification-card:hover {
-      box-shadow: 0 3px 6px rgba(0,0,0,0.15);
-    }
-    .notification-card .top-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 8px;
-    }
-    .notification-card h3 {
-      font-size: 1rem;
-      color: #333;
-    }
-    .notification-card .job-code {
-      background-color: #e2f0ff;
-      color: #007bff;
-      padding: 2px 6px;
-      border-radius: 4px;
-      font-size: 0.8rem;
-    }
-    .notification-card .company {
-      font-size: 0.9rem;
-      color: #555;
-      margin-bottom: 4px;
-    }
-    .notification-card .location {
-      font-size: 0.85rem;
-      color: #777;
-      margin-bottom: 4px;
-    }
-    .notification-card .bottom-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 8px;
-    }
-    .notification-card .time {
-      font-size: 0.8rem;
-      color: #999;
-    }
-    .notification-card .applied-badge {
-      background-color: #d1f7d1;
-      color: #28a745;
-      padding: 2px 6px;
-      border-radius: 4px;
-      font-size: 0.8rem;
-    }
-
-    /* RIGHT SIDE ILLUSTRATION OR IMAGE */
-    .illustration {
-      width: 250px;
-      height: 250px;
-      background: url('https://via.placeholder.com/250?text=Illustration') no-repeat center center;
-      background-size: cover;
-      border-radius: 8px;
-      flex-shrink: 0;
-    }
-    .header {
-    background: #007bff; /* Blue Header */
-    padding: 1rem 2rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    color: white;
-}
-
-.header h1 {
-    font-size: 1.5rem;
-    font-weight: bold;
-}
-
-/* Header Right */
-.header-right {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-}
-
-/* Dropdown Styling */
-.dropdown {
-    position: relative;
-    display: inline-block;
-}
-
-.dropbtn {
-    background: none;
-    border: none;
-    color: white;
-    font-size: 1rem;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
-
-/* Dropdown Content */
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background: white;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
-    min-width: 180px;
-    z-index: 10;
-    top: 100%;
-    left: 0;
-}
-
-.dropdown-content a {
-    display: flex;
-    align-items: center;
-    padding: 10px 15px;
-    color: #333;
-    text-decoration: none;
-    gap: 10px;
-    font-size: 0.95rem;
-}
-
-.dropdown-content a:hover {
-    background: #f0f0f0;
-}
-
-/* Show Dropdown on Hover */
-.dropdown:hover .dropdown-content {
-    display: block;
-}
-
-/* Icons inside Dropdown */
-.dropdown-content i {
-    color: #007bff;
-}
-
-/* Avatar */
-.avatar {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-}
-
-/* Notification Button */
-.notification-btn {
-    position: relative;
-}
-
-/* Notification Badge (Red Circle) */
-.notification-badge {
-    background: red;
-    color: white;
-    font-size: 0.8rem;
-    font-weight: bold;
-    border-radius: 50%;
-    width: 18px;
-    height: 18px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    top: -5px;
-    right: -10px;
-}
-a {
-    text-decoration: none;
-}
-
-.illustration {
-  width: 350px;
-  height: 550px;
-  flex-shrink: 0; 
-  margin-top: 100px;
-
-}
-.illustration img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* Keeps image aspect ratio, cropping if needed */
-  border-radius: 8px;
-   /* Rounds corners */
-   margin-bottom: 1100px;
-
-}
-
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{% static 'App/static/css/notification.css' %}">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Jobs Page</title>
 </head>
+
 <body>
-    <div class="header">
-        <h1>JOB 365</h1>
-        <div class="header-right">
-            <a href="{% url 'companyhome' %}">Home</a>
-    
-            <!-- Jobs Dropdown -->
-            <div class="dropdown">
-                <button class="dropbtn">Jobs <i class="fa-solid fa-caret-down"></i></button>
-                <div class="dropdown-content">
-                  <a href="{% url 'job_details_blank' %}"><i class="fa-solid fa-briefcase"></i> Posted Jobs</a>
+<!-- Header Section -->
+<header class="bg-blue-700 text-white p-4 flex justify-between items-center fixed top-0 left-0 w-full z-50 shadow-md">
+  <!-- Logo -->
+  <div class="text-2xl font-bold">
+    <a href="{% url 'companyhome' %}" class="text-white hover:text-gray-200">
+      JOB 365
+    </a>
+  </div>
 
-                    <a href="{% url 'employee_details' %}"><i class="fa-solid fa-user-tie"></i> Employee Details</a>
-                </div>
-            </div>
-    
-            <!-- Payment Dropdown -->
-            <div class="dropdown">
-                <button class="dropbtn">Payment <i class="fa-solid fa-caret-down"></i></button>
-                <div class="dropdown-content">
-                    <a href="{% url 'employee_payment' %}"><i class="fa-solid fa-user"></i> Employee Payment</a>
-                    <a href="{% url 'tax_payment' %}"><i class="fa-solid fa-money-bill-wave"></i> Tax Payment</a>
-                    <a href="{% url 'total_payment' %}"><i class="fa-solid fa-coins"></i> Total Payment</a>
-                </div>
-            </div>
-    
-            <!-- Certificate Dropdown -->
-            <div class="dropdown">
-                <button class="dropbtn">Certificate <i class="fa-solid fa-caret-down"></i></button>
-                <div class="dropdown-content">
-                    <a href="{% url 'requested_certificates' %}"><i class="fa-solid fa-file-alt"></i> Employee Certificate</a>
-                    <a href="{% url 'certificate_detail' 1 %}">
-                        <i class="fa-solid fa-award"></i> Show Certificates
-                    </a>
-                    
-                </div>
-            </div>
-    
-            <!-- Contact Dropdown -->
-            <div class="dropdown">
-                <button class="dropbtn">Contact <i class="fa-solid fa-caret-down"></i></button>
-                <div class="dropdown-content">
-                    <a href="{% url 'email_support' %}"><i class="fa-solid fa-envelope"></i> Email Support</a>
-                    <a href="{% url 'call_support' %}"><i class="fa-solid fa-phone"></i> Call Support</a>
-                </div>
-            </div>
-    
-            <!-- Notifications with Badge -->
-            <div class="dropdown">
-                <button class="dropbtn notification-btn">
-                  Notification 
-                  <span class="notification-badge">6</span> 
-                  <i class="fa-solid fa-caret-down"></i>
-                </button>
-                <div class="dropdown-content">
-                  <!-- Existing notifications -->
-                  <a href="#"><i class="fa-solid fa-bell"></i> Job application received</a>
-                  <a href="#"><i class="fa-solid fa-bell"></i> Interview scheduled</a>
-                  <a href="#"><i class="fa-solid fa-bell"></i> Job approved</a>
-                  <a href="#"><i class="fa-solid fa-bell"></i> Payment completed</a>
-                  <a href="#"><i class="fa-solid fa-bell"></i> New applicant</a>
-                  <a href="#"><i class="fa-solid fa-bell"></i> Certificate issued</a>
-              
-                  <!-- Add a "View All" link that navigates to the notifications page -->
-                  <hr>
-                  <a href="{% url 'compnotifications' %}" style="font-weight: bold;">
-                    <i class="fa-solid fa-bell"></i> View All Notifications
-                  </a>
-                </div>
-              </div>
-              
-    
-            <!-- User Profile Dropdown -->
-            <div class="dropdown">
-                <button class="dropbtn user-btn">
-                    <img src="https://www.w3schools.com/w3images/avatar2.png" alt="Profile Avatar" class="avatar">
-                    <i class="fa-solid fa-caret-down"></i>
-                </button>
-                <div class="dropdown-content">
-                    <a href="{% url 'profile' %}"><i class="fa-solid fa-user"></i> Profile</a>
-                    <a href="{% url 'login' %}"><i class="fa-solid fa-sign-out-alt"></i> Logout</a>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    
-  <div class="page-wrapper">
-    <!-- LEFT SIDEBAR: PROFILE BOX -->
-    <div class="profile-box">
-      <div class="avatar-circle">
-        <img src="{{ profile.avatar_url }}" alt="Profile Avatar">
-      </div>
-      <div class="profile-name">{{ profile.name }}</div>
-      <div class="profile-location">
-        <i class="fas fa-map-marker-alt"></i> {{ profile.location }}
-      </div>
-      <hr>
-      <a href="#" class="edit-profile">
-        <i class="fas fa-edit"></i> Edit Profile
-      </a>
-    </div>
+  <!-- Navigation -->
+  <div class="flex items-center gap-6">
+    <nav class="hidden md:flex items-center space-x-6">
+      
+      <!-- Home -->
+      <a href="{% url 'companyhome' %}" class="hover:text-gray-200">Home</a>
 
-    <!-- MAIN CONTENT -->
-    <div class="main-content">
-      <!-- Top Bar with Title and Filter Button -->
-      <div class="top-bar">
-        <h2>Lorem ipsum</h2>
-        <button class="filter-btn">
-          <i class="fas fa-filter"></i> Filter
+      <!-- Jobs Dropdown -->
+      <div class="relative group">
+        <button class="hover:text-gray-200 font-medium flex items-center gap-1">
+          Jobs
+          <i class="fa-solid fa-caret-down text-white"></i>
         </button>
+        <div class="absolute right-0 mt-2 bg-white text-black shadow-md rounded-lg w-48 hidden group-hover:block z-50">
+          <a href="{% url 'job_details_blank' %}" class="block px-4 py-2 hover:bg-gray-100"><i class="fa-solid fa-briefcase"></i> Posted Jobs</a>
+          <a href="{% url 'employee_details' %}" class="block px-4 py-2 hover:bg-gray-100"><i class="fa-solid fa-user-tie"></i> Employee Details</a>
+        </div>
       </div>
 
-      <!-- Content Area: Notifications + Right Illustration -->
-      <div class="content-area">
-        <div class="notifications-list">
-          {% for note in notifications %}
-          <div class="notification-card">
-            <div class="top-row">
-              <h3>{{ note.title }}</h3>
-              <span class="job-code">Job code: {{ note.job_code }}</span>
-            </div>
-            <p class="company">{{ note.company }}</p>
-            <p class="location">{{ note.location }}</p>
-            <div class="bottom-row">
-              <span class="time">{{ note.time }}</span>
-              <span class="applied-badge">
-                <a href="{% url 'applicants_list' note.job_code %}">
-                  {{ note.applied_count }}
-                </a>
-              </span>
-            </div>
-          </div>
-          {% endfor %}
+      <!-- Payment Dropdown -->
+      <div class="relative group">
+        <button class="hover:text-gray-200 font-medium flex items-center gap-1">
+          Payment
+          <i class="fa-solid fa-caret-down text-white"></i>
+        </button>
+        <div class="absolute right-0 mt-2 bg-white text-black shadow-md rounded-lg w-48 hidden group-hover:block z-50">
+          <a href="{% url 'employee_payment' %}" class="block px-4 py-2 hover:bg-gray-100"><i class="fa-solid fa-user"></i> Employee Payment</a>
+          <a href="{% url 'tax_payment' %}" class="block px-4 py-2 hover:bg-gray-100"><i class="fa-solid fa-money-bill-wave"></i> Tax Payment</a>
+          <a href="{% url 'total_payment' %}" class="block px-4 py-2 hover:bg-gray-100"><i class="fa-solid fa-coins"></i> Total Payment</a>
         </div>
+      </div>
 
-        <!-- Right side space for an image or illustration -->
-       <!-- Right side space for an image or illustration -->
-<div class="illustration">
-    <img src="{% static  'images/not.png' %}" 
-         alt="Description of the image">
+      <!-- Certificate Dropdown -->
+      <div class="relative group">
+        <button class="hover:text-gray-200 font-medium flex items-center gap-1">
+          Certificate
+          <i class="fa-solid fa-caret-down text-white"></i>
+        </button>
+        <div class="absolute right-0 mt-2 bg-white text-black shadow-md rounded-lg w-48 hidden group-hover:block z-50">
+          <a href="{% url 'requested_certificates' %}" class="block px-4 py-2 hover:bg-gray-100"><i class="fa-solid fa-file-alt"></i> Employee Certificate</a>
+          <a href="{% url 'certificate_detail' 1 %}" class="block px-4 py-2 hover:bg-gray-100"><i class="fa-solid fa-award"></i> Show Certificates</a>
+        </div>
+      </div>
+
+      <!-- Contact Dropdown -->
+      <div class="relative group">
+        <button class="hover:text-gray-200 font-medium flex items-center gap-1">
+          Contact
+          <i class="fa-solid fa-caret-down text-white"></i>
+        </button>
+        <div class="absolute right-0 mt-2 bg-white text-black shadow-md rounded-lg w-48 hidden group-hover:block z-50">
+          <a href="{% url 'email_support' %}" class="block px-4 py-2 hover:bg-gray-100"><i class="fa-solid fa-envelope"></i> Email Support</a>
+          <a href="{% url 'call_support' %}" class="block px-4 py-2 hover:bg-gray-100"><i class="fa-solid fa-phone"></i> Call Support</a>
+        </div>
+      </div>
+
+      <!-- Notifications Dropdown -->
+      <div class="relative group">
+        <button class="flex items-center gap-1 hover:text-gray-200 notification-btn">
+          Notification
+          <span class="notification-badge">{{ unread_count }}</span>
+
+          <i class="fa-solid fa-caret-down text-white"></i>
+        </button>
+        <div class="absolute right-0 mt-2 bg-white text-black shadow-md rounded-lg w-64 hidden group-hover:block z-50 notifications-dropdown">
+          {% for note in notifications %}
+            <div class="px-4 py-2 border-b {% if not note.is_read %}bg-gray-100{% endif %}">
+              <p class="font-medium">{{ note.message }}</p>
+              <span class="text-sm text-gray-500">{{ note.created_at|date:"M d, Y H:i" }}</span>
+            </div>
+          {% endfor %}
+          <hr>
+          <a href="{% url 'compnotifications' %}" class="block px-4 py-2 font-bold hover:bg-gray-100">
+            <i class="fa-solid fa-bell"></i> View All Notifications
+          </a>
+        </div>
+      </div>
+
+      <!-- Profile Dropdown -->
+      <div class="relative group">
+        <button class="flex items-center text-white gap-2">
+          <img src="https://www.w3schools.com/w3images/avatar2.png" alt="Profile Avatar" class="w-10 h-10 rounded-full">
+          <span class="font-semibold">{{ request.user.username }}</span>
+          <i class="fa-solid fa-caret-down"></i>
+        </button>
+        <div class="absolute right-0 mt-2 bg-white shadow-md rounded-lg w-48 hidden group-hover:block z-50">
+          <a href="{% url 'profile_form' %}" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Profile</a>
+          <a href="{% url 'login' %}" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Logout</a>
+        </div>
+      </div>
+
+    </nav>
   </div>
-  
+</header>
+
+<!-- Main Container -->
+<main class="flex justify-center items-start min-h-screen bg-gray-50 pt-28 pb-10">
+  <div class="middle-panel w-full max-w-6xl h-[80vh] overflow-y-auto p-10 bg-white rounded-2xl shadow-xl transform transition-all duration-500 hover:scale-[1.005]">
+
+    <!-- Header with animation -->
+    <div class="flex justify-between items-center mb-8 border-b pb-4">
+      <h2 class="text-3xl font-bold text-gray-800 animate-fadeIn">
+        🔔 Notifications ({{ notifications_count }})
+      </h2>
+      <!-- Search Bar -->
+      <div class="relative w-1/3">
+        <input type="text" id="searchInput" placeholder="Search notifications..."
+          class="border rounded-full px-5 py-3 w-full text-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300">
+        <span class="absolute right-4 top-3 text-gray-400">🔍</span>
       </div>
     </div>
+
+    <!-- Tabs -->
+    <div class="flex gap-8 mb-6 border-b pb-3">
+      <button class="tab-btn font-semibold text-blue-600 border-b-2 border-blue-600 pb-1 text-lg" data-target="all">All</button>
+      <button class="tab-btn text-gray-600 hover:text-blue-500 transition text-lg" data-target="favorites">Favorites ({{ favorites.count }})</button>
+      <button class="tab-btn text-gray-600 hover:text-blue-500 transition text-lg" data-target="archive">Archive ({{ archive.count }})</button>
+    </div>
+
+    <!-- All Notifications -->
+    <div id="all" class="space-y-5 notification-list">
+      {% for note in notifications %}
+      <div
+        class="flex justify-between items-center p-5 border rounded-xl bg-gradient-to-r from-blue-50 to-white hover:shadow-lg transition duration-300 animate-slideUp">
+        <div class="flex items-start space-x-4">
+          <!-- Favorite Button -->
+          <form method="post" action="{% url 'toggle_favorite' note.id %}">
+            {% csrf_token %}
+            <button type="submit" class="favorite-btn text-yellow-500 text-xl hover:scale-125 transition">
+              {% if note.is_favorite %}⭐{% else %}☆{% endif %}
+            </button>
+          </form>
+
+          <div>
+            <p class="font-medium text-lg text-gray-800">{{ note.message }}</p>
+            <p class="text-sm text-gray-500">{{ note.get_type_display }}</p>
+          </div>
+        </div>
+        <span class="text-sm text-gray-400">{{ note.created_at|date:"M d, Y H:i" }}</span>
+      </div>
+      {% empty %}
+      <p class="text-center text-gray-500 italic animate-fadeIn">No notifications yet 🎉</p>
+      {% endfor %}
+    </div>
+
+    <!-- Favorites -->
+    <div id="favorites" class="hidden space-y-5 notification-list">
+      {% for note in favorites %}
+      <div
+        class="flex justify-between items-center p-5 border rounded-xl bg-yellow-50 hover:shadow-md transition animate-slideUp">
+        <div class="text-lg">{{ note.message }}</div>
+        <span class="text-sm text-gray-400">{{ note.created_at|timesince }} ago</span>
+      </div>
+      {% empty %}
+      <p class="text-center text-gray-500 italic">No favorite notifications ⭐</p>
+      {% endfor %}
+    </div>
+
+    <!-- Archive -->
+    <div id="archive" class="hidden space-y-5 notification-list">
+      {% for note in archive %}
+      <div
+        class="flex justify-between items-center p-5 border rounded-xl bg-gray-100 hover:bg-gray-200 transition animate-slideUp">
+        <div class="text-lg">{{ note.message }}</div>
+        <span class="text-sm text-gray-400">{{ note.created_at|date:"M d, Y H:i" }}</span>
+      </div>
+      {% empty %}
+      <p class="text-center text-gray-500 italic">No archived notifications 🗂️</p>
+      {% endfor %}
+    </div>
   </div>
+</main>
+
+<!-- Extra CSS Animations -->
+<style>
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fadeIn { animation: fadeIn 0.6s ease-out; }
+.animate-slideUp { animation: slideUp 0.5s ease-out; }
+</style>
+
 
   <script>
-    // Example JS if you want to handle the Filter button
-    document.addEventListener('DOMContentLoaded', () => {
-      const filterBtn = document.querySelector('.filter-btn');
-      filterBtn.addEventListener('click', () => {
-        alert('Filter not implemented yet.');
-      });
+document.addEventListener("DOMContentLoaded", () => {
+  const tabs = document.querySelectorAll(".tab-btn");
+  const lists = document.querySelectorAll(".notification-list");
+  const searchInput = document.getElementById("searchInput");
+
+  // Tab switching
+  tabs.forEach(tab => {
+    tab.addEventListener("click", () => {
+      const target = tab.getAttribute("data-target");
+
+      tabs.forEach(t => t.classList.remove("text-blue-600", "font-semibold"));
+      tab.classList.add("text-blue-600", "font-semibold");
+
+      lists.forEach(list => list.classList.add("hidden"));
+      document.getElementById(target).classList.remove("hidden");
     });
-  </script>
+  });
+
+  // Search filter
+  searchInput.addEventListener("keyup", () => {
+    const query = searchInput.value.toLowerCase();
+    document.querySelectorAll(".notification-list div").forEach(item => {
+      const text = item.innerText.toLowerCase();
+      item.style.display = text.includes(query) ? "" : "none";
+    });
+  });
+});
+</script>
+
 </body>
+
 </html>

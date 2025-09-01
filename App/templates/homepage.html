@@ -302,13 +302,19 @@
       </div>
         <!-- Notifications with Badge and Dropdown -->
         <div class="relative group">
-  <a href="{% url 'notifications' %}" class="flex items-center text-white relative">
+ <a href="{% url 'notifications' %}" class="flex items-center text-white relative">
     <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-        d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 10-12 0v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 10-12 0v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
     </svg>
-    <span class="absolute -top-1 -right-2 bg-red-500 text-white text-xs font-bold px-1.5 py-0.5 rounded-full">6</span>
-  </a>
+
+    {% if unread_count > 0 %}
+    <span class="absolute -top-1 -right-2 bg-red-500 text-white text-xs font-bold px-1.5 py-0.5 rounded-full">
+        {{ unread_count }}
+    </span>
+    {% endif %}
+</a>
+
 
   <!-- Optional: Dropdown preview (still shows on hover) -->
   <div id="notificationDropdown" class="absolute right-0 mt-2 bg-white shadow-md rounded-lg w-64 hidden group-hover:block z-50">
@@ -345,51 +351,56 @@
     <div class="grid grid-cols-12 gap-4">
 <!-- Filter Section -->
     <aside class="col-span-3 bg-white shadow rounded-lg p-4 overflow-y-auto max-h-[90vh]">
-  <div class="flex justify-between items-center mb-4">
-    <h2 class="text-lg font-semibold flex items-center">
-      <i class="fas fa-filter mr-2 text-indigo-600"></i> Filters
-    </h2>
-    <button id="clearFilters" class="text-sm text-blue-500 hover:underline">Clear</button>
-  </div>
-  <hr class="border-gray-300 mb-4">
-<!-- Job Posted Date -->
-  <div class="mb-4">
-    <h3 class="text-sm font-semibold mb-2">Job Posted Date</h3>
-    {% for label in date_labels %}
+  <form method="get">
+  <!-- Job Posted Date -->
+  <!-- Job Posted Date -->
+<div class="mb-4">
+  <h3 class="text-sm font-semibold mb-2">Job Posted Date</h3>
+  <label class="flex items-center mb-2">
+    <input type="checkbox" name="date" value="All"
+      {% if "All" in selected_dates %}checked{% endif %}>
+    All
+  </label>
+  {% for label in date_labels %}
     <label class="flex items-center mb-2">
-      <input type="checkbox" name="date" data-group="date" class="mr-2"> {{ label }}
+      <input type="checkbox" name="date" value="{{ label }}"
+        {% if label in selected_dates %}checked{% endif %}>
+      {{ label }}
     </label>
-    {% endfor %}
-  </div>
+  {% endfor %}
+</div>
 
   <!-- Job Type -->
-  <div class="mb-4">
-    <h3 class="text-sm font-semibold mb-2">Job Type</h3>
-    {% for type in job_types %}
-    <label class="flex items-center mb-2">
-      <input type="checkbox" name="type" data-group="type" class="mr-2"> {{ type }}
-    </label>
-    {% endfor %}
-  </div>
+ <div class="mb-4">
+  <h3 class="text-sm font-semibold mb-2">Job Type</h3>
+  {% for type in job_types %}
+  <label class="flex items-center mb-2">
+    <input type="radio" name="type" value="{{ type }}" class="job-type-radio"
+           {% if type == selected_type %}checked{% endif %}>
+    {{ type }}
+  </label>
+  {% endfor %}
+</div>
+
+
 
   <!-- Location -->
   <div class="mb-4">
     <h3 class="text-sm font-semibold mb-2">Location</h3>
     {% for loc in locations %}
-    <label class="flex items-center mb-2">
-      <input type="checkbox" name="location" data-group="location" class="mr-2"> {{ loc }}
-    </label>
+      <label class="flex items-center mb-2">
+        <input type="checkbox" name="location" value="{{ loc }}"
+          {% if loc in selected_locations %}checked{% endif %}> {{ loc }}
+      </label>
     {% endfor %}
   </div>
 
-  <!-- Wage Details -->
-  <div class="mb-6">
-    <h3 class="text-sm font-semibold mb-2">Wage Details/Hour</h3>
-    <input type="range" min="300" max="1000" class="w-full">
-  </div>
-
   <!-- Submit -->
-  <button class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition">Show Results</button>
+  <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition">
+    Show Results
+  </button>
+</form>
+
 </aside>
 
 <!-- Middle Section -->
@@ -403,22 +414,30 @@
   </div>
 
   <!-- Search Section -->
-  <div class="flex items-center gap-2 mb-4">
-    <input type="text" placeholder="Search jobs by title, company, or skill" class="border border-gray-300 rounded w-full py-2 px-3">
-    <button class="bg-blue-500 text-white py-2 px-4 rounded">Search</button>
-    <div class="relative">
-      <div class="relative inline-block text-left">
-        <button id="sortButton" class="bg-white border border-blue-500 text-blue-500 py-2 px-4 rounded flex items-center gap-1">
-          Sort by ▼
-        </button>
-        <div id="dropdownMenu" class="hidden absolute mt-2 w-48 bg-white border border-gray-300 rounded shadow-lg z-10">
-          <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-blue-100">Recent Jobs</a>
-          <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-blue-100">Highest Hourly Rate</a>
-          <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-blue-100">More Vacancy Work</a>
-        </div>
-      </div>
-    </div>
+<form id="searchSortForm" method="get" class="flex items-center gap-2 mb-4">
+  <input type="text" name="q" placeholder="Search jobs by title, company, or skill" 
+         class="border border-gray-300 rounded w-full py-2 px-3" 
+         value="{{ request.GET.q|default:'' }}">
+  <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded">Search</button>
+
+<!-- Sort dropdown -->
+  <div class="relative inline-block text-left z-50">
+  <button type="button" id="sortButton" 
+          class="bg-white border border-blue-500 text-blue-500 py-2 px-4 rounded flex items-center gap-1">
+    Sort by ▼
+  </button>
+  <div id="dropdownMenu" class="hidden absolute mt-2 w-48 bg-white border border-gray-300 rounded shadow-lg z-50">
+    <a href="#" class="sort-option block px-4 py-2 text-gray-700 hover:bg-blue-100" data-sort="recent">Recent Jobs</a>
+    <a href="#" class="sort-option block px-4 py-2 text-gray-700 hover:bg-blue-100" data-sort="oldest">Oldest Jobs</a>
+    <a href="#" class="sort-option block px-4 py-2 text-gray-700 hover:bg-blue-100" data-sort="vacancy">Most Vacancy Jobs</a>
   </div>
+</div>
+
+
+  <!-- Hidden input for sort -->
+  <input type="hidden" name="sort" id="sortInput" value="{{ sort }}">
+</form>
+
 
   <!-- Job Listings -->
   <div class="w-full space-y-4 overflow-y-auto pr-2">
@@ -519,7 +538,7 @@
           <button onclick="sendMessage()">Send</button>
       </div>
   </div>
- <script>
+<script>
 document.addEventListener("DOMContentLoaded", function () {
   // === FILTER SECTION ===
   const filterGroups = ['date', 'job-type', 'location', 'timing'];
@@ -539,14 +558,38 @@ document.addEventListener("DOMContentLoaded", function () {
     document.querySelector('input[type="range"]').value = 300;
   });
 
-  // === DROPDOWN TOGGLE ===
+  // === SORT DROPDOWN ===
   const sortButton = document.getElementById('sortButton');
   const dropdownMenu = document.getElementById('dropdownMenu');
+  const sortInput = document.getElementById('sortInput');
+
+  // Toggle dropdown visibility
   sortButton?.addEventListener('click', () => dropdownMenu.classList.toggle('hidden'));
+
   document.addEventListener('click', (e) => {
     if (!sortButton.contains(e.target) && !dropdownMenu.contains(e.target)) {
       dropdownMenu.classList.add('hidden');
     }
+  });
+
+  // Handle sort option clicks
+  document.querySelectorAll('.sort-option').forEach(item => {
+    item.addEventListener('click', function(e) {
+      e.preventDefault();
+      if (sortInput) {
+        sortInput.value = this.dataset.sort;  // set hidden input value
+      } else {
+        // Create hidden input if not exists
+        const form = document.getElementById('searchSortForm');
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'sort';
+        input.id = 'sortInput';
+        input.value = this.dataset.sort;
+        form.appendChild(input);
+      }
+      document.getElementById('searchSortForm').submit(); // submit the form
+    });
   });
 
   // === CONTACT DROPDOWN ===
@@ -588,9 +631,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   };
 
-  // === SHOW MORE (CHOOSE ONE BELOW) ===
-
-  // Option 1: AJAX using jQuery (if you're using jQuery)
+  // === SHOW MORE (jQuery AJAX) ===
   $('#show-more').click(function () {
     const button = $(this);
     const page = button.data('page');
@@ -608,32 +649,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  // OR Option 2: Fetch API (if using modern fetch)
-  /*
-  let currentPage = 1;
-  document.getElementById('show-more')?.addEventListener('click', function () {
-    currentPage++;
-    fetch(`/api/jobs?page=${currentPage}`)
-      .then(res => res.json())
-      .then(data => {
-        const jobContainer = document.getElementById('job-container');
-        if (data.jobs.length === 0) {
-          this.style.display = 'none';
-        }
-        data.jobs.forEach(job => {
-          const jobCard = `
-            <div class="bg-white p-4 rounded shadow mb-4">
-              <h3 class="font-bold">${job.title}</h3>
-              <p>${job.company} - ${job.location}</p>
-              <p>${job.description}</p>
-            </div>`;
-          jobContainer.insertAdjacentHTML('beforeend', jobCard);
-        });
-      });
-  });
-  */
-
-  // === OPTIONAL: Toggle Additional Jobs Section
+  // === OPTIONAL: Toggle Additional Jobs Section ===
   const addJobs = document.querySelector('.additional-jobs');
   const showBtn = document.getElementById('show-more');
   if (addJobs && showBtn) {
@@ -643,8 +659,8 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 });
-
 </script>
+
 
 </body>
 </html>

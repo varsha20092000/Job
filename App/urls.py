@@ -29,7 +29,7 @@ urlpatterns = [
     path("companyhome/",views.companyhome,name="companyhome"),
      path("company/job-details/", views.job_list_with_first_job, name="job_details_blank"),
     path("company/job-details/<int:job_id>/", views.compjob_details, name="job_details"),
-   
+   path('notifications/mark-read/', views.mark_notifications_read, name='mark_notifications_read'),
 
     path("post-job/", views.post_job, name="post_job"),
     path("employee-details/", views.employee_details, name="employee_details"), 
@@ -57,7 +57,8 @@ urlpatterns = [
 path('jobseeker/job/<int:job_id>/recruit-action/', views.applied_jobs_with_recruiter_action, name='recruiter_action'),
 
     path('job/<int:job_id>/applicants/', views.view_applicants, name='view_applicants'),
-    path('job/<int:job_id>/applicant/<int:user_id>/', views.view_applicant_detail, name='view_applicant_detail'),
+   path("job/<int:job_id>/applicant/<int:application_id>/", views.view_applicant_detail, name="view_applicant_detail"),
+
     path('job/<int:job_id>/edit/', views.edit_job, name='edit_job'),
 path('job/<int:job_id>/delete/', views.delete_job, name='delete_job'),
   path('support/email/', views.email_support, name='email_support'),
@@ -65,7 +66,7 @@ path('job/<int:job_id>/delete/', views.delete_job, name='delete_job'),
 
 path('filtered-jobs/', views.filtered_jobs, name='filtered_jobs'),
  path('jobemail-support/', views.jobemail_support, name='jobemail_support'),
-  path('filtered-jobs/', views.filtered_jobs, name='filtered_jobs'),
+ 
 path('jobcall-support/', views.jobcall_support_view, name='jobcall_support'),
  path("forgot-password/", views.forgot_password, name="forgot_password"),
     path("verify-otp/", views.verify_otp, name="verify_otp"),
@@ -73,5 +74,8 @@ path('jobcall-support/', views.jobcall_support_view, name='jobcall_support'),
       path('about-us/', views.about_us, name='about_us'),
         path('terms-of-use/', views.terms_of_use, name='terms_of_use'),
     path('privacy-policy/', views.privacy_policy, name='privacy_policy'),
+    path("notifications/<int:note_id>/favorite/", views.toggle_favorite, name="toggle_favorite"),
+path("notifications/<int:note_id>/archive/", views.archive_notification, name="archive_notification"),
+
 ]+static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

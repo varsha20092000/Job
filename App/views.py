@@ -203,11 +203,10 @@ def companyhome(request):
     jobs = Job.objects.filter(user=request.user).order_by('-posted_date')
 
     for job in jobs:
-        job.applicant_count = JobApplication.objects.filter(job=job).values('user').distinct().count()
-
-    paginator = Paginator(jobs, 3)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
+       
+        paginator = Paginator(jobs, 3)
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
 
     return render(request, 'comphome.html', {
         'jobs': jobs,
@@ -246,25 +245,88 @@ def subscription_plans(request):
 
 def payment_options(request):
     return render(request, 'payment_options.html')
+from datetime import date, timedelta
+from django.core.paginator import Paginator
+from django.db.models import Q
+
 def home(request):
-    job_list = Job.objects.filter(status='Active').order_by('-created_at')
-    paginator = Paginator(job_list, 3)
+    jobs = Job.objects.filter(status='Active')
+
+    # --- Filters ---
+    selected_type = request.GET.get('type')  
+    selected_locations = request.GET.getlist('location')  
+    selected_dates = request.GET.getlist('date')  
+    sort = request.GET.get('sort', '')  
+    search_query = request.GET.get('q', '').strip()  
+
+    # Job Type filter
+    if selected_type and selected_type != 'Other':
+        jobs = jobs.filter(job_type=selected_type)
+
+    # Location filter
+    if selected_locations:
+        jobs = jobs.filter(location__in=selected_locations)
+
+    # Date filter
+    if selected_dates and "All" not in selected_dates:
+        today = date.today()
+        q_date = Q()
+        for label in selected_dates:
+            if label == "Today":
+                q_date |= Q(created_at__date=today)
+            elif label == "Less than 10 days":
+                q_date |= Q(created_at__gte=today - timedelta(days=10))
+            elif label == "More than 10 days":
+                q_date |= Q(created_at__lt=today - timedelta(days=10))
+        jobs = jobs.filter(q_date)
+
+    # Search filter
+    if search_query:
+        jobs = jobs.filter(
+            Q(job_name__icontains=search_query) |
+            Q(company_name__icontains=search_query) |
+            Q(skills__icontains=search_query)
+        )
+
+    # Sort
+    if sort == 'recent':
+        jobs = jobs.order_by('-created_at')
+    elif sort == 'oldest':
+        jobs = jobs.order_by('created_at')
+    elif sort == 'vacancy':
+        jobs = jobs.order_by('-vacancies')
+    else:
+        jobs = jobs.order_by('-created_at')
+
+    # Pagination
+    paginator = Paginator(jobs, 3)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
+
+    # Sidebar options
     date_labels = ["Today", "Less than 10 days", "More than 10 days"]
-    job_types = ["Physical work", "Office work", "IT work", "Kitchen work", "Field work", "Health work", "Other"]
-    locations = ["Kochi", "Idukki", "Kozhikode", "Bangalore", "Malappuram", "Thiruvanathapuram", "Pathnamthitta"]
-    # Show ALL active jobs (including ones in page_obj)
-    suggested_jobs = Job.objects.filter(status='Active').order_by('-created_at')
+    job_types = ["Physical work", "Office work", "IT work", "Kitchen work",
+                 "Field work", "Health work", "Other"]
+    locations = ["Ernakulam", "Thiruvananthapuram", "Thrissur", "Malappuram",
+                 "Kozhikode", "Idukki", "Pathanamthitta", "Kollam",
+                 "Palakkad", "Wayanad", "Kannur", "Kasaragod"]
+
+    unread_count = Notification.objects.filter(user=request.user, is_read=False).count()
 
     return render(request, 'homepage.html', {
         'page_obj': page_obj,
-        'all_jobs': suggested_jobs,
+        'all_jobs': jobs,
         'date_labels': date_labels,
         'job_types': job_types,
         'locations': locations,
-        
+        'unread_count': unread_count,
+        'selected_type': selected_type,
+        'selected_locations': selected_locations,
+        'selected_dates': selected_dates,
+        'search_query': search_query,
+        'sort': sort,
     })
+
 
 from django.shortcuts import get_object_or_404
 
@@ -371,8 +433,24 @@ def update_profile(request):
 
 def certificate(request):
     return render(request, 'certificate.html')  
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render
+from .models import JobApplication,Notification
+
+@login_required
 def notifications(request):
-    return render(request, 'notification.html')
+    notifications = Notification.objects.filter(user=request.user, is_archived=False).order_by("-created_at")
+    favorites = notifications.filter(is_favorite=True)
+    archive = Notification.objects.filter(user=request.user, is_archived=True)
+    # Mark all unread notifications as read
+    notifications.filter(is_read=False).update(is_read=True)
+    return render(request, "notification.html", {
+        "notifications": notifications,
+        "favorites": favorites,
+        "archive": archive,
+        "notifications_count": notifications.count(),
+    })
+
 from django.core.paginator import Paginator
 from .models import Job, JobApplication
 from django.contrib.auth.decorators import login_required
@@ -815,69 +893,14 @@ def certificate_of_achievement_view(request, employee_id):
 from django.shortcuts import render
 
 def notifications_view(request):
-    profile = {
-        "name": "Priya Suresh",
-        "avatar_url": "https://www.w3schools.com/howto/img_avatar2.png",
-        "location": "Kochi, Kerala",
-    }
+    Notification.objects.filter(user=request.user, is_read=False).update(is_read=True)
 
-    # Example data for 6 notifications (customize as you like)
-    notifications = [
-        {
-            "title": "Job application received",
-            "company": "Abcd Technologies Pvt Ltd.",
-            "location": "Calicut, Kerala",
-            "job_code": "1234",
-            "applied_count": "9 Applied",
-            "time": "Today"
-        },
-        {
-            "title": "Interview scheduled",
-            "company": "Mck Technologies Pvt ltd.",
-            "location": "Calicut, Kerala",
-            "job_code": "0002",
-            "applied_count": "8 Applied",
-            "time": "Today"
-        },
-        {
-            "title": "Junior Developer",
-            "company": "Mck Technologies Pvt ltd.",
-            "location": "Calicut, Kerala",
-            "job_code": "0002",
-            "applied_count": "8 Applied",
-            "time": "Yesterday"
-        },
-        {
-            "title": "Job Applied",
-            "company": "Abcd Technologies Pvt Ltd.",
-            "location": "Kochi, Kerala",
-            "job_code": "4567",
-            "applied_count": "3 Applied",
-            "time": "2 Days Ago"
-        },
-        {
-            "title": " Payment completed",
-            "company": "Mck Technologies Pvt ltd.",
-            "location": "Calicut, Kerala",
-            "job_code": "9876",
-            "applied_count": "10 Applied",
-            "time": "Last Week"
-        },
-        {
-            "title": " New applicant",
-            "company": "Abcd Technologies Pvt Ltd.",
-            "location": "Calicut, Kerala",
-            "job_code": "1122",
-            "applied_count": "5 Applied",
-            "time": "Last Month"
-        },
-    ]
-
+    notifications = Notification.objects.filter(user=request.user).order_by("-created_at")
     return render(request, "notifications.html", {
-        "profile": profile,
-        "notifications": notifications
+        
+        "notifications": notifications,
+       
     })
-
 def applicants_view(request, job_code):
     # Example data: map each job_code to a list of applicant dicts
     APPLICANTS_DATA = {
@@ -1421,7 +1444,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from admin_panel.models import AdminJobApplication
 import traceback
-
+from datetime import datetime
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import Job, JobApplication, Profile, Education
@@ -1430,7 +1453,7 @@ from django.http import HttpResponseForbidden
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, render
 from .models import Job, JobApplication, Profile, Education, SavedJob
-from .forms import JobApplicationForm
+from .models import Education, Experience
 @login_required
 def apply_for_job(request, job_id):
     job = get_object_or_404(Job, id=job_id)
@@ -1450,22 +1473,49 @@ def apply_for_job(request, job_id):
             application.job_name = job.job_name
             application.company_name = job.company_name
             application.status = 'Applied'
-            application.save()
 
-            # update profile
-            profile = Profile.objects.get(user=request.user)
-            profile.phone = request.POST.get('phone')
-            profile.gender = request.POST.get('gender')
-            profile.dob = request.POST.get('dob')
-            profile.address = request.POST.get('place')
-            profile.age = request.POST.get('age')
-            profile.profile_picture = request.FILES.get('avatar')
+            # Save applicant info into JobApplication
+            application.full_name = request.POST.get('full_name')
+            application.email = request.POST.get('email')
+            application.phone_number = request.POST.get('phone_number')
 
+            application.age = request.POST.get('age')
+            application.gender = request.POST.get('gender')
+            dob_str = request.POST.get('dob')
+            if dob_str:
+                try:
+                    application.dob = datetime.strptime(dob_str, "%Y-%m-%d").date()
+                except ValueError:
+                    application.dob = None
+            application.place = request.POST.get('place')
+
+            application.skills = request.POST.get('skills')
+            
+            application.cover_letter = request.POST.get('cover_letter')
             if request.FILES.get('resume'):
-                profile.resume = request.FILES.get('resume')
-            profile.save()
+                application.resume = request.FILES.get('resume')
+            application.save()
+            print("DEBUG POST phone_number:", request.POST.get("phone_number"))
+            print("DEBUG about to save:", application.phone_number)
 
-            # education
+            # Notifications
+                # Jobseeker notification
+            Notification.objects.create(
+                user=request.user,
+                message=f"You successfully applied for {job.job_name} at {job.company_name}",
+                type="jobseeker_applied"
+            )
+
+            # Company notification
+            Notification.objects.create(
+                user=job.user,
+                job=job,
+                message=f"{request.user.username} applied for your job '{job.job_name}'",
+                type="company_received"
+            )
+
+
+            # Save education (first one for now)
             school = request.POST.get('education[0][school]')
             place = request.POST.get('education[0][place]')
             marks = request.POST.get('education[0][marks]')
@@ -1479,13 +1529,61 @@ def apply_for_job(request, job_id):
                     certificate=certificate
                 )
 
-            return render(request, 'jobseeker_job_detail.html', {
-                'form': JobApplicationForm(),
-                'job': job,
-                'applied_successfully': True,
-                'saved_job_ids': saved_job_ids,
-                'all_jobs': all_jobs,  # ✅ must be here too
-            })
+            # Save multiple experiences
+           # save multiple experiences
+        # Save multiple experiences
+        i = 0
+        while request.POST.get(f'experience[{i}][company]'):
+            company = request.POST.get(f'experience[{i}][company]')
+            role = request.POST.get(f'experience[{i}][role]')
+            location = request.POST.get(f'experience[{i}][location]')
+            start_date = request.POST.get(f'experience[{i}][start_date]')
+            end_date = request.POST.get(f'experience[{i}][end_date]')
+            description = request.POST.get(f'experience[{i}][description]')
+            certificate = request.FILES.get(f'experience[{i}][certificate]')
+
+            def parse_month(value):
+                if value:
+                    try:
+                        return datetime.strptime(value, "%Y-%m").date().replace(day=1)
+                    except ValueError:
+                        return None
+                return None
+
+            start_date = parse_month(start_date)
+            end_date = parse_month(end_date)
+
+            if company and role:
+                # Avoid duplicates
+                exp_exists = Experience.objects.filter(
+                    user=request.user,
+                    company=company,
+                    role=role,
+                    start_date=start_date,
+                    end_date=end_date
+                ).exists()
+
+                if not exp_exists:
+                    Experience.objects.create(
+                        user=request.user,
+                        company=company,
+                        role=role,
+                        location=location,
+                        start_date=start_date,
+                        end_date=end_date,
+                        description=description,
+                        certificate=certificate
+                    )
+            i += 1
+
+        # ✅ Done saving everything, now render once
+        return render(request, 'jobseeker_job_detail.html', {
+            'form': JobApplicationForm(),
+            'job': job,
+            'applied_successfully': True,
+            'saved_job_ids': saved_job_ids,
+            'all_jobs': all_jobs,
+        })
 
     else:
         form = JobApplicationForm()
@@ -1495,7 +1593,7 @@ def apply_for_job(request, job_id):
         'job': job,
         'form_errors': form.errors,
         'saved_job_ids': saved_job_ids,
-        'all_jobs': all_jobs,  # ✅ key context
+        'all_jobs': all_jobs,
     })
 
 import uuid
@@ -1537,6 +1635,14 @@ from django.contrib import messages
 from django.utils.crypto import get_random_string
 from django.shortcuts import render, redirect
 from .models import Job
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.utils.crypto import get_random_string
+from .models import Job, Notification
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.utils.crypto import get_random_string
+from .models import Job, Notification
 
 def post_job(request):
     if request.method == 'POST':
@@ -1546,32 +1652,49 @@ def post_job(request):
         skills_list = request.POST.getlist('skills')  # from checkboxes or multiple input
         skills = ", ".join(skill.strip() for skill in skills_list)
 
+        # Create Job object
         job = Job.objects.create(
             user=request.user,
-            job_name=request.POST['job_name'],
-            company_name=request.POST['company_name'],
-            location=request.POST['posted_location'],
-            job_time=request.POST['job_time'],
-            experience=request.POST['experience'],
+            job_name=request.POST.get('job_name'),
+            company_name=request.POST.get('company_name'),
+            location=request.POST.get('posted_location'),
+            job_time=request.POST.get('job_time'),
+            experience=request.POST.get('experience'),
             job_code=job_code,
-            work_hour=request.POST['work_hour'],
-            short_description=request.POST['short_description'],
-            job_details=request.POST['short_description'],  # Or use 'job_details' if separate field
-            vacancies=request.POST['vacancy'],
-            duration=request.POST['duration'],
-            contact_number=request.POST['contact'],
-            email=request.POST['email'],
-            hourly_rates=request.POST['wage'],
+            work_hour=request.POST.get('work_hour'),
+            short_description=request.POST.get('short_description'),
+            job_details=request.POST.get('short_description'),  # or use separate field if needed
+            vacancies=request.POST.get('vacancy'),
+            duration=request.POST.get('duration'),
+            contact_number=request.POST.get('contact'),
+            email=request.POST.get('email'),
+            hourly_rates=request.POST.get('wage'),
             salary=request.POST.get('salary'),
             skills=skills,
-            end_date=request.POST.get("end_date"),   # ✅ Save skills here
+            end_date=request.POST.get("end_date"),
         )
+
+        Notification.objects.create(
+    user=request.user,
+    message=f"New job '{job.job_name}' posted by {job.company_name}",
+    type="job_posted"
+)
+     # after job.save()
+        Notification.objects.create(
+            user=job.user,  # company who posted
+            job=job,
+            message=f"Your job '{job.job_name}' has been posted successfully!",
+            type="job_posted"
+        )
+
 
         messages.success(request, "Job successfully posted. We will contact you soon.")
         return redirect('post_job')  # redirect to clear form and show message
 
+    # For GET request: generate a random job code
     generated_code = get_random_string(8).upper()
     return render(request, 'post_job.html', {'generated_code': generated_code})
+
 
 from .models import JobApplication, Profile
 
@@ -1625,41 +1748,59 @@ def toggle_save_job(request, job_id):
         saved.delete()  # Already saved, so remove (unsave)
 
     return redirect(request.META.get('HTTP_REFERER', 'findjob'))  # Redirect back
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponseForbidden
+from .models import Job, JobApplication
+
 @login_required
 def view_applicants(request, job_id):
+    # Ensure only job owner (company) can view applicants
     job = get_object_or_404(Job, id=job_id)
 
     if job.user != request.user:
         return HttpResponseForbidden("❌ You are not allowed to view these applicants.")
 
-    
-    applicants = JobApplication.objects.filter(job=job).select_related('user', 'user__profile')
+    # Fetch applications for this job
+    applicants = JobApplication.objects.filter(job=job).select_related("user")
 
-
-    return render(request, 'applicant_list.html', {
-        'job': job,
-        'applicants': applicants,
+    return render(request, "applicant_list.html", {
+        "job": job,
+        "applicants": applicants
     })
+
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404, render
 from .models import Job, JobApplication, Profile, Education
-
 @login_required
-def view_applicant_detail(request, job_id, user_id):
+def view_applicant_detail(request, job_id, application_id):
     job = get_object_or_404(Job, id=job_id)
-    applicant = get_object_or_404(User, id=user_id)
-    profile = get_object_or_404(Profile, user=applicant)
-    education = Education.objects.filter(user=applicant)
+    application = get_object_or_404(JobApplication, id=application_id, job=job)
+    
+    # Unique education
+    education_qs = Education.objects.filter(user=application.user)
+    seen_schools = set()
+    unique_education = []
+    for edu in education_qs:
+        if edu.school not in seen_schools:
+            unique_education.append(edu)
+            seen_schools.add(edu.school)
 
-    # ✅ Safely get the latest application (if multiple exist)
-    application = JobApplication.objects.filter(job=job, user=applicant).order_by('-applied_date').first()
+    # Unique experiences (by company + role + start + end)
+    experiences_qs = Experience.objects.filter(user=application.user)
+    seen_exp = set()
+    unique_experiences = []
+    for exp in experiences_qs:
+        key = (exp.company, exp.role, exp.start_date, exp.end_date)
+        if key not in seen_exp:
+            unique_experiences.append(exp)
+            seen_exp.add(key)
 
     context = {
         'job': job,
         'application': application,
-        'applicant': applicant,
-        'profile': profile,
-        'education': education,
+        'education_list': unique_education,
+        'experiences': unique_experiences,
     }
     return render(request, 'applicant_detail.html', context)
 
@@ -1717,6 +1858,13 @@ def delete_job(request, job_id):
     job = get_object_or_404(Job, id=job_id)
     if request.method == 'POST' and job.user == request.user:
         job.delete()
+    Notification.objects.create(
+    user=job.company.user,
+    message=f"Your job '{job.title}' has been deleted.",
+    type="job_deleted",
+    job=job
+)
+
     return redirect('companyhome')  # or wherever you list jobs
 
 
@@ -1753,66 +1901,134 @@ def call_support(request):
 
 from .models import Job
 from datetime import date, timedelta
+# jobs/views.py
+from django.shortcuts import render
+from django.utils import timezone
+from datetime import timedelta
+from .models import Job
+import logging
+
+logger = logging.getLogger(__name__)
 
 def filtered_jobs(request):
+    logger.info("✅ filtered_jobs view called")
+
+    # Start with all jobs
     jobs = Job.objects.all()
 
+    # Get query parameters
     job_date = request.GET.get('job_date')
     job_type = request.GET.get('job_type')
     location = request.GET.get('location')
     work_days = request.GET.get('work_days')
     work_hours = request.GET.get('work_hours')
-    sort_option = request.GET.get('sort')  # <-- New
 
-    if job_date == 'today':
-        jobs = jobs.filter(posted_date=date.today())
-    elif job_date == 'less10':
-        jobs = jobs.filter(posted_date__gte=date.today()-timedelta(days=10))
-    elif job_date == 'more10':
-        jobs = jobs.filter(posted_date__lte=date.today()-timedelta(days=10))
+    # Debug: print the received filters
+    logger.debug(f"Received filters: job_date={job_date}, job_type={job_type}, location={location}, work_days={work_days}, work_hours={work_hours}")
 
+    # ----- Filter by Job Date -----
+    if job_date:
+        now = timezone.now()
+        if job_date == 'today':
+            jobs = jobs.filter(posted_date__date=now.date())
+        elif job_date == 'less10':
+            jobs = jobs.filter(posted_date__gte=now - timedelta(days=10))
+        elif job_date == 'more10':
+            jobs = jobs.filter(posted_date__lt=now - timedelta(days=10))
+        logger.debug(f"After job_date filter ({job_date}): {jobs.count()} jobs")
+
+    # ----- Filter by Job Type -----
     if job_type:
-        jobs = jobs.filter(job_type=job_type)
+        jobs = jobs.filter(job_time__icontains=job_type)
+        logger.debug(f"After job_type filter ({job_type}): {jobs.count()} jobs")
 
+    # ----- Filter by Location (Kerala States if empty) -----
+    kerala_states = ['Thiruvananthapuram', 'Kollam', 'Pathanamthitta', 'Alappuzha', 'Kottayam', 'Idukki', 'Ernakulam', 'Thrissur', 'Palakkad', 'Malappuram', 'Kozhikode', 'Wayanad', 'Kannur', 'Kasaragod']
     if location:
         jobs = jobs.filter(location__iexact=location)
+    else:
+        # If no location selected, default to all Kerala states
+        jobs = jobs.filter(location__in=kerala_states)
+    logger.debug(f"After location filter ({location}): {jobs.count()} jobs")
 
+    # ----- Filter by Work Days -----
     if work_days:
-        jobs = jobs.filter(work_days__iexact=work_days)
+        jobs = jobs.filter(duration__icontains=work_days)  # Assuming 'duration' field stores work days
+        logger.debug(f"After work_days filter ({work_days}): {jobs.count()} jobs")
 
+    # ----- Filter by Work Hours -----
     if work_hours:
-        jobs = jobs.filter(work_hour=work_hours)
+        jobs = jobs.filter(work_hour=work_hours)  # Assuming 'work_hour' is exact match
+        logger.debug(f"After work_hours filter ({work_hours}): {jobs.count()} jobs")
 
-    if sort_option == 'newest':
-        jobs = jobs.order_by('-posted_date')
-    elif sort_option == 'oldest':
-        jobs = jobs.order_by('posted_date')
+    logger.info(f"Final queryset count: {jobs.count()} jobs")
 
     return render(request, 'filtered_jobs.html', {'jobs': jobs})
 
+
 from datetime import date, timedelta
 from django.shortcuts import render
-from .models import Job
-from django.db.models import Q
+from django.shortcuts import render
+from django.utils import timezone
+from datetime import timedelta
 from django.contrib.auth.decorators import login_required
-from .models import Job  # make sure this is your Job model
+from .models import Job
+
 @login_required
 def filtered_jobs(request):
     user = request.user
-    jobs = Job.objects.filter(user=user)  # ✅ only jobs posted by current user
 
+    # ✅ Start with only jobs posted by the logged-in company
+    jobs = Job.objects.filter(user=user)
+
+    # ----- Get query parameters -----
+    job_date = request.GET.get('job_date')
+    job_type = request.GET.get('job_type')
+    location = request.GET.get('location')
+    work_days = request.GET.get('work_days')
+    work_hours = request.GET.get('work_hours')
     search_query = request.GET.get('search')
     sort_by = request.GET.get('sort')
 
+    # ----- Search -----
     if search_query:
         jobs = jobs.filter(job_name__icontains=search_query)
 
+    # ----- Filter by Job Date -----
+    if job_date:
+        now = timezone.now()
+        if job_date == 'today':
+            jobs = jobs.filter(posted_date__date=now.date())
+        elif job_date == 'less10':
+            jobs = jobs.filter(posted_date__gte=now - timedelta(days=10))
+        elif job_date == 'more10':
+            jobs = jobs.filter(posted_date__lt=now - timedelta(days=10))
+
+    # ----- Filter by Job Type -----
+    if job_type:
+        jobs = jobs.filter(job_time__icontains=job_type)
+
+    # ----- Filter by Location -----
+    if location:
+        jobs = jobs.filter(location__iexact=location)
+
+    # ----- Filter by Work Days -----
+    if work_days:
+        jobs = jobs.filter(duration__icontains=work_days)  # adjust field if different
+
+    # ----- Filter by Work Hours -----
+    if work_hours:
+        jobs = jobs.filter(work_hour=work_hours)
+
+    # ----- Sorting -----
     if sort_by == 'newest':
         jobs = jobs.order_by('-posted_date')
     elif sort_by == 'oldest':
         jobs = jobs.order_by('posted_date')
 
     return render(request, 'filtered_jobs.html', {'jobs': jobs})
+
+
 
 def jobcall_support_view(request):
     return render(request, 'jobseekercall_support.html')
@@ -2019,4 +2235,28 @@ def terms_of_use(request):
 def privacy_policy(request):
     return render(request, 'privacy_policy.html')
 
+from django.shortcuts import redirect, get_object_or_404
 
+def toggle_favorite(request, note_id):
+    note = get_object_or_404(Notification, id=note_id, user=request.user)
+    note.is_favorite = not note.is_favorite
+    note.save()
+    return redirect("notifications")
+
+def archive_notification(request, note_id):
+    note = get_object_or_404(Notification, id=note_id, user=request.user)
+    note.is_archived = True
+    note.save()
+    return redirect("notifications")
+
+from django.http import JsonResponse
+from App.models import Notification
+
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST
+
+@login_required
+@require_POST
+def mark_notifications_read(request):
+    Notification.objects.filter(user=request.user, is_read=False).update(is_read=True)
+    return JsonResponse({"status": "success"})

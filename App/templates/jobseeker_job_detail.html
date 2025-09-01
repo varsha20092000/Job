@@ -498,9 +498,127 @@ body {
   color: #0e78da;
   cursor: pointer;
 }
+/* Header */
+.site-header {
+  background-color: #007BFF; /* Blue */
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 30px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+/* Left logo */
+.site-header .logo {
+  font-size: 22px;
+  font-weight: bold;
+  color: white;
+  text-decoration: none;
+}
+
+/* Right nav */
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.header-right a {
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+}
+
+.header-right a:hover {
+  text-decoration: underline;
+}
+
+/* Contact dropdown */
+#contactMenu {
+  position: absolute;
+  right: 0;
+  top: 50px;
+  background: white;
+  border-radius: 8px;
+  width: 200px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  display: none;
+  z-index: 1000;
+}
+
+#contactMenu a {
+  display: block;
+  padding: 10px 15px;
+  color: #333;
+  text-decoration: none;
+}
+
+#contactMenu a:hover {
+  background-color: #f3f4f6;
+}
+
+/* Notification bell */
+.header-right .bell {
+  position: relative;
+}
+
+.header-right .bell svg {
+  width: 24px;
+  height: 24px;
+  color: yellow;
+}
+
+.header-right .bell span {
+  position: absolute;
+  top: -6px;
+  right: -10px;
+  background: red;
+  color: white;
+  font-size: 12px;
+  padding: 2px 6px;
+  border-radius: 50%;
+}
 
   </style>
 </head>
+<header class="site-header">
+  <a href="{% url 'home' %}" class="logo">JOB365</a>
+
+  <div class="header-right">
+    <a href="{% url 'home' %}">Home</a>
+    <a href="{% url 'jobs' %}">Jobs</a>
+
+    <!-- Contact Dropdown -->
+    <div class="relative">
+      <a href="javascript:void(0)" onclick="toggleMenu()">Contact</a>
+      <div id="contactMenu">
+        <a href="{% url 'jobemail_support' %}">📧 Email Support</a>
+        <a href="{% url 'jobcall_support' %}">📞 Call Support</a>
+      </div>
+    </div>
+
+    <!-- Notifications -->
+    <div class="bell">
+      <a href="{% url 'notifications' %}">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+             stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 
+                   14.158V11a6 6 0 10-12 0v3.159c0 
+                   .538-.214 1.055-.595 1.436L4 17h5m6 
+                   0v1a3 3 0 11-6 0v-1m6 0H9" />
+        </svg>
+        {% if unread_count > 0 %}
+        <span>{{ unread_count }}</span>
+        {% endif %}
+      </a>
+    </div>
+  </div>
+</header>
+
 <body>
  
   {% if applied_successfully %}
@@ -631,7 +749,7 @@ body {
       </div>
       <div class="form-group">
         <i class="fas fa-phone icon"></i>
-        <input type="text" name="phone" placeholder="Enter your Phone Number" required>
+        <input type="text" name="phone_number" placeholder="Enter your Phone Number" required>
       </div>
     </div>
 
@@ -671,6 +789,34 @@ body {
     </div>
 
     <button type="button" id="addEducationBtn" class="submit-btn blue-btn">➕ Add More Educational Details</button>
+<h3 class="sub-heading">
+  <i class="fas fa-briefcase" style="margin-right: 8px; color: #2c3e50;"></i>Professional Experience:
+</h3>
+
+<div id="experienceContainer">
+  <div class="experience-section">
+    <h4>Experience 1</h4>
+    <input type="text" name="experience[0][company]" placeholder="Company Name" required>
+    <input type="text" name="experience[0][role]" placeholder="Role/Designation" required>
+    <input type="text" name="experience[0][location]" placeholder="Location">
+   <div style="display: flex; align-items: center; gap: 15px; margin: 10px 0;">
+      <div style="flex: 1;">
+        <label>Start Date:</label>
+        <input type="month" name="experience[0][start_date]" required style="width: 100%;">
+      </div>
+      <div style="flex: 1;">
+        <label>End Date:</label>
+        <input type="month" name="experience[0][end_date]" style="width: 100%;">
+      </div>
+      
+    </div>
+    <textarea name="experience[0][description]" placeholder="Responsibilities / Achievements" rows="3"></textarea>
+    <label>Upload Reference / Certificate:</label>
+    <input type="file" name="experience[0][certificate]">
+  </div>
+</div>
+
+<button type="button" id="addExperienceBtn" class="submit-btn blue-btn" style="margin-top: 10px;">➕ Add More Experience</button>
 
    <!-- Skill Section -->
 <div>
@@ -726,7 +872,13 @@ body {
 
   </div>
 
-  
+   <footer class="bg-blue-600 text-white text-center py-4 mt-8">
+    <p>
+      <a href="{% url 'about_us' %}" class="hover:underline">About Us</a> | 
+      <a href="{% url 'privacy_policy' %}" class="hover:underline">Privacy Policy</a> | 
+      <a href="{% url 'terms_of_use' %}" class="hover:underline">Terms of Service</a>
+    </p>
+  </footer>
 <script>
    window.onload = function() {
     const popup = document.getElementById('successPopup');
@@ -932,6 +1084,41 @@ body {
     }
   });
 });
+let expIndex = 1;
+  document.getElementById('addExperienceBtn').addEventListener('click', function() {
+    const container = document.getElementById('experienceContainer');
+    const div = document.createElement('div');
+    div.classList.add('experience-section');
+    div.innerHTML = `
+      <h4>Experience ${expIndex + 1}</h4>
+      <input type="text" name="experience[${expIndex}][company]" placeholder="Company Name" required>
+      <input type="text" name="experience[${expIndex}][role]" placeholder="Role/Designation" required>
+      <input type="text" name="experience[${expIndex}][location]" placeholder="Location">
+
+      <div style="display: flex; align-items: center; gap: 15px; margin: 10px 0;">
+        <div style="flex: 1;">
+          <label>Start Date:</label>
+          <input type="month" name="experience[${expIndex}][start_date]" required style="width: 100%;">
+        </div>
+        <div style="flex: 1;">
+          <label>End Date:</label>
+          <input type="month" name="experience[${expIndex}][end_date]" style="width: 100%;">
+        </div>
+        <div style="display: flex; align-items: center;">
+          <label style="margin-left: 5px;">
+            <input type="checkbox" name="experience[${expIndex}][current]" value="1"> Current
+          </label>
+        </div>
+      </div>
+
+      <textarea name="experience[${expIndex}][description]" placeholder="Responsibilities / Achievements" rows="3"></textarea>
+      <label>Upload Reference / Certificate:</label>
+      <input type="file" name="experience[${expIndex}][certificate]">
+      <hr style="margin: 15px 0; border-top: 1px dashed #ccc;">
+    `;
+    container.appendChild(div);
+    expIndex++;
+  });
 </script>
 
 </body>

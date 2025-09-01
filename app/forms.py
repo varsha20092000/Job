@@ -57,6 +57,10 @@ class JobApplicationForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['skills'].required = False
+        self.fields['experience'] = forms.CharField(
+            widget=forms.Textarea(attrs={'placeholder': 'Describe your experience...'}),
+            required=False
+        )
 
 # forms.py
 

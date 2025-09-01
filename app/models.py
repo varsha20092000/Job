@@ -79,6 +79,19 @@ class Job(models.Model):
     end_date = models.DateField(null=True, blank=True)
     created_at = models.DateTimeField(default=timezone.now)
     skills = models.CharField(max_length=255, blank=True)
+    job_type = models.CharField(
+        max_length=50,
+        choices=[
+            ('Physical work', 'Physical work'),
+            ('Office work', 'Office work'),
+            ('IT work', 'IT work'),
+            ('Kitchen work', 'Kitchen work'),
+            ('Field work', 'Field work'),
+            ('Health work', 'Health work'),
+            ('Other', 'Other'),
+        ],
+        default='Other'
+    )
 
     def __str__(self):
         return f"{self.job_name} at {self.company_name}"
@@ -88,6 +101,9 @@ class Job(models.Model):
             return float(self.hourly_rates) * self.work_hour
         except:
             return 0
+    @property
+    def applicant_count(self):
+        return JobApplication.objects.filter(job=self).count()
     class Meta:
         app_label = 'App'
 
@@ -198,10 +214,21 @@ class Payment(models.Model):
 
 # 7️⃣ Notifications
 class Notification(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="notifications")
+    job = models.ForeignKey("Job", on_delete=models.CASCADE, null=True, blank=True)  # ✅ NEW
     message = models.TextField()
-    created_at = models.DateTimeField(auto_now_add=True)
+    type = models.CharField(max_length=100, choices=[
+        ("job_posted", "Job Posted"),
+        ("job_applied", "Job Applied"),
+        ("job_status", "Application Status"),
+        ("message", "Message from Company"),
+    ])
     is_read = models.BooleanField(default=False)
+    is_favorite = models.BooleanField(default=False)
+    is_archived = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    
 
     def __str__(self):
         return f"Notification for {self.user.username}"
@@ -326,4 +353,17 @@ class Education(models.Model):
 
     def __str__(self):
         return f"{self.school} ({self.marks})"
+
+class Experience(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    company = models.CharField(max_length=255)
+    role = models.CharField(max_length=255)
+    location = models.CharField(max_length=255, blank=True, null=True)
+    start_date = models.DateField(blank=True, null=True)
+    end_date = models.DateField(blank=True, null=True)
+    description = models.TextField(blank=True, null=True)
+    certificate = models.FileField(upload_to='experience_certificates/', blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.company} - {self.role}"
 
