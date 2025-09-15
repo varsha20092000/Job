@@ -77,5 +77,6 @@ path('jobcall-support/', views.jobcall_support_view, name='jobcall_support'),
     path("notifications/<int:note_id>/favorite/", views.toggle_favorite, name="toggle_favorite"),
 path("notifications/<int:note_id>/archive/", views.archive_notification, name="archive_notification"),
 
-]+static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

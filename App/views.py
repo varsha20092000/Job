@@ -352,34 +352,16 @@ def profile(request):
     profile, created = Profile.objects.get_or_create(user=request.user)
     skill_list = profile.skills.split(',') if profile.skills else []
 
-    document_fields = {
-        'upload_id_card': profile.upload_id_card.url if profile.upload_id_card else None,
-        'upload_proof_detail': profile.upload_proof_detail.url if profile.upload_proof_detail else None,
-        'upload_pan_card': profile.upload_pan_card.url if profile.upload_pan_card else None,
-        'upload_passbook': profile.upload_passbook.url if profile.upload_passbook else None,
-    }
-
     if request.method == 'POST':
         form = ProfileForm(request.POST, request.FILES, instance=profile)
-
         if form.is_valid():
-            profile = form.save(commit=False)  # Don’t save to DB yet
-            profile.phone = request.POST.get('phone')
-            profile.date_of_birth = request.POST.get('date_of_birth')
-            profile.gender = request.POST.get('gender')
-            profile.country = request.POST.get('country')
-            profile.city = request.POST.get('city')
-            profile.bio = request.POST.get('bio')
+            # Save form including uploaded files
+            profile = form.save(commit=False)
 
-            # Check and save file fields individually
-            if 'upload_id_card' in request.FILES:
-                profile.upload_id_card = request.FILES['upload_id_card']
-            if 'upload_proof_detail' in request.FILES:
-                profile.upload_proof_detail = request.FILES['upload_proof_detail']
-            if 'upload_pan_card' in request.FILES:
-                profile.upload_pan_card = request.FILES['upload_pan_card']
-            if 'upload_passbook' in request.FILES:
-                profile.upload_passbook = request.FILES['upload_passbook']
+            # Ensure only updated files are replaced
+            for field_name in ['upload_id_card', 'upload_proof_detail', 'upload_pan_card', 'upload_passbook']:
+                if field_name in request.FILES:
+                    setattr(profile, field_name, request.FILES[field_name])
 
             profile.save()
             messages.success(request, "Profile updated successfully.")
@@ -389,6 +371,13 @@ def profile(request):
     else:
         form = ProfileForm(instance=profile)
 
+    document_fields = {
+        'upload_id_card': profile.upload_id_card.url if profile.upload_id_card else None,
+        'upload_proof_detail': profile.upload_proof_detail.url if profile.upload_proof_detail else None,
+        'upload_pan_card': profile.upload_pan_card.url if profile.upload_pan_card else None,
+        'upload_passbook': profile.upload_passbook.url if profile.upload_passbook else None,
+    }
+
     return render(request, 'profile.html', {
         'form': form,
         'user': request.user,
@@ -396,7 +385,6 @@ def profile(request):
         'skill_list': skill_list,
         'document_fields': document_fields,
     })
-
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from .models import Profile

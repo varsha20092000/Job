@@ -10,6 +10,11 @@
   <style>
     .form-slide { display: none; }
     .form-slide.active { display: block; }
+    .file-input {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* space between file field and clear checkbox */
+}
   </style>
 </head>
 <body class="bg-gray-100">
@@ -76,9 +81,10 @@
     name="dob" 
     id="dob" 
     class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" 
-    value="{{ form.dob.value|default_if_none:'' }}"
+    value="{{ form.dob.value|date:'Y-m-d' }}"
   >
 </div>
+
 
 
       <div>
@@ -150,7 +156,7 @@
         <h3 class="text-xl font-semibold mb-4 text-yellow-600"><i class="fas fa-lightbulb mr-2 text-yellow-500"></i>Skills</h3>
         <div class="flex gap-2 mb-4">
           <input type="text" id="skillInput" class="flex-1 border border-gray-300 rounded px-3 py-2" placeholder="Add skill">
-          <button type="button" onclick="addSkill()" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+          <button type="button" onclick="addSkill()" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">+
             <i class="fas fa-plus"></i>
           </button>
         </div>
@@ -182,137 +188,198 @@
   </h3>
 
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-    <!-- ID Card -->
-    <div class="bg-white shadow rounded-xl p-4">
-      <label class="block text-sm font-medium text-gray-700 mb-2 flex items-center">
-        <i class="fas fa-id-card mr-2 text-indigo-500"></i><strong>ID Card</strong> 
-      </label>
-      <div class="border border-dashed border-gray-300 rounded-lg p-3">
-        {{ form.upload_id_card }}
-      </div>
-    </div>
 
-    <!-- Proof Detail -->
-    <div class="bg-white shadow rounded-xl p-4">
-      <label class="block text-sm font-medium text-gray-700 mb-2 flex items-center">
-        <i class="fas fa-file-alt mr-2 text-indigo-500"></i> <strong>Detail</strong> 
-      </label>
-      <div class="border border-dashed border-gray-300 rounded-lg p-3">
-        {{ form.upload_proof_detail }}
-      </div>
+  <!-- ID Card -->
+  <div class="bg-white shadow rounded-xl p-4">
+    <label class="block text-sm font-medium text-gray-700 mb-2 flex items-center">
+      <i class="fas fa-id-card mr-2 text-indigo-500"></i><strong>ID Card</strong>
+    </label>
+    <div class="border border-dashed border-gray-300 rounded-lg p-3">
+      {{ form.upload_id_card }}
+      {% if profile.upload_id_card %}
+        <p class="mt-2 text-sm text-green-600">
+          Already uploaded:
+          <a href="{{ profile.upload_id_card.url }}" target="_blank" class="underline text-blue-500">
+            View File
+          </a>
+        </p>
+      {% endif %}
     </div>
+  </div>
 
-    <!-- PAN Card -->
-    <div class="bg-white shadow rounded-xl p-4">
-      <label class="block text-sm font-medium text-gray-700 mb-2 flex items-center">
-        <i class="fas fa-id-badge mr-2 text-indigo-500"></i><strong>PAN Card</strong>
-      </label>
-      <div class="border border-dashed border-gray-300 rounded-lg p-3">
-        {{ form.upload_pan_card }}
-      </div>
+  <!-- Proof Detail -->
+  <div class="bg-white shadow rounded-xl p-4">
+    <label class="block text-sm font-medium text-gray-700 mb-2 flex items-center">
+      <i class="fas fa-file-alt mr-2 text-indigo-500"></i><strong>Detail</strong>
+    </label>
+    <div class="border border-dashed border-gray-300 rounded-lg p-3">
+      {{ form.upload_proof_detail }}
+      {% if profile.upload_proof_detail %}
+        <p class="mt-2 text-sm text-green-600">
+          Already uploaded:
+          <a href="{{ profile.upload_proof_detail.url }}" target="_blank" class="underline text-blue-500">
+            View File
+          </a>
+        </p>
+      {% endif %}
     </div>
+  </div>
 
-    <!-- Passbook -->
-    <div class="bg-white shadow rounded-xl p-4">
-      <label class="block text-sm font-medium text-gray-700 mb-2 flex items-center">
-        <i class="fas fa-book mr-2 text-indigo-500"></i><strong> Passbook</strong> 
-      </label>
-      <div class="border border-dashed border-gray-300 rounded-lg p-3">
-        {{ form.upload_passbook }}
-      </div>
+  <!-- PAN Card -->
+  <div class="bg-white shadow rounded-xl p-4">
+    <label class="block text-sm font-medium text-gray-700 mb-2 flex items-center">
+      <i class="fas fa-id-badge mr-2 text-indigo-500"></i><strong>PAN Card</strong>
+    </label>
+    <div class="border border-dashed border-gray-300 rounded-lg p-3">
+      {{ form.upload_pan_card }}
+      {% if profile.upload_pan_card %}
+        <p class="mt-2 text-sm text-green-600">
+          Already uploaded:
+          <a href="{{ profile.upload_pan_card.url }}" target="_blank" class="underline text-blue-500">
+            View File
+          </a>
+        </p>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- Passbook -->
+  <div class="bg-white shadow rounded-xl p-4">
+    <label class="block text-sm font-medium text-gray-700 mb-2 flex items-center">
+      <i class="fas fa-book mr-2 text-indigo-500"></i><strong>Passbook</strong>
+    </label>
+    <div class="border border-dashed border-gray-300 rounded-lg p-3">
+      {{ form.upload_passbook }}
+      {% if profile.upload_passbook %}
+        <p class="mt-2 text-sm text-green-600">
+          Already uploaded:
+          <a href="{{ profile.upload_passbook.url }}" target="_blank" class="underline text-blue-500">
+            View File
+          </a>
+        </p>
+      {% endif %}
     </div>
   </div>
 </div>
 
+ 
+</div>
+
 
       <!-- Buttons -->
-      <div class="mt-10 flex justify-between items-center">
-        <button type="button" onclick="prevSlide()" class="bg-gray-300 text-gray-800 px-5 py-2 rounded hover:bg-gray-400">
-          <i class="fas fa-arrow-left mr-2"></i>Previous
-        </button>
-        <button type="button" onclick="nextSlide()" class="bg-blue-600 text-white px-5 py-2 rounded hover:bg-blue-700">
-          Next<i class="fas fa-arrow-right ml-2"></i>
-        </button>
-      </div>
+<div class="mt-10 flex justify-between items-center w-full">
+  
+  <!-- Left side (Previous button only) -->
+  <div>
+    <button type="button" onclick="prevSlide()" id="prevBtn"
+            class="bg-gray-300 text-gray-800 px-5 py-2 rounded hover:bg-gray-400 hidden">
+      <i class="fas fa-arrow-left mr-2"></i>Previous
+    </button>
+  </div>
 
-      <div class="text-center mt-6">
-        <button type="submit" class="bg-green-600 text-white px-6 py-2 rounded shadow hover:bg-green-700">
-          <i class="fas fa-paper-plane mr-2"></i>Submit
-        </button>
-      </div>
+  <!-- Right side (Next or Submit button) -->
+  <div>
+    <button type="button" onclick="nextSlide()" id="nextBtn"
+            class="bg-blue-600 text-white px-5 py-2 rounded hover:bg-blue-700">
+      Next<i class="fas fa-arrow-right ml-2"></i>
+    </button>
+
+    <button type="submit" id="submitBtn" style="display:none;"
+            class="bg-green-600 text-white px-6 py-2 rounded shadow hover:bg-green-700">
+      <i class="fas fa-paper-plane mr-2"></i>Submit
+    </button>
+  </div>
+
+</div>
+
+
     </form>
   </div>
 
+
   <!-- JS -->
   <script>
-    let currentSlide = 1;
-    const totalSlides = 4;
+  let currentSlide = 1;
+  const totalSlides = 4;
 
-    function showSlide(index) {
-      document.querySelectorAll('.form-slide').forEach((slide, i) => {
-        slide.classList.toggle('active', i === index - 1);
-      });
-    }
-
-    function nextSlide() {
-      if (currentSlide < totalSlides) {
-        currentSlide++;
-        showSlide(currentSlide);
-      }
-    }
-
-    function prevSlide() {
-      if (currentSlide > 1) {
-        currentSlide--;
-        showSlide(currentSlide);
-      }
-    }
-
-    function addSkill() {
-      const input = document.getElementById("skillInput");
-      const skill = input.value.trim();
-      if (!skill) return;
-
-      const container = document.getElementById("skillsContainer");
-      const span = document.createElement("span");
-      span.className = "bg-blue-100 text-blue-800 px-3 py-1 rounded-full flex items-center";
-      span.innerHTML = `${skill}<button type="button" class="ml-2 text-red-500" onclick="removeSkill(this)">×</button>`;
-      container.appendChild(span);
-      input.value = "";
-      updateSkillsInput();
-    }
-
-    function removeSkill(btn) {
-      btn.parentElement.remove();
-      updateSkillsInput();
-    }
-
-    function updateSkillsInput() {
-      const skills = Array.from(document.getElementById("skillsContainer").children)
-        .map(el => el.childNodes[0].textContent.trim());
-      document.getElementById("skillsInput").value = skills.join(",");
-    }
-
-    document.addEventListener("DOMContentLoaded", () => {
-      showSlide(currentSlide);
-      updateSkillsInput();
+  function showSlide(n) {
+    const slides = document.querySelectorAll(".form-slide");
+    slides.forEach((slide, i) => {
+      slide.classList.toggle("active", i === n - 1);
     });
-     document.addEventListener("DOMContentLoaded", function () {
+
+    // Hide prev button on first slide
+    document.getElementById("prevBtn").style.display =
+      n === 1 ? "none" : "inline-block";
+
+    // If last slide → hide Next, show Submit
+    document.getElementById("nextBtn").style.display =
+      n === totalSlides ? "none" : "inline-block";
+
+    document.getElementById("submitBtn").style.display =
+      n === totalSlides ? "inline-block" : "none";
+  }
+
+  function nextSlide() {
+    if (currentSlide < totalSlides) {
+      currentSlide++;
+      showSlide(currentSlide);
+    }
+  }
+
+  function prevSlide() {
+    if (currentSlide > 1) {
+      currentSlide--;
+      showSlide(currentSlide);
+    }
+  }
+
+  // ✅ Skills functions
+  function addSkill() {
+    const input = document.getElementById("skillInput");
+    const skill = input.value.trim();
+    if (!skill) return;
+
+    const container = document.getElementById("skillsContainer");
+    const span = document.createElement("span");
+    span.className =
+      "bg-blue-100 text-blue-800 px-3 py-1 rounded-full flex items-center";
+    span.innerHTML = `${skill}<button type="button" class="ml-2 text-red-500" onclick="removeSkill(this)">×</button>`;
+    container.appendChild(span);
+    input.value = "";
+    updateSkillsInput();
+  }
+
+  function removeSkill(btn) {
+    btn.parentElement.remove();
+    updateSkillsInput();
+  }
+
+  function updateSkillsInput() {
+    const skills = Array.from(
+      document.getElementById("skillsContainer").children
+    ).map((el) => el.childNodes[0].textContent.trim());
+    document.getElementById("skillsInput").value = skills.join(",");
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    showSlide(currentSlide);
+    updateSkillsInput();
+
+    // Dropdown
     const toggle = document.getElementById("contactDropdown");
     const menu = document.getElementById("contactMenu");
-
     toggle.addEventListener("click", function (e) {
       e.preventDefault();
       menu.classList.toggle("hidden");
     });
-
-    // Optional: Hide dropdown when clicking outside
     document.addEventListener("click", function (e) {
       if (!toggle.contains(e.target) && !menu.contains(e.target)) {
         menu.classList.add("hidden");
       }
     });
   });
-  </script>
+</script>
+
 </body>
 </html>
