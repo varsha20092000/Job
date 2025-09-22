@@ -1,30 +1,40 @@
-# JOB365 - JOB Project
+# JOB365 – Job Portal Platform
 
-**JOB365** is a full-stack Django-based web application for jobseekers and tour bookings. It combines Django (backend), Tailwind CSS (frontend), and Vite (build tool).
+A full-stack Django-based web application where jobseekers and companies can interact.  
+Complete with dashboards for companies, admin controls, job listings, and responsive front end.
+
+---
 
 ## 🚀 Features
 
-- User registration & login (jobseeker/company)
-- Tour package listings
-- Job application system
-- Admin panel
-- Company dashboard for job management
-- Vite + Tailwind CSS for modern, responsive design
+- Role based user types: **Company**, **Jobseeker**, **Admin**
+- Company dashboard to post, manage, edit, and delete job listings  
+- Jobseeker dashboard to browse jobs, apply, save, check status  
+- Tour package listing as an added module  
+- Admin panel to review users, listings, applications  
+- Uses Tailwind CSS + Vite for modern frontend workflow
 
-## 🛠️ Tech Stack
+---
 
-- **Backend:** Django, Python
-- **Frontend:** Tailwind CSS, HTML, JavaScript
-- **Build Tool:** Vite
-- **Database:** SQLite (Dev), PostgreSQL (Prod-ready)
-- **Deployment-ready:** Render, Railway, or Heroku
+## 🛠 Tech Stack
 
-## 📦 Installation
+- **Backend:** Django, Python  
+- **Frontend:** Tailwind CSS, Vite, HTML, JavaScript  
+- **Database:** SQLite (development) / PostgreSQL (prod-ready)  
+- **Build/Deployment-ready:** Setup includes Render / Railway / Heroku compatibility  
+- **Tools:** Git, VS Code, GitHub
+
+---
+
+## 🔧 Installation & Local Setup
 
 ```bash
 git clone https://github.com/varsha20092000/Job.git
 cd Job
-python -m venv venv
-source venv/bin/activate  # or venv\Scripts\activate on Windows
+python3 -m venv venv
+source venv/bin/activate   # or venv\Scripts\activate on Windows
 pip install -r requirements.txt
 npm install
+npm run dev   # if you have a dev script for Vite
+python manage.py migrate
+python manage.py runserver
